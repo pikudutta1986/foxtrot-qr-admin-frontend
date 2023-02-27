@@ -1,0 +1,69 @@
+.bg-white {
+  background-color: white;
+}
+.d-grid {
+  display: grid;
+}
+
+.uploadImg {
+  // width: 100%;
+  // height: 100%;
+}
+
+.w {
+  width: 100% !important;
+}
+
+::ng-deep .progress-bar {
+  height: 16px;
+  border-radius: 0.125rem;
+  background-color: greenyellow;
+}
+
+.progress-bar {
+  padding: 0;
+}
+
+.progress {
+  width: 150px;
+}
+
+.view {
+  text-align: center;
+}
+
+.view img {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+// #fileInput {
+//   position: absolute;
+//   cursor: pointer;
+//   z-index: 10;
+//   opacity: 0;
+//   height: 100%;
+//   left: 0px;
+//   top: 0px;
+// }
+
+.mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+  padding: 0;
+}
+
+.mat-toolbar-single-row button {
+  width: 100px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.message {
+  background-color: #ddd;
+  padding: 15px;
+  color: #333;
+  border: #aaa solid 1px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}

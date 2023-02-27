@@ -1,0 +1,20 @@
+
+// THIS FILE CAN BE REPLACED DURING BUILD BY USING THE `fileReplacements` ARRAY.
+// `ng build` REPLACES `environment.ts` WITH `environment.prod.ts`.
+// THE LIST OF FILE REPLACEMENTS CAN BE FOUND IN `angular.json`.
+
+// EXPORTING DEVELOPMENT ENVIRONMENT VARIABLE.
+export const environment =
+{
+  production: false,
+  apiBase: 'http://localhost:8000/api/'
+};
+
+/*
+ * FOR EASIER DEBUGGING IN DEVELOPMENT MODE, YOU CAN IMPORT THE FOLLOWING FILE
+ * TO IGNORE ZONE RELATED ERROR STACK FRAMES SUCH AS `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * THIS IMPORT SHOULD BE COMMENTED OUT IN PRODUCTION MODE BECAUSE IT WILL HAVE A NEGATIVE IMPACT
+ * ON PERFORMANCE IF AN ERROR IS THROWN.
+ */
+// IMPORT 'zone.js/plugins/zone-error';  // INCLUDED WITH ANGULAR CLI.
