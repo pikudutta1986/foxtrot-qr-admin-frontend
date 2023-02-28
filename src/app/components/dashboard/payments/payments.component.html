@@ -1,5 +1,5 @@
-<div class="container d-flex justify-content-start mt-3 align-items-center">
-    <div class="my-3 col-md-4">
+<div class="container d-flex justify-content-between mt-3 align-items-center">
+    <div class="col-md-4">
         <div class="input-group input-group-static mb-4 is-valid">
             <label>Search</label>
             <input type="text" class="form-control" (keyup)="applyFilter($event.target)">
@@ -8,47 +8,51 @@
     <div class="{{'col-md-4 text-center text-white alert alert-'+classType}}">        
         {{message}}
     </div>
+    <div class="col-md-4 d-flex justify-content-end">
+        <span class="material-icons">note_add</span>
+    </div>
 </div>
 
 <div class="mat-elevation-z8 cb">
     <table mat-table 
-        [dataSource]="userFiles" 
+        [dataSource]="userPlans" 
         matSort 
         class="mat-elevation-z8"
-        (matSortChange)="announceSortChange($event)"
     >
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
             <th mat-header-cell *matHeaderCellDef class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> No. </th>
-            <td mat-cell *matCellDef="let element; let i = index;">
+            <td mat-cell *matCellDef="let element; let i = index;"> 
                 <span class="text-secondary text-xs font-weight-normal">
                     {{element.id}}. 
-                </span> 
+                </span>
             </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Name </th>
-            <td mat-cell *matCellDef="let element"> 
-                <span *ngIf="element.isEdit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Name </th>
+            <td mat-cell *matCellDef="let element" class="align-middle text-left"> 
+                <div *ngIf="element.isEdit">
                     <input type="text" class="form-control" [(ngModel)]="element.name">
-                </span>              
+                </div>
                 <span *ngIf="!element.isEdit" class="text-secondary text-xs font-weight-normal">
-                    {{element.name}} 
-                </span>                
+                    {{element.name}}
+                </span>               
             </td>
         </ng-container>
 
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email </th>
-            <td mat-cell *matCellDef="let element" class="align-middle text-left">
-                <span *ngIf="element.isEdit">
-                    <input type="email" class="form-control" [(ngModel)]="element.email">                    
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Type </th>
+            <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.isEdit">
+                    <input type="text" class="form-control" [(ngModel)]="element.type">
+                </div>
+                <span *ngIf="!element.isEdit" class="text-secondary text-xs font-weight-normal">
+                    {{element.type}}
                 </span>
-                <span class="text-secondary text-xs font-weight-normal" *ngIf="!element.isEdit">{{element.email}}</span>                 
             </td>
         </ng-container>
 
@@ -57,7 +61,7 @@
             <th mat-header-cell *matHeaderCellDef class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created At </th>
             <td mat-cell *matCellDef="let element" class="align-middle text-left"> 
                 <!-- {{element.created_at | date:'shortDate'}} -->
-                <span class="text-secondary text-xs font-weight-normal">{{element.created_at}}</span>                
+                <span class="text-secondary text-xs font-weight-normal">{{element.created_at}}</span>
             </td>
         </ng-container>
 

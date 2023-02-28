@@ -15,6 +15,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 export class UsersComponent {
 
   message = '';
+  classType:any = '';
   userFiles:any = [];
 
   matcher = new ErrorStateMatcher();
@@ -95,10 +96,14 @@ export class UsersComponent {
 
   deleteUser(element:any) {
     console.log(element,'e')
+    this.classType = 'danger';
+    this.message = 'Successfully deleted';
   }
 
   saveUser(element:any) {
     element.isEdit = false;
+    this.classType = 'success';
+    this.message = 'Successfully updated';
     console.log(element,'e')
   }
 
@@ -112,6 +117,8 @@ export class UsersComponent {
     element.email = result.email;
 
     element.isEdit = false;
+    this.classType = '';
+    this.message = '';
   }
 
   applyFilter(filterValue: any) {

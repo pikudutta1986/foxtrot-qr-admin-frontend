@@ -21,6 +21,7 @@ import {MatSortModule} from '@angular/material/sort';
 import { QrComponent } from '../shared/qr/qr.component';
 import { QrlistComponent } from './qrlist/qrlist.component';
 import { UsersComponent } from './users/users.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 const materialModules = [
   MatCardModule,
@@ -44,7 +45,8 @@ const materialModules = [
     SidebarComponent,
     QrComponent,
     QrlistComponent,
-    UsersComponent
+    UsersComponent,
+    PaymentsComponent
   ],
   imports: [
     CommonModule,

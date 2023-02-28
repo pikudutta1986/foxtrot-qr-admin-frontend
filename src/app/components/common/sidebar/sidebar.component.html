@@ -46,89 +46,25 @@
             <hr class="horizontal light mt-0">
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-white "
-                    aria-controls="dashboardsExamples" role="button" aria-expanded="false">
-
+                <a class="nav-link text-white" routerLinkActive="active">
                     <i class="material-icons-round opacity-10">dashboard</i>
-
-                    <span class="nav-link-text ms-2 ps-1">Dashboards</span>
+                    <span class="sidenav-normal  ms-2  ps-1"> Analytics </span>
                 </a>
-
-                <div class="collapse " id="dashboardsExamples">
-                    <ul class="nav ">
-                        <li class="nav-item ">
-                            <a class="nav-link text-white " href="./dashboards/analytics.html">
-                                <span class="sidenav-mini-icon"> A </span>
-                                <span class="sidenav-normal  ms-2  ps-1"> Analytics </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </li>
 
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white "
-                    aria-controls="pagesExamples" role="button" aria-expanded="false">
-                    <i  class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">image</i>
-                    <span class="nav-link-text ms-2 ps-1">Pages</span>
+            <li class="nav-item ">
+                <a class="nav-link text-white" routerLinkActive="active" routerLink="./users">
+                    <i class="material-icons-round opacity-10">account_circle</i>
+                    <span class="sidenav-normal  ms-2  ps-1"> Users </span>
                 </a>
-
-                <div class="collapse" id="pagesExamples">
-                    <ul class="nav ">
-                        <li class="nav-item ">
-                            <a class="nav-link text-white " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#profileExample">
-                                <span class="sidenav-mini-icon"> P </span>
-                                <span class="sidenav-normal  ms-2  ps-1"> Profile <b class="caret"></b></span>
-                            </a>
-
-                            <div class="collapse " id="profileExample">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white " >
-                                            <span class="sidenav-mini-icon"> P </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> Profile Overview </span>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white " >
-                                            <span class="sidenav-mini-icon"> A </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> All Projects </span>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white " href="./pages/profile/messages.html">
-                                            <span class="sidenav-mini-icon"> M </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> Messages </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li class="nav-item ">
-                            <a class="nav-link text-white " data-bs-toggle="collapse" aria-expanded="false"
-                                href="#users">
-                                <span class="sidenav-mini-icon"> U </span>
-                                <span class="sidenav-normal  ms-2  ps-1"> Users <b class="caret"></b></span>
-                            </a>
-
-                            <div class="collapse " id="users">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link text-white " routerLink="./users">
-                                            <span class="sidenav-mini-icon"> N </span>
-                                            <span class="sidenav-normal  ms-2  ps-1"> Users </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>                     
-                    </ul>
-                </div>
-            </li>
+            </li>   
+            
+            <li class="nav-item ">
+                <a class="nav-link text-white" routerLinkActive="active" routerLink="./payments">
+                    <i class="material-icons-round opacity-10">payment</i>
+                    <span class="sidenav-normal  ms-2  ps-1"> Payments </span>
+                </a>
+            </li>   
 
         </ul>
     </div>
