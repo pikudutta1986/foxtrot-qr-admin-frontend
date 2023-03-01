@@ -29,7 +29,7 @@ export class SidebarComponent {
       if(res.status) {
         localStorage.clear();
         sessionStorage.clear();
-        this.router.navigate((['/login']))
+        this.router.navigate((['/']))
       }
     });
     

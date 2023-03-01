@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -58,7 +58,8 @@ export class PaymentsComponent {
   selectedUserId:any = '';
 
   constructor(
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    public cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {    
     // this.getPlans();   
@@ -71,6 +72,7 @@ export class PaymentsComponent {
     this.userPlans = new MatTableDataSource(this.staticData)
     this.userPlans.paginator = this.paginator;
     this.userPlans.sort = this.sort;
+    this.cdr.detectChanges();
   }
 
   getPlans() {

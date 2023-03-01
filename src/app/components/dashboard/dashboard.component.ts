@@ -16,7 +16,7 @@ export class DashboardComponent {
     private router: Router) { }
 
   ngOnInit() {
-
+    
     // SIDEBAR TOGGLE CLICK ACTION
     this.helperService.isSidebarToggled.subscribe((x: any) => {
       if (x) {
@@ -25,6 +25,10 @@ export class DashboardComponent {
         this.isSidebarToggled = 'g-sidenav-pinned';
       }
     })
+  }
+
+  ngOnChanges() {
+    console.log(this.router.url)
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -65,7 +65,8 @@ export class UsersComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _liveAnnouncer: LiveAnnouncer) { }
+    private _liveAnnouncer: LiveAnnouncer,
+    public cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {    
     // this.getUsers();   
@@ -80,6 +81,7 @@ export class UsersComponent {
     this.userFiles = new MatTableDataSource(this.staticData)
     this.userFiles.paginator = this.paginator;
     this.userFiles.sort = this.sort;
+    this.cdr.detectChanges();
   }
 
   getUsers() {
