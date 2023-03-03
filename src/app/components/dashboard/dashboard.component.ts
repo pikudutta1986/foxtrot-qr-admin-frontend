@@ -24,11 +24,24 @@ export class DashboardComponent {
       } else {
         this.isSidebarToggled = 'g-sidenav-pinned';
       }
-    })
+    });
+
+    this.getUserDetails();
   }
 
   ngOnChanges() {
     console.log(this.router.url)
+  }
+
+  getUserDetails() {
+
+    this.helperService.get('user').subscribe((res:any) => {
+      if(res) {
+        this.helperService.userName.next(res.email);
+        sessionStorage.setItem ('user_id', res.id);
+        sessionStorage.setItem ('user_name', res.email);
+      }
+    });    
   }
 
 }

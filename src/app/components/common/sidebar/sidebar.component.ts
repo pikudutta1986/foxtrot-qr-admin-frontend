@@ -20,6 +20,10 @@ export class SidebarComponent {
   }
 
   ngOnInit() {
+
+    this.helperService.userName.subscribe((res:any) => {
+      this.userName = res;
+    });
     
   }
 

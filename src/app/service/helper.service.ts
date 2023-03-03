@@ -11,6 +11,7 @@ export class HelperService {
   backendUrl = environment.apiBase;
   access_token:any = '';
   isSidebarToggled = new Subject<boolean>();
+  userName = new Subject<any>();
 
   constructor(private http: HttpClient) {
     this.access_token = sessionStorage.getItem('token');
