@@ -5,13 +5,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  selector: 'app-payments',
-  templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.scss']
+  selector: 'app-plans',
+  templateUrl: './plans.component.html',
+  styleUrls: ['./plans.component.scss']
 })
-export class PaymentsComponent {
+export class PlansComponent {
 
-  displayedColumns: string[] = ['position', 'amount', 'type', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'type', 'created_at', 'action'];
   
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -21,37 +21,37 @@ export class PaymentsComponent {
   userPlans:any = [];
   staticData:any = [
     {
-      id: 1, amount: '106', type: 'yearly', created_at: '2023-02-23 09:32:52'
+      id: 1, name: 'plan_1', type: 'yearly', created_at: '2023-02-23 09:32:52'
     },
     {
-      id: 2, amount: '206', type: 'unlimited', created_at: '2023-02-23 09:33:52'
+      id: 2, name: 'plan_2', type: 'unlimited', created_at: '2023-02-23 09:33:52'
     },
     {
-      id: 3, amount: '306', type: 'yearly', created_at: '2023-02-23 09:34:52'
+      id: 3, name: 'plan_3', type: 'yearly', created_at: '2023-02-23 09:34:52'
     },
     {
-      id: 4, amount: '406', type: 'yearly', created_at: '2023-02-23 09:35:52'
+      id: 4, name: 'plan_4', type: 'yearly', created_at: '2023-02-23 09:35:52'
     },
     {
-      id: 5, amount: '506', type: 'quarter', created_at: '2023-02-23 09:36:52'
+      id: 5, name: 'plan_5', type: 'quarter', created_at: '2023-02-23 09:36:52'
     }
   ];
 
   mainSrcData:any = [
     {
-      id: 1, amount: '106', type: 'yearly', created_at: '2023-02-23 09:32:52'
+      id: 1, name: 'plan_1', type: 'yearly', created_at: '2023-02-23 09:32:52'
     },
     {
-      id: 2, amount: '206', type: 'unlimited', created_at: '2023-02-23 09:33:52'
+      id: 2, name: 'plan_2', type: 'unlimited', created_at: '2023-02-23 09:33:52'
     },
     {
-      id: 3, amount: '306', type: 'yearly', created_at: '2023-02-23 09:34:52'
+      id: 3, name: 'plan_3', type: 'yearly', created_at: '2023-02-23 09:34:52'
     },
     {
-      id: 4, amount: '406', type: 'yearly', created_at: '2023-02-23 09:35:52'
+      id: 4, name: 'plan_4', type: 'yearly', created_at: '2023-02-23 09:35:52'
     },
     {
-      id: 5, amount: '506', type: 'quarter', created_at: '2023-02-23 09:36:52'
+      id: 5, name: 'plan_5', type: 'quarter', created_at: '2023-02-23 09:36:52'
     }
   ];
 

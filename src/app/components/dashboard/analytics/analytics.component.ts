@@ -30,9 +30,9 @@ export class AnalyticsComponent {
 
   qrs: any = 
   {
-    website: 14.78,
-    mobile: 8.21,
-    others: 23.54
+    website: 14,
+    mobile: 8,
+    others: 33
   }
 ;
 

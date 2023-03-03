@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/auth/auth.guard';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { DashboardComponent } from './dashboard.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { PlansComponent } from './plans/plans.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
@@ -15,6 +16,9 @@ const routes: Routes = [
       },
       {
         path: 'payments', component: PaymentsComponent
+      },
+      {
+        path: 'plans', component: PlansComponent
       },
       {
         path: 'analytics', component: AnalyticsComponent
