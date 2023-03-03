@@ -17,11 +17,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { QrComponent } from '../shared/qr/qr.component';
 import { QrlistComponent } from './qrlist/qrlist.component';
 import { UsersComponent } from './users/users.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const materialModules = [
   MatCardModule,
@@ -35,7 +39,9 @@ const materialModules = [
   MatListModule,
   MatTableModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSortModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 
 @NgModule({
@@ -46,7 +52,9 @@ const materialModules = [
     QrComponent,
     QrlistComponent,
     UsersComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    AnalyticsComponent,
+    BarChartComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +62,9 @@ const materialModules = [
     ...materialModules,
     FormsModule,
     ReactiveFormsModule    
-  ]
+  ],
+  providers: [  
+    MatDatepickerModule,  
+  ],
 })
 export class DashboardModule { }

@@ -14,12 +14,13 @@ export class HelperService {
 
   constructor(private http: HttpClient) {
     this.access_token = sessionStorage.getItem('token');
+    console.log(this.access_token,'at')
   }
 
   // get request
   get(url: any) {
     let headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.access_token}`
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
     });
     const requestOptions = { headers: headers };
     return this.http.get(`${this.backendUrl}${url}`, requestOptions);
@@ -28,7 +29,7 @@ export class HelperService {
   // post request
   post(url: any, param: any) {
     let headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.access_token}`
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
     });
     const requestOptions = { headers: headers };
     return this.http.post(`${this.backendUrl}${url}`, param, requestOptions);

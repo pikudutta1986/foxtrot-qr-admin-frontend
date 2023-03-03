@@ -84,7 +84,7 @@ export class AuthService
     let data = {
       user_id: this.getUserId()
     };
-    return this.http.post(this.apiBase + 'logout', data, requestOptions);
+    return this.http.post(this.apiBase + 'auth/logout', data, requestOptions);
     // REMOVE THE SESSION STORAGE.    
   }
 }

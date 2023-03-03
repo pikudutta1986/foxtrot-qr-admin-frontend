@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort, Sort} from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { HelperService } from 'src/app/service/helper.service';
 
 @Component({
   selector: 'app-users',
@@ -66,28 +67,35 @@ export class UsersComponent {
   constructor(
     private formBuilder: FormBuilder,
     private _liveAnnouncer: LiveAnnouncer,
-    public cdr: ChangeDetectorRef) { }
+    public cdr: ChangeDetectorRef,
+    public helperService: HelperService) { }
 
   ngOnInit(): void {    
-    // this.getUsers();   
+    this.getUsers();   
   }  
 
   ngAfterViewInit() {
     // this.userFiles.paginator = this.paginator;
-    this.staticData.map((x:any) => {
-      x.isEdit = false;
-    });
+    // this.staticData.map((x:any) => {
+    //   x.isEdit = false;
+    // });
 
-    this.userFiles = new MatTableDataSource(this.staticData)
-    this.userFiles.paginator = this.paginator;
-    this.userFiles.sort = this.sort;
-    this.cdr.detectChanges();
+    // this.userFiles = new MatTableDataSource(this.staticData)
+    // this.userFiles.paginator = this.paginator;
+    // this.userFiles.sort = this.sort;
+    // this.cdr.detectChanges();
   }
 
-  getUsers() {
-    this.userFiles = new MatTableDataSource(this.staticData)
-    this.userFiles.paginator = this.paginator;
-    this.userFiles.sort = this.sort;
+  getUsers() {   
+
+    this.helperService.get('user').subscribe((res:any) => {
+      console.log(res,'res')
+      if(res) {
+        this.userFiles = new MatTableDataSource(this.staticData)
+        this.userFiles.paginator = this.paginator;
+        this.userFiles.sort = this.sort;
+      }
+    })
   }
 
   editUser(element:any) {

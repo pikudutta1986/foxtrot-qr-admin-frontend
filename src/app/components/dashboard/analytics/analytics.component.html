@@ -1,0 +1,50 @@
+<div class="row mb-4">
+    <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="text-center mb-5">
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date">
+                  <input matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+        </div>
+        <app-bar-chart [srcData]="users"  [type]="userType"></app-bar-chart>
+    </div>
+    
+    <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="text-center mb-5">
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="pickerPayment">
+                  <input matStartDate placeholder="Start date">
+                  <input matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="pickerPayment"></mat-datepicker-toggle>
+                <mat-date-range-picker #pickerPayment></mat-date-range-picker>
+              </mat-form-field>
+        </div>
+        <app-bar-chart [srcData]="payments"  [type]="paymentType"></app-bar-chart>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="text-center mb-5">
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="pickerQr">
+                  <input matStartDate placeholder="Start date">
+                  <input matEndDate placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="pickerQr"></mat-datepicker-toggle>
+                <mat-date-range-picker #pickerQr></mat-date-range-picker>
+              </mat-form-field>
+        </div>
+        <app-bar-chart [srcData]="qrs" [type]="qrType"></app-bar-chart>
+    </div>
+</div>
+
