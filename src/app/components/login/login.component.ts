@@ -24,17 +24,41 @@ export class LoginComponent {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      remember: ['']
     });
+
+    // Remember me set
+    let remeberData: any = localStorage.getItem('remeberData');
+    remeberData = JSON.parse(remeberData);
+    if (remeberData && remeberData.rememberMe) {
+      this.loginForm.controls.email.setValue(remeberData.email);
+      this.loginForm.controls.password.setValue(remeberData.password);
+      this.loginForm.controls.remember.setValue(remeberData.rememberMe);
+    }
   }
   
 
   // Login user
   login() {
     console.log(this.loginForm.value)
+
     if(this.loginForm.valid) {
+
+      if (this.loginForm.controls.remember.value) {
+        let remeberData = {
+          'email': this.loginForm.controls.email.value,
+          'password': this.loginForm.controls.password.value,
+          'rememberMe': this.loginForm.controls.remember.value
+        }
+        localStorage.setItem('remeberData', JSON.stringify(remeberData));
+      } else {
+        localStorage.removeItem('remeberData');
+      }
+
       let data = this.loginForm.value;
       let email = data.email;
       let pass = data.password;
+
       this.authService.doLogin(email,pass).subscribe((res:any) => {
         console.log(res);
         if(res.status) {

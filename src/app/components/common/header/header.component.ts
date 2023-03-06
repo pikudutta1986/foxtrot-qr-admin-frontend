@@ -39,16 +39,17 @@ export class HeaderComponent {
   }
 
   // SIDEBAR TOGGLE
-  sideNavbarToggle() {
+  sideNavbarToggleForMobile() {
+    this.helperService.isSidebarToggled.next(false);   
+  }
 
+  sideNavbarToggle() {
     if (this.isPinned) {
       this.helperService.isSidebarToggled.next(false);
     } else {
       this.helperService.isSidebarToggled.next(true);
     }
-
     this.isPinned = !this.isPinned;
-
   }
 
   ngOnDestroy(): void {

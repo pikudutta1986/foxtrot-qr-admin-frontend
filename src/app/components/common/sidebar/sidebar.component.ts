@@ -11,6 +11,7 @@ import { HelperService } from 'src/app/service/helper.service';
 export class SidebarComponent {
 
   userName:any = '';
+  isPinned: boolean = false;
 
   constructor(   
     private authService: AuthService,
@@ -31,11 +32,15 @@ export class SidebarComponent {
     this.authService.logout().subscribe((res:any) => {
       console.log(res)
       if(res.status) {
-        localStorage.clear();
         sessionStorage.clear();
         this.router.navigate((['/']))
       }
     });
     
+  }
+
+  // SIDEBAR TOGGLE
+  sideNavbarToggle() {
+    this.helperService.isSidebarToggled.next(true);
   }
 }
