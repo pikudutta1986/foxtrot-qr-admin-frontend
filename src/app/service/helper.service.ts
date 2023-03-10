@@ -36,11 +36,39 @@ export class HelperService {
     return this.http.post(`${this.backendUrl}${url}`, param, requestOptions);
   }
 
+  // patch request
+  patch(url: any, param: any) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+    });
+    const requestOptions = { headers: headers };
+    return this.http.patch(`${this.backendUrl}${url}`, param, requestOptions);
+  }
+
+  // delete request
+  delete(url: any) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+    });
+    const requestOptions = { headers: headers };
+    return this.http.delete(`${this.backendUrl}${url}`, requestOptions);
+  }
+
   validateEmail(email: any) {
     if (/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/.test(email)) {
       return true;
     }
     return false;
+  }
+
+  hideloader() {  
+    let d:any = document;      
+    d.getElementById('overlay').style.display = 'none';
+  }
+
+  showloader() {  
+    let d:any = document;      
+    d.getElementById('overlay').style.display = 'block';
   }
 
 

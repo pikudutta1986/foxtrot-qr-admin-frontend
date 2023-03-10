@@ -26,7 +26,7 @@ export class DashboardComponent {
       }
     });
 
-    this.getUserDetails();
+    // this.getUserDetails();
   }
 
   ngOnChanges() {

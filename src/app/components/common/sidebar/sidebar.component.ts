@@ -29,13 +29,21 @@ export class SidebarComponent {
   }
 
   logout() {  
-    this.authService.logout().subscribe((res:any) => {
-      console.log(res)
+    this.helperService.showloader();
+    this.authService.logout().subscribe((res:any) => {      
       if(res.status) {
+        this.helperService.hideloader();
         sessionStorage.clear();
         this.router.navigate((['/']))
       }
-    });
+    },
+    //Error callback
+    (error) => {                              
+      console.error('error caught in component')
+      alert('Something went wrong..');
+      this.helperService.hideloader();
+    }
+    );
     
   }
 

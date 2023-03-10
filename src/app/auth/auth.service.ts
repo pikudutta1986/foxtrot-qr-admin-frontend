@@ -33,7 +33,7 @@ export class AuthService
   // CALL THIS FUNCTION WITH USERNAME AND PASSWORD TO MAKE LOGIN.
   doLogin (email: string, password: string)
   {
-    return this.http.post (this.apiBase + 'auth/login', { email, password });
+    return this.http.post (this.apiBase + 'auth/admin/login', { email, password });
   }
 
   getAccessToken() {
@@ -64,7 +64,7 @@ export class AuthService
   isLoggedIn() 
   {
     // IF USER ID IS FOUND IN SESSION STORAGE.
-    if (sessionStorage.getItem ('user_id'))
+    if (sessionStorage.getItem ('token'))
     {
       // RETURN TRUE
       return true;

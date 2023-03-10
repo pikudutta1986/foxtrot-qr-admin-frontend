@@ -5,71 +5,76 @@
             <input type="text" class="form-control" (keyup)="applyFilter($event.target)">
         </div>
     </div>
-    <div class="{{'col-md-4 text-center text-white alert alert-'+classType}}">        
+    <div class="{{'col-md-4 text-center text-white alert alert-'+classType}}">
         {{message}}
+    </div>
+    <div class="col-md-4 text-end">
+        <i class="fa fa-plus" style="font-size:24px" data-bs-toggle="modal" data-bs-target="#modal-form">
+        </i>
     </div>
 </div>
 
 <div class="mat-elevation-z8 cb">
-    <table mat-table 
-        [dataSource]="userFiles" 
-        matSort 
-        class="mat-elevation-z8"
-        (matSortChange)="announceSortChange($event)"
-    >
+    <table mat-table [dataSource]="userFiles" matSort class="mat-elevation-z8"
+        (matSortChange)="announceSortChange($event)">
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> No. </th>
+            <th mat-header-cell *matHeaderCellDef
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> No. </th>
             <td mat-cell *matCellDef="let element; let i = index;">
                 <span class="text-secondary text-xs font-weight-normal">
-                    {{element.id}}. 
-                </span> 
+                    {{element.id}}.
+                </span>
             </td>
         </ng-container>
 
         <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Name </th>
-            <td mat-cell *matCellDef="let element"> 
+        <!-- <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Name </th>
+            <td mat-cell *matCellDef="let element">
                 <span *ngIf="element.isEdit">
                     <input type="text" class="form-control" [(ngModel)]="element.name">
-                </span>              
+                </span>
                 <span *ngIf="!element.isEdit" class="text-secondary text-xs font-weight-normal">
-                    {{element.name}} 
-                </span>                
+                    {{element.name}}
+                </span>
             </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Email Column -->
         <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Email </th>
             <td mat-cell *matCellDef="let element" class="align-middle text-left">
                 <span *ngIf="element.isEdit">
-                    <input type="email" class="form-control" [(ngModel)]="element.email">                    
+                    <input type="email" class="form-control" [(ngModel)]="element.email">
                 </span>
-                <span class="text-secondary text-xs font-weight-normal" *ngIf="!element.isEdit">{{element.email}}</span>                 
+                <span class="text-secondary text-xs font-weight-normal" *ngIf="!element.isEdit">{{element.email}}</span>
             </td>
         </ng-container>
 
         <!-- Created at Column -->
         <ng-container matColumnDef="created_at">
-            <th mat-header-cell *matHeaderCellDef class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created At </th>
-            <td mat-cell *matCellDef="let element" class="align-middle text-left"> 
+            <th mat-header-cell *matHeaderCellDef
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created At </th>
+            <td mat-cell *matCellDef="let element" class="align-middle text-left">
                 <!-- {{element.created_at | date:'shortDate'}} -->
-                <span class="text-secondary text-xs font-weight-normal">{{element.created_at}}</span>                
+                <span class="text-secondary text-xs font-weight-normal">{{element.created_at | date:'shortDate'}}</span>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
-            <td mat-cell *matCellDef="let element" class="action-link text-center">   
+            <th mat-header-cell *matHeaderCellDef
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
+            <td mat-cell *matCellDef="let element" class="action-link text-center">
                 <div *ngIf="!element.isEdit">
-                    <a (click)="editUser(element)"><mat-icon>edit</mat-icon></a> 
-                    <a (click)="deleteUser(element)"><mat-icon>delete_outline</mat-icon></a>  
+                    <a (click)="editUser(element)"><mat-icon>edit</mat-icon></a>
+                    <a (click)="deleteUser(element)"><mat-icon>delete_outline</mat-icon></a>
                 </div>
                 <div *ngIf="element.isEdit">
-                    <a (click)="saveUser(element)"><mat-icon>save</mat-icon></a> 
+                    <a (click)="saveUser(element)"><mat-icon>save</mat-icon></a>
                     <a (click)="cancelUser(element)"><mat-icon> cancel_presentation</mat-icon></a>
                 </div>
             </td>
@@ -81,4 +86,47 @@
 
     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
     </mat-paginator>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+
+        <div class="modal-content">
+            <div class="col text-end">
+                <button #closebutton type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="card card-plain">
+                    <div class="card-header pb-0 text-left">
+                        <p class="mb-0 text-center modalTitle">Create new user</p>
+                        <p class="text-center" style="{{'color:'+classType}}">{{msgForModal}}</p>
+                    </div>
+                    <div class="card-body">
+                        <form role="form text-left" [formGroup]="registerForm">
+                            <div class="input-group input-group-outline my-3" #email>
+                                <label class="form-label">Email</label>
+                                <input type="email" formControlName="email" class="form-control" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                            </div>
+                            <div class="input-group input-group-outline my-3" #password>
+                                <label class="form-label">Password</label>
+                                <input type="password" formControlName="password" class="form-control"
+                                    onfocus="focused(this)" onfocusout="defocused(this)">
+                            </div>
+                            <div class="text-center">
+                                <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
+                                    class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
