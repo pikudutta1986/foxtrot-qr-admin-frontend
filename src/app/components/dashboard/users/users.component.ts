@@ -29,28 +29,9 @@ export class UsersComponent {
 
   public registerForm: any = FormGroup;
 
-  @ViewChild('email') email!: ElementRef<HTMLInputElement>;
-  @ViewChild('password') password!: ElementRef<HTMLInputElement>;
   @ViewChild('closebutton') closebutton!: ElementRef<HTMLInputElement>;
-  msgForModal:any = '';
 
-  staticData: any = [
-    {
-      id: 1, name: 'x', email: 'x@x.com', created_at: '2023-02-23 09:32:52'
-    },
-    {
-      id: 2, name: 'y', email: 'y@y.com', created_at: '2023-02-23 09:33:52'
-    },
-    {
-      id: 3, name: 'z', email: 'z@z.com', created_at: '2023-02-23 09:34:52'
-    },
-    {
-      id: 4, name: 'a', email: 'a@a.com', created_at: '2023-02-23 09:35:52'
-    },
-    {
-      id: 5, name: 'b', email: 'b@b.com', created_at: '2023-02-23 09:36:52'
-    }
-  ];
+  msgForModal: any = '';
 
   mainSrcData: any = [];
 
@@ -75,42 +56,15 @@ export class UsersComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
 
-    this.registerForm.get('email').valueChanges.subscribe((val: any) => {
-      if (val) {
-        if (this.helperService.validateEmail(val)) {
-          this.email.nativeElement.classList.add('is-valid');
-        }
-        else {
-          this.email.nativeElement.classList.remove('is-valid');
-        }
-      } else {
-        this.email.nativeElement.classList.add('is-invalid');
-      }
-    });
-
-    this.registerForm.get('password').valueChanges.subscribe((val: any) => {
-      if (val.length >= 8) {
-        this.password.nativeElement.classList.add('is-valid');
-      } else {
-        this.password.nativeElement.classList.remove('is-valid');
-      }
-    });
   }
 
   ngAfterViewInit() {
-    // this.userFiles.paginator = this.paginator;
-    // this.staticData.map((x:any) => {
-    //   x.isEdit = false;
-    // });
 
-    // this.userFiles = new MatTableDataSource(this.staticData)
-    // this.userFiles.paginator = this.paginator;
-    // this.userFiles.sort = this.sort;
-    // this.cdr.detectChanges();
   }
 
+  // get users
   getUsers() {
-    
+
     this.helperService.get('auth/admin/users').subscribe((res: any) => {
       if (res.success) {
         this.srcData = res.users.data;
@@ -122,78 +76,87 @@ export class UsersComponent {
 
   }
 
+  // set data 
   setData() {
     this.userFiles = new MatTableDataSource(this.srcData)
     this.userFiles.paginator = this.paginator;
     this.userFiles.sort = this.sort;
   }
 
+  // add new user
   addUser() {
     this.helperService.showloader();
-    this.helperService.post('auth/admin/users',this.registerForm.value).subscribe((res: any) => {
-      if(res.status) {
+    this.helperService.post('auth/admin/users', this.registerForm.value).subscribe((res: any) => {
+      if (res.status) {
         this.classType = 'success';
         this.message = 'Successfully created';
+        this.msgForModal = '';
         this.registerForm.reset();
         let el: HTMLElement = this.closebutton.nativeElement as HTMLElement;
-        el.click(); 
+        el.click();
         this.getUsers();
       } else {
+        if (res.errors) {
+          this.msgForModal = res.errors.email[0];
+          this.classType = 'red';
+        }
         this.helperService.hideloader();
       }
     },
-    //Error callback
-    (error) => {                              
-      console.error('error caught in component')
-      this.msgForModal = 'something went wrong'
-      this.classType = 'red';
-      this.helperService.hideloader();
-    }
+      //Error callback
+      (error) => {
+        console.error('error caught in component')
+        this.msgForModal = 'something went wrong'
+        this.classType = 'red';
+        this.helperService.hideloader();
+      }
     );
-      
+
   }
 
+  // edit user
   editUser(element: any) {
     element.isEdit = true;
     this.selectedUserId = element.id;
-    console.log(element, 'e')
   }
 
+  // delete user
   deleteUser(element: any) {
+    this.helperService.showloader();
     let url = `auth/admin/users/${element.id}`;
-    this.helperService.delete(url).subscribe((res:any) => {
-      if(res.status) {
+    this.helperService.delete(url).subscribe((res: any) => {
+      if (res.status) {
         this.classType = 'danger';
         this.message = 'Successfully deleted';
         this.getUsers();
-        // this.helperService.hideloader();
       } else {
         this.classType = 'danger';
         this.message = 'Something went wrong';
         this.helperService.hideloader();
       }
-      
+
     },
-    //Error callback
-    (error) => {                              
-      console.error('error caught in component')
-      this.message = 'something went wrong'
-      this.classType = 'danger';
-      this.helperService.hideloader();
-    })  
+      //Error callback
+      (error) => {
+        console.error('error caught in component')
+        this.message = 'something went wrong'
+        this.classType = 'danger';
+        this.helperService.hideloader();
+      })
   }
 
+  // update user
   saveUser(element: any) {
     this.helperService.showloader();
-    element.isEdit = false;   
+    element.isEdit = false;
     let url = `auth/admin/users/${element.id}`;
     let data = {
-      id: element.id,
+      // id: element.id,
       email: element.email,
-      // _method: 'PATCH'
+      _method: 'PATCH'
     }
-    this.helperService.patch(url,data).subscribe((res:any) => {
-      if(res.status) {
+    this.helperService.post(url, data).subscribe((res: any) => {
+      if (res.status) {
         this.classType = 'success';
         this.message = 'Successfully updated';
         this.getUsers();
@@ -203,19 +166,20 @@ export class UsersComponent {
         this.message = 'Something went wrong';
         this.helperService.hideloader();
       }
-      
+
     },
-    //Error callback
-    (error) => {                              
-      console.error('error caught in component')
-      this.message = 'something went wrong'
-      this.classType = 'danger';
-      this.helperService.hideloader();
-    })
+      //Error callback
+      (error) => {
+        console.error('error caught in component')
+        this.message = 'something went wrong'
+        this.classType = 'danger';
+        this.helperService.hideloader();
+      })
   }
 
+  // cancel editing
   cancelUser(element: any) {
-    
+
     let mainArr = JSON.parse(this.mainSrcData);
     let result = mainArr.find((x: any) => {
       return x.id == element.id;
@@ -228,6 +192,7 @@ export class UsersComponent {
     this.message = '';
   }
 
+  // filter for all column
   applyFilter(filterValue: any) {
     filterValue = filterValue.value;
     this.userFiles.filter = filterValue.trim().toLowerCase();
