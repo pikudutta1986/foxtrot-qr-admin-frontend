@@ -27,6 +27,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { PlansComponent } from './plans/plans.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const materialModules = [
   MatCardModule,
@@ -56,7 +57,8 @@ const materialModules = [
     PaymentsComponent,
     AnalyticsComponent,
     BarChartComponent,
-    PlansComponent
+    PlansComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,

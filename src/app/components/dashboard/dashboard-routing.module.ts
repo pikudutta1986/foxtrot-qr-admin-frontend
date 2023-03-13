@@ -5,6 +5,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { DashboardComponent } from './dashboard.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { PlansComponent } from './plans/plans.component';
+import { SettingsComponent } from './settings/settings.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
@@ -22,6 +23,9 @@ const routes: Routes = [
       },
       {
         path: 'analytics', component: AnalyticsComponent
+      },
+      {
+        path: 'settings', component: SettingsComponent
       }
     ]
   },
