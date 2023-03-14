@@ -28,8 +28,11 @@ export class UsersComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   public registerForm: any = FormGroup;
+  public updateForm: any = FormGroup;
 
   @ViewChild('closebutton') closebutton!: ElementRef<HTMLInputElement>;
+  @ViewChild('closeUpdateModal') closeUpdateModal!: ElementRef<HTMLInputElement>;
+  
 
   msgForModal: any = '';
 
@@ -54,6 +57,12 @@ export class UsersComponent {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
+    });
+
+    this.updateForm = this.formBuilder.group({
+      device_id: [''],
+      platform: [''],
+      country_code: [''],
     });
 
   }
@@ -118,6 +127,9 @@ export class UsersComponent {
   editUser(element: any) {
     element.isEdit = true;
     this.selectedUserId = element.id;
+    this.updateForm.controls.device_id.setValue(element.id);
+    this.updateForm.controls.platform.setValue(element.platform);
+    this.updateForm.controls.country_code.setValue(element.country_code);
   }
 
   // delete user
@@ -146,21 +158,18 @@ export class UsersComponent {
   }
 
   // update user
-  saveUser(element: any) {
+  saveUser() {
+
     this.helperService.showloader();
-    element.isEdit = false;
-    let url = `auth/admin/users/${element.id}`;
-    let data = {
-      // id: element.id,
-      email: element.email,
-      _method: 'PATCH'
-    }
-    this.helperService.post(url, data).subscribe((res: any) => {
+    let url = `auth/admin/users/${this.selectedUserId}`;
+    let data = this.updateForm.value;
+    this.helperService.patch(url, data).subscribe((res: any) => {
       if (res.status) {
         this.classType = 'success';
         this.message = 'Successfully updated';
+        let el: HTMLElement = this.closeUpdateModal.nativeElement as HTMLElement;
+        el.click();
         this.getUsers();
-        // this.helperService.hideloader();
       } else {
         this.classType = 'danger';
         this.message = 'Something went wrong';
@@ -174,7 +183,7 @@ export class UsersComponent {
         this.message = 'something went wrong'
         this.classType = 'danger';
         this.helperService.hideloader();
-      })
+    })
   }
 
   // cancel editing
