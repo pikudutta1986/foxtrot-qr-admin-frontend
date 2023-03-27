@@ -37,7 +37,7 @@ export class AuthService
   }
 
   getAccessToken() {
-    return sessionStorage.getItem('token');
+    return sessionStorage.getItem('admin_token');
   }
 
   getUserId() {
@@ -64,7 +64,7 @@ export class AuthService
   isLoggedIn() 
   {
     // IF USER ID IS FOUND IN SESSION STORAGE.
-    if (sessionStorage.getItem ('token'))
+    if (sessionStorage.getItem ('admin_token'))
     {
       // RETURN TRUE
       return true;

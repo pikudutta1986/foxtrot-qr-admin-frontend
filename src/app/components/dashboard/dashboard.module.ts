@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
@@ -28,6 +29,8 @@ import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.componen
 import { MatNativeDateModule } from '@angular/material/core';
 import { PlansComponent } from './plans/plans.component';
 import { SettingsComponent } from './settings/settings.component';
+import { EditPlanComponent } from './edit-plan/edit-plan.component';
+import { CreatePlanComponent } from './create-plan/create-plan.component';
 
 const materialModules = [
   MatCardModule,
@@ -43,7 +46,9 @@ const materialModules = [
   MatPaginatorModule,
   MatSortModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatCheckboxModule
+  
 ];
 
 @NgModule({
@@ -58,7 +63,9 @@ const materialModules = [
     AnalyticsComponent,
     BarChartComponent,
     PlansComponent,
-    SettingsComponent
+    SettingsComponent,
+    EditPlanComponent,
+    CreatePlanComponent
   ],
   imports: [
     CommonModule,

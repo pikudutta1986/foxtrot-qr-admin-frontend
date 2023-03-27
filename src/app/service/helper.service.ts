@@ -14,14 +14,14 @@ export class HelperService {
   userName = new Subject<any>();
 
   constructor(private http: HttpClient) {
-    this.access_token = sessionStorage.getItem('token');
+    this.access_token = sessionStorage.getItem('admin_token');
     console.log(this.access_token,'at')
   }
 
   // get request
   get(url: any) {
     let headers = new HttpHeaders({
-      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+      'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
     });
     const requestOptions = { headers: headers };
     return this.http.get(`${this.backendUrl}${url}`, requestOptions);
@@ -30,7 +30,7 @@ export class HelperService {
   // post request
   post(url: any, param: any) {
     let headers = new HttpHeaders({
-      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+      'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
     });
     const requestOptions = { headers: headers };
     return this.http.post(`${this.backendUrl}${url}`, param, requestOptions);
@@ -39,7 +39,7 @@ export class HelperService {
   // patch request
   patch(url: any, param: any) {
     let headers = new HttpHeaders({
-      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+      'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
     });
     const requestOptions = { headers: headers };
     return this.http.patch(`${this.backendUrl}${url}`, param, requestOptions);
@@ -48,7 +48,7 @@ export class HelperService {
   // delete request
   delete(url: any) {
     let headers = new HttpHeaders({
-      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+      'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
     });
     const requestOptions = { headers: headers };
     return this.http.delete(`${this.backendUrl}${url}`, requestOptions);

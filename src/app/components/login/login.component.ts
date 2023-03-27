@@ -71,12 +71,12 @@ export class LoginComponent {
       this.password.nativeElement.classList.add('is-valid');
     }
   }
-  
+
 
   // Login user
   login() {
-    
-    if(this.loginForm.valid) {
+
+    if (this.loginForm.valid) {
 
       this.showLoader();
 
@@ -95,21 +95,26 @@ export class LoginComponent {
       let email = data.email;
       let pass = data.password;
 
-      this.authService.doLogin(email,pass).subscribe((res:any) => {
-       
-        if(res.status) {      
-          this.hideLoader();    
-          // sessionStorage.setItem ('user_id', res.user_id);
-          sessionStorage.setItem ('user_name', email);
-          sessionStorage.setItem ('token', res.token);          
-          this.router.navigate(['/dashboard']);
-          this.loginForm.reset();
-        } else {
+      this.authService.doLogin(email, pass).subscribe(
+        (res: any) => {
+          if (res.status) {
+            this.hideLoader();
+            // sessionStorage.setItem ('user_id', res.user_id);
+            sessionStorage.setItem('user_name', email);
+            sessionStorage.setItem('admin_token', res.token);
+            this.router.navigate(['/dashboard']);
+            this.loginForm.reset();
+          } else {
+            this.hideLoader();
+            this.msg = res.message;
+            console.log(this.msg, 'msg');
+          }
+        },
+        (err: any) => {
+          console.log(err);
+          this.msg = err.error.message;
           this.hideLoader();
-          this.msg = res.message;
-          console.log(this.msg,'msg');
-        }
-      });
+        });
     }
   }
 

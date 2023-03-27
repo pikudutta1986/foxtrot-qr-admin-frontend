@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="msg d-flex align-items-center justify-content-center">
+        {{msg}}
+    </div>
+    <form role="form" [formGroup]="createForm" method="post" class="text-start">
+        <div class="text-center d-grid">
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Ultra.." formControlName="name" required>
+                <mat-error *ngIf="createForm.controls.name.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Price</mat-label>
+                <input matInput placeholder="Price" formControlName="price" required>
+                <mat-error *ngIf="createForm.controls.price.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Number Of Codes</mat-label>
+                <input matInput placeholder="Number of codes" formControlName="number_of_codes" required>
+                <mat-error *ngIf="createForm.controls.number_of_codes.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Duration in Month</mat-label>
+                <input matInput placeholder="Duration in month" formControlName="duration_in_months" required>
+                <mat-error *ngIf="createForm.controls.duration_in_months.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Descriptions</mat-label>
+                <input matInput placeholder="Descriptions" formControlName="descriptions" required>
+                <mat-error *ngIf="createForm.controls.descriptions.invalid"></mat-error>
+            </mat-form-field>
+
+            <div class="d-flex">
+                <section class="example-section">
+                    <mat-checkbox matInput formControlName="tracking_enabled" class="example-margin">Enable Tracking</mat-checkbox>
+                    <mat-checkbox matInput formControlName="only_trackable" class="example-margin">Only Trackable</mat-checkbox>
+                    <mat-checkbox matInput formControlName="contains_ad" class="example-margin">Contains Ads</mat-checkbox>
+                </section>
+            </div>
+
+            <button type="button" (click)="submit()" [disabled]="!createForm.valid"
+                class="btn bg-gradient-primary w-100 my-4 mb-2">Submit</button>
+        </div>
+    </form>
+</div>

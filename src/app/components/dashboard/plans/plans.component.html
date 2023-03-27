@@ -10,7 +10,7 @@
         {{message}}
     </div>
     <div class="col-md-4 d-flex justify-content-end">
-        <span class="material-icons">note_add</span>
+        <span class="material-icons customHover" (click)="createPlan()">note_add</span>
     </div>
 </div>
 
@@ -34,25 +34,79 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Name </th>
-            <td mat-cell *matCellDef="let element" class="align-middle text-left"> 
-                <div *ngIf="element.isEdit">
-                    <input type="text" class="form-control" [(ngModel)]="element.name">
-                </div>
-                <span *ngIf="!element.isEdit" class="text-secondary text-xs font-weight-normal">
+            <td mat-cell *matCellDef="let element" class="align-middle text-left">                 
+                <span class="text-secondary text-xs font-weight-normal">
                     {{element.name}}
                 </span>               
             </td>
         </ng-container>
 
-        <!-- Type Column -->
-        <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Type </th>
-            <td mat-cell *matCellDef="let element">
-                <div *ngIf="element.isEdit">
-                    <input type="text" class="form-control" [(ngModel)]="element.type">
-                </div>
-                <span *ngIf="!element.isEdit" class="text-secondary text-xs font-weight-normal">
-                    {{element.type}}
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Price </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    ${{element.price}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Descriptions Column -->
+        <ng-container matColumnDef="descriptions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Description </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.descriptions}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- number_of_codes Column -->
+        <ng-container matColumnDef="number_of_codes">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codes </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.number_of_codes}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Duration Column -->
+        <ng-container matColumnDef="duration_in_months">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Duration </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.duration_in_months}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- tracking_enabled Column -->
+        <ng-container matColumnDef="tracking_enabled">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Tracking </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.tracking_enabled ? 'Enabled' : 'Disabled'}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- only_trackable Column -->
+        <ng-container matColumnDef="only_trackable">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Trackable </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.only_trackable ? 'Yes' : 'No'}}
+                </span>
+            </td>
+        </ng-container>
+
+         <!-- contains_ad Column -->
+         <ng-container matColumnDef="contains_ad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Ads </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.contains_ad ? 'Yes' : 'No'}}
                 </span>
             </td>
         </ng-container>
@@ -62,21 +116,15 @@
             <th mat-header-cell *matHeaderCellDef class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created At </th>
             <td mat-cell *matCellDef="let element" class="align-middle text-left"> 
                 <!-- {{element.created_at | date:'shortDate'}} -->
-                <span class="text-secondary text-xs font-weight-normal">{{element.created_at}}</span>
+                <span class="text-secondary text-xs font-weight-normal">{{element.created_at | date:'shortDate'}}</span>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
-            <td mat-cell *matCellDef="let element" class="action-link text-center">   
-                <div *ngIf="!element.isEdit">
-                    <a (click)="editUser(element)"><mat-icon>edit</mat-icon></a> 
-                    <a (click)="deleteUser(element)"><mat-icon>delete_outline</mat-icon></a>  
-                </div>
-                <div *ngIf="element.isEdit">
-                    <a (click)="saveUser(element)"><mat-icon>save</mat-icon></a> 
-                    <a (click)="cancelUser(element)"><mat-icon> cancel_presentation</mat-icon></a>
-                </div>
+            <td mat-cell *matCellDef="let element" class="action-link text-center">  
+                <a (click)="editPlan(element)"><mat-icon class="customHover">edit</mat-icon></a> 
+                <a (click)="deletePlan(element)"><mat-icon class="customHover">delete_outline</mat-icon></a>  
             </td>
         </ng-container>
 

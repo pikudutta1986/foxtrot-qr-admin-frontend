@@ -3,6 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { HelperService } from 'src/app/service/helper.service';
 
 @Component({
   selector: 'app-plans',
@@ -11,74 +13,63 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PlansComponent {
 
-  displayedColumns: string[] = ['position', 'name', 'type', 'created_at', 'action'];
-  
+  displayedColumns: string[] = ['position', 'name', 'price', 'descriptions', 'number_of_codes', 'duration_in_months', 'tracking_enabled', 'only_trackable', 'contains_ad', 'created_at', 'action'];
+
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   message = '';
-  classType:any = '';
-  userPlans:any = [];
-  staticData:any = [
-    {
-      id: 1, name: 'plan_1', type: 'yearly', created_at: '2023-02-23 09:32:52'
-    },
-    {
-      id: 2, name: 'plan_2', type: 'unlimited', created_at: '2023-02-23 09:33:52'
-    },
-    {
-      id: 3, name: 'plan_3', type: 'yearly', created_at: '2023-02-23 09:34:52'
-    },
-    {
-      id: 4, name: 'plan_4', type: 'yearly', created_at: '2023-02-23 09:35:52'
-    },
-    {
-      id: 5, name: 'plan_5', type: 'quarter', created_at: '2023-02-23 09:36:52'
-    }
-  ];
+  classType: any = '';
+  userPlans: any = [];
+  
+  plans: any = '';
 
-  mainSrcData:any = [
-    {
-      id: 1, name: 'plan_1', type: 'yearly', created_at: '2023-02-23 09:32:52'
-    },
-    {
-      id: 2, name: 'plan_2', type: 'unlimited', created_at: '2023-02-23 09:33:52'
-    },
-    {
-      id: 3, name: 'plan_3', type: 'yearly', created_at: '2023-02-23 09:34:52'
-    },
-    {
-      id: 4, name: 'plan_4', type: 'yearly', created_at: '2023-02-23 09:35:52'
-    },
-    {
-      id: 5, name: 'plan_5', type: 'quarter', created_at: '2023-02-23 09:36:52'
-    }
-  ];
-
-  selectedUserId:any = '';
+  selectedUserId: any = '';
 
   constructor(
+    public helperService: HelperService,
     private formBuilder: FormBuilder,
-    public cdr: ChangeDetectorRef) { }
+    public cdr: ChangeDetectorRef,
+    private router: Router
+  ) { }
 
-  ngOnInit(): void {    
-    // this.getPlans();   
-  } 
-
-  ngAfterViewInit() {
-    this.staticData.map((x:any) => {
-      x.isEdit = false;
-    });    
-    this.userPlans = new MatTableDataSource(this.staticData)
-    this.userPlans.paginator = this.paginator;
-    this.userPlans.sort = this.sort;
-    this.cdr.detectChanges();
+  ngOnInit(): void {
+    this.getPlans();
   }
 
+  ngAfterViewInit() {   
+    // this.cdr.detectChanges();
+  }
+
+  // ALL PLANS  
   getPlans() {
-    this.userPlans = new MatTableDataSource(this.staticData)
+    this.helperService.showloader();
+    let params = 'auth/admin/plans';
+    this.helperService.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.plans = res.plans;
+          this.setData();
+        } else {
+          this.userPlans = [];
+          this.helperService.hideloader();
+        }
+      },
+      (err: any) => {
+        console.log(err);
+        this.helperService.hideloader();
+      });
+
+  }
+
+  setData() {
+    // this.plans.map((x:any) => {
+    //   x.isEdit = false;
+    // });
+    this.userPlans = new MatTableDataSource(this.plans)
     this.userPlans.paginator = this.paginator;
     this.userPlans.sort = this.sort;
+    this.helperService.hideloader();
   }
 
   applyFilter(filterValue: any) {
@@ -89,35 +80,39 @@ export class PlansComponent {
     }
   }
 
-  editUser(element:any) {
-    element.isEdit = true;
-    this.selectedUserId = element.id;
-    console.log(element,'e')
+  editPlan(element: any) {
+    localStorage.setItem('currentPlan', JSON.stringify(element));
+    this.router.navigate(['dashboard/plans/edit',element.id]);
+    console.log(element, 'e')
   }
 
-  deleteUser(element:any) {
-    console.log(element,'e')
+  createPlan() {
+    this.router.navigate(['dashboard/plans/create-plan']);    
+  }
+
+  deletePlan(element: any) {
+    console.log(element, 'e')
+    this.helperService.showloader();
+    let url = `auth/admin/plans/${element.id}`;
+    this.helperService.delete(url).subscribe(
+      (res:any) => {
+        this.helperService.hideloader();
+        console.log(res);
+        if(res.status) {
+          this.getPlans();
+          // this.message = res.message;
+        } else {
+
+        }
+        this.message = res.message;
+        
+      },
+      (errors:any) => {
+        console.log(errors);
+        this.helperService.hideloader();
+      },
+    )
     this.classType = 'danger';
-    this.message = 'Successfully deleted';
-  }
-
-  saveUser(element:any) {
-    element.isEdit = false;
-    this.classType = 'success';
-    this.message = 'Successfully updated';
-    console.log(element,'e')
-  }
-
-  cancelUser(element:any) {
-    this.message = '';
-    let result = this.mainSrcData.find((x:any) => {
-      return x.id == element.id;
-    });
-
-    element.name = result.name;
-    element.email = result.email;
-
-    element.isEdit = false;
   }
 
 }
