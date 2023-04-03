@@ -107,6 +107,7 @@ export class LoginComponent {
             // sessionStorage.setItem ('user_id', res.user_id);
             sessionStorage.setItem('user_name', email);
             sessionStorage.setItem('admin_token', res.token);
+            this.authService.isLogged.next(true);
             this.router.navigate(['/dashboard/analytics']);
             this.loginForm.reset();
           } else {

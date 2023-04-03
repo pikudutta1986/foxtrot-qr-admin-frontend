@@ -8,7 +8,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 // IMPORTING THE ENVIRONMENT MODULE
 import {environment} from "../../environments/environment";
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 // INJECTING TO THE APP PROVIDER SO THAT WE CAN USE IT THROUGHOUT THE APPLICATION.
 @Injectable({
@@ -23,6 +23,8 @@ export class AuthService
  
   user_id:any = '';
   username:any = '';
+
+  isLogged = new Subject<any>();
   // CLASS CONSTRUCTOR, THIS WILL BE THE FIRST FUNCTION TO BE EXECUTED WHEN THIS CLASS LOADS.
   // HERE WE WILL TELL ANGULAR TO INJECT A DEPENDENCY BY SPECIFYING A CONSTRUCTOR
   // PARAMETER WITH THE DEPENDENCY TYPE.

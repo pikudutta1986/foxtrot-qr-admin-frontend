@@ -37,13 +37,20 @@ export class HeaderComponent {
   ngOnInit() {
     // let auth_token: any = sessionStorage.getItem('admin_token');
     // auth_token = JSON.parse(auth_token);
-    let auth_token = this.helperService.access_token;
-    if(auth_token) {
+
+    let token: any = sessionStorage.getItem('admin_token');
+    if(token) {
       this.authenticated = true;
     } else {
       this.authenticated = false;
     }
-
+    this.authService.isLogged.subscribe((res:any) => {
+      if(res) {
+        this.authenticated = res;
+      } else {
+        this.authenticated = res;
+      }
+    });
   }
 
   ngAfterViewInit() {
