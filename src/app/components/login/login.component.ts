@@ -44,21 +44,26 @@ export class LoginComponent {
     this.loginForm.get('email').valueChanges.subscribe((val: any) => {
       if (val) {
         if (this.helperService.validateEmail(val)) {
-          this.email.nativeElement.classList.add('is-valid');
+          this.email.nativeElement.className = '';
+          this.email.nativeElement.classList.add('form-control','is-valid');
         }
         else {
-          this.email.nativeElement.classList.remove('is-valid');
+          this.email.nativeElement.className = '';
+          this.email.nativeElement.classList.add('form-control','is-invalid');
         }
       } else {
-        this.email.nativeElement.classList.add('is-invalid');
+        this.email.nativeElement.className = '';
+        this.email.nativeElement.classList.add('form-control','is-invalid');
       }
     });
 
     this.loginForm.get('password').valueChanges.subscribe((val: any) => {
       if (val) {
-        this.password.nativeElement.classList.add('is-valid');
+        this.password.nativeElement.className = '';
+        this.password.nativeElement.classList.add('form-control','is-valid');
       } else {
-        this.password.nativeElement.classList.remove('is-valid');
+        this.password.nativeElement.className = '';
+        this.password.nativeElement.classList.add('form-control','is-invalid');
       }
     });
   }
@@ -102,7 +107,7 @@ export class LoginComponent {
             // sessionStorage.setItem ('user_id', res.user_id);
             sessionStorage.setItem('user_name', email);
             sessionStorage.setItem('admin_token', res.token);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard/analytics']);
             this.loginForm.reset();
           } else {
             this.hideLoader();

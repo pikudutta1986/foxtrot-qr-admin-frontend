@@ -1,83 +1,99 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg position-sticky mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky blur shadow-blur left-auto"
-id="navbarBlur" data-scroll="true">
-<div class="container-fluid py-1 px-3">    
-    <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none">
-        <a (click)="sideNavbarToggle()" class="nav-link text-body p-0 cursor">
-            <div class="sidenav-toggler-inner">
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-            </div>
-        </a>
-    </div>
-    <nav aria-label="breadcrumb">
-        <span class="opacity-5 text-dark px-3">
-            {{currentRoute}}
-        </span>        
-    </nav>
-    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group input-group-outline">
-            </div>
-        </div>
-        <ul class="navbar-nav  justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link text-body p-0 position-relative" target="_blank">
-                    <i class="material-icons me-sm-1">
-                        account_circle
-                    </i>
+<div class="header">
+    <div class="container pt-2">
+        <nav class="navbar navbar-expand-sm customNavbar sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" routerLink="/">
+                    <img src="../../../assets/img/logo.png" alt="Avatar Logo">
                 </a>
-            </li>
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                <a (click)="sideNavbarToggleForMobile()" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                    <div class="sidenav-toggler-inner">
-                        <i class="sidenav-toggler-line"></i>
-                        <i class="sidenav-toggler-line"></i>
-                        <i class="sidenav-toggler-line"></i>
+                <!-- Button to open the offcanvas sidebar -->
+                <a type="button" data-bs-toggle="offcanvas" data-bs-target="#sidedrawer">
+                    <i class="fa fa-bars" aria-hidden="true" style="font-size: 1.8rem;"></i>
+                </a>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!-- Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start offcanvas-size-responsive" id="sidedrawer">
+    <div class="offcanvas-header d-flex align-items-center justify-content-center">
+        <span class="offcanvas-title">
+            <a [routerLink]="'/dashboard'">
+                <img src="../../../assets/img/logo.png" alt="QR-Fox">
+            </a>
+        </span>
+    </div>
+    <div class="offcanvas-body pr">
+        <ul class="list-group list-group-flush w-100">
+            
+            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
+                <a routerLink="./analytics" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                   
+                        <!-- <i class="material-icons-round opacity-10">dashboard</i> -->
+                    <i class="material-icons fa-fw me-4">dashboard</i>                    
+                    <div class="d-grid">
+                        <span class="hl">Analytics</span>
                     </div>
                 </a>
             </li>
-            <li class="nav-item px-3">
-                <a href="javascript:;" class="nav-link text-body p-0">
-                    <i class="material-icons fixed-plugin-button-nav cursor-pointer">
-                        settings
-                    </i>
+
+            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
+                <a routerLink="./settings" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                    <i class="material-icons fa-fw me-4" aria-hidden="true">settings</i>
+                    <div class="d-grid">
+                        <span class="hl">Settings</span>
+                    </div>
                 </a>
             </li>
-            <li class="nav-item dropdown pe-2">
-                <a href="javascript:;" class="nav-link text-body p-0 position-relative"
-                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="material-icons cursor-pointer">
-                        notifications
-                    </i>
 
-                    <span
-                        class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
-                        <span class="small">11</span>
-                        <span class="visually-hidden">unread notifications</span>
-                    </span>
+            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
+                <a routerLink="./users" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                    <i class="material-icons fa-fw me-4">account_circle</i>
+                    <div class="d-grid">
+                        <span class="hl">Users</span>
+                    </div>
                 </a>
-
-                <ul class="dropdown-menu dropdown-menu-end p-2 me-sm-n4"
-                    aria-labelledby="dropdownMenuButton">
-                    <li class="mb-2">
-                        <a class="dropdown-item border-radius-md" href="javascript:;">
-                            <div class="d-flex align-items-center py-1">
-                                <span class="material-icons">email</span>
-                                <div class="ms-2">
-                                    <h6 class="text-sm font-weight-normal my-auto">
-                                        Check new messages
-                                    </h6>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    
-                </ul>
             </li>
+
+            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
+                <a routerLink="./plans" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                    <i class="material-icons fa-fw me-4">payment</i>
+                    <div class="d-grid">
+                        <span class="hl">Plans</span>
+                    </div>
+                </a>
+            </li>
+
+            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
+                <a routerLink="./payments" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                    <i class="material-icons fa-fw me-4">account_balance</i>
+                    <div class="d-grid">
+                        <span class="hl">Payments</span>
+                    </div>
+                </a>
+            </li>
+
+            <!-- <li class="list-group-item d-flex align-items-center py-3" *ngIf="authenticated">
+                <a routerLink="/dashboard" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
+                    <div class="hl"><i class="fa fa-dashboard fa-fw me-4"></i></div>
+                    <div class="d-grid">
+                        <span class="hl">Dashboard</span>
+                    </div>
+                </a>
+            </li> -->
+
         </ul>
+
+        <div class="loginBtn">
+            <a routerLink="/" class="btn btn-primary loginBtnColor" type="button" data-bs-dismiss="offcanvas"
+                *ngIf="!authenticated">Login</a>
+
+            <a (click)="logout()" class="btn btn-primary loginBtnColor" type="button" data-bs-dismiss="offcanvas"
+                *ngIf="authenticated">Log out</a>
+        </div>
     </div>
 </div>
-</nav>
 <!-- End Navbar -->
+
+

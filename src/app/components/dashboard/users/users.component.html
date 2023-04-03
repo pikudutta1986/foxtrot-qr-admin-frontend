@@ -1,11 +1,11 @@
-<div class="container d-flex justify-content-start mt-3 align-items-center">
-    <div class="col-md-4">
-        <div class="input-group input-group-static mb-4 is-valid">
-            <label>Search</label>
+<div class="container-fluid d-flex justify-content-start mb-3 align-items-center">
+    <div class="col-md-3 d-flex">
+        <label for="search" class="col-sm-2 col-form-label">Search</label>
+        <div class="col-sm-10">
             <input type="text" class="form-control" (keyup)="applyFilter($event.target)">
         </div>
     </div>
-    <div class="{{'col-md-4 text-center text-white alert alert-'+classType}}">
+    <div class="{{'col-md-5 text-center text-white alert alert-'+classType}}">
         {{message}}
     </div>
     <div class="col-md-4 text-end">
@@ -120,7 +120,7 @@
                           
                             <div class="text-center">
                                 <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
-                                    class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Submit</button>
+                                    class="btn btn-round btn-info btn-lg w-100 mt-4 mb-0">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -166,7 +166,7 @@
                           
                             <div class="text-center">
                                 <button (click)="saveUser()" type="button" 
-                                    class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">Update</button>
+                                    class="btn btn-round bg-primary btn-lg w-100 mt-4 mb-0">Update</button>
                             </div>
                         </form>
                     </div>

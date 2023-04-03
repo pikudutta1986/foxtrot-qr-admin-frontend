@@ -1,8 +1,8 @@
 
-<div class="container d-flex justify-content-between mt-3 align-items-center">
-    <div class="col-md-4">
-        <div class="input-group input-group-static mb-4 is-valid">
-            <label>Search</label>
+<div class="container-fluid d-flex justify-content-between align-items-center mb-3">
+    <div class="col-md-3 d-flex">
+        <label for="search" class="col-sm-2 col-form-label">Search</label>
+        <div class="col-sm-10">
             <input type="text" class="form-control" (keyup)="applyFilter($event.target)">
         </div>
     </div>

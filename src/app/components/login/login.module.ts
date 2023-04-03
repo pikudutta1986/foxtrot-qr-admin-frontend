@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
+import { HeaderComponent } from '../common/header/header.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     CommonModule,

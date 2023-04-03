@@ -15,3 +15,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .customHover:hover {
     cursor: pointer;
 }
+
+.list-group-item a {
+    text-decoration: none !important;
+}
+
+.list-group-item:hover {
+    background: lightgray!important;
+    cursor: pointer;
+}
+
+.list-group-item.active {
+    background: lightgray!important;
+    cursor: pointer;
+}
+
+.fa-fw {
+    text-align: center;
+    width: 1.25em;
+}
+
+.loginBtn {
+    position: absolute;
+    bottom: 15%;
+    left: 40%;
+}

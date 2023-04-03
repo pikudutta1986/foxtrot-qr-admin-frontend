@@ -1,43 +1,37 @@
+    
 
-<div class="{{'g-sidenav-show bg-gray-100 ' + isSidebarToggled}}">
-    <aside  
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark ps ps--active-y"
-        id="sidenav-main">
-        <app-sidebar></app-sidebar>
-    </aside>    
+  <div class="main-content border-radius-lg ">        
+      <app-header></app-header>
+      <div class="container-fluid py-4 pr" >
+          <div class="overlay" id="overlay">
+              <div class="loader" id="loader">
+                  <div class="spinner-grow text-primary" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-success" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-danger" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-warning" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-info" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-light" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-dark" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+              </div>
+          </div>
+      <div class="container-fluid py-4">
+          <router-outlet></router-outlet>
+      </div>       
+  </div>
 
-    <div class="main-content border-radius-lg ">        
-        <app-header></app-header>
-        <div class="container-fluid py-4 pr" >
-            <div class="overlay" id="overlay">
-                <div class="loader" id="loader">
-                    <div class="spinner-grow text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-success" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-danger" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-warning" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-info" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-light" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                      <div class="spinner-grow text-dark" role="status">
-                        <span class="sr-only">Loading...</span>
-                      </div>
-                </div>
-            </div>
-        <div class="container-fluid py-4">
-            <router-outlet></router-outlet>
-        </div>       
-    </div>
 
-</div>
 

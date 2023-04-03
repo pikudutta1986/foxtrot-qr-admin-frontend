@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { HelperService } from 'src/app/service/helper.service';
 
 @Component({
@@ -13,8 +14,11 @@ export class HeaderComponent {
   currentRoute: any = '';
   routerEvents: any;
 
+  authenticated:boolean = false;
+
   constructor(
     private helperService: HelperService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.currentRoute = this.router.url.substring(1);
@@ -31,6 +35,14 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+    // let auth_token: any = sessionStorage.getItem('admin_token');
+    // auth_token = JSON.parse(auth_token);
+    let auth_token = this.helperService.access_token;
+    if(auth_token) {
+      this.authenticated = true;
+    } else {
+      this.authenticated = false;
+    }
 
   }
 
@@ -38,18 +50,23 @@ export class HeaderComponent {
 
   }
 
-  // SIDEBAR TOGGLE
-  sideNavbarToggleForMobile() {
-    this.helperService.isSidebarToggled.next(false);   
-  }
-
-  sideNavbarToggle() {
-    if (this.isPinned) {
-      this.helperService.isSidebarToggled.next(false);
-    } else {
-      this.helperService.isSidebarToggled.next(true);
+  logout() {  
+    this.helperService.showloader();
+    this.authService.logout().subscribe((res:any) => {      
+      if(res.status) {
+        this.helperService.hideloader();
+        sessionStorage.clear();
+        this.router.navigate((['/']))
+      }
+    },
+    //Error callback
+    (error) => {                              
+      console.error('error caught in component')
+      alert('Something went wrong..');
+      this.helperService.hideloader();
     }
-    this.isPinned = !this.isPinned;
+    );
+    
   }
 
   ngOnDestroy(): void {
