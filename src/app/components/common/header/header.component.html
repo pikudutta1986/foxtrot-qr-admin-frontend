@@ -1,99 +1,26 @@
 <!-- Navbar -->
-<div class="header">
-    <div class="container pt-2">
-        <nav class="navbar navbar-expand-sm customNavbar sticky-top">
-            <div class="container-fluid">
-                <a class="navbar-brand" routerLink="/dashboard">
-                    <img src="../../../assets/img/logo.png" alt="Avatar Logo">
-                </a>
-                <!-- Button to open the offcanvas sidebar -->
-                <a type="button" data-bs-toggle="offcanvas" data-bs-target="#sidedrawer">
-                    <i class="fa fa-bars" aria-hidden="true" style="font-size: 1.8rem;"></i>
-                </a>
+<div class="top-header">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-lg-8">
+            <div class="search">
+                <input type="text" [(ngModel)]="searchInput" (keyup)="search()" placeholder="Search"/>
             </div>
-        </nav>
-    </div>
-</div>
-
-<!-- Offcanvas Sidebar -->
-<div class="offcanvas offcanvas-start offcanvas-size-responsive" id="sidedrawer">
-    <div class="offcanvas-header d-flex align-items-center justify-content-center">
-        <span class="offcanvas-title">
-            <a [routerLink]="'/dashboard'">
-                <img src="../../../assets/img/logo.png" alt="QR-Fox">
-            </a>
-        </span>
-    </div>
-    <div class="offcanvas-body pr">
-        <ul class="list-group list-group-flush w-100">
-            
-            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
-                <a routerLink="./analytics" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
-                   
-                        <!-- <i class="material-icons-round opacity-10">dashboard</i> -->
-                    <i class="material-icons fa-fw me-4">dashboard</i>                    
-                    <div class="d-grid">
-                        <span class="hl">Analytics</span>
-                    </div>
-                </a>
-            </li>
-
-            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
-                <a routerLink="./settings" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
-                    <i class="material-icons fa-fw me-4" aria-hidden="true">settings</i>
-                    <div class="d-grid">
-                        <span class="hl">Settings</span>
-                    </div>
-                </a>
-            </li>
-
-            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
-                <a routerLink="./users" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
-                    <i class="material-icons fa-fw me-4">account_circle</i>
-                    <div class="d-grid">
-                        <span class="hl">Users</span>
-                    </div>
-                </a>
-            </li>
-
-            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
-                <a routerLink="./plans" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
-                    <i class="material-icons fa-fw me-4">payment</i>
-                    <div class="d-grid">
-                        <span class="hl">Plans</span>
-                    </div>
-                </a>
-            </li>
-
-            <li class="list-group-item d-flex align-items-center py-3" routerLinkActive="active">
-                <a routerLink="./payments" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
-                    <i class="material-icons fa-fw me-4">account_balance</i>
-                    <div class="d-grid">
-                        <span class="hl">Payments</span>
-                    </div>
-                </a>
-            </li>
-
-            <!-- <li class="list-group-item d-flex align-items-center py-3" *ngIf="authenticated">
-                <a routerLink="/dashboard" class="d-flex align-items-center" data-bs-dismiss="offcanvas">
-                    <div class="hl"><i class="fa fa-dashboard fa-fw me-4"></i></div>
-                    <div class="d-grid">
-                        <span class="hl">Dashboard</span>
-                    </div>
-                </a>
-            </li> -->
-
-        </ul>
-
-        <div class="loginBtn">
-            <a routerLink="/" class="btn btn-primary loginBtnColor" type="button" data-bs-dismiss="offcanvas"
-                *ngIf="!authenticated">Login</a>
-
-            <a (click)="logout()" class="btn btn-primary loginBtnColor" type="button" data-bs-dismiss="offcanvas"
-                *ngIf="authenticated">Log out</a>
+        </div>
+        <div class="col-lg-4">
+            <div class="name">
+                <div class="name1">
+                    <label>{{adminEmail}}</label>
+                    <span>Administrator</span>
+                </div>
+                <div class="name2">
+                    
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<!-- End Navbar -->
+    </div>
+    </div>
+    <!-- End Navbar -->
 
 

@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { HelperService } from 'src/app/service/helper.service';
 
 @Component({
   selector: 'app-payments',
@@ -59,10 +60,14 @@ export class PaymentsComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    public cdr: ChangeDetectorRef) { }
+    public cdr: ChangeDetectorRef,
+    public helperService: HelperService) { }
 
   ngOnInit(): void {    
     // this.getPlans();   
+    this.helperService.searchInput.subscribe((res:any) => {     
+        this.applyFilter(res);
+    });
   } 
 
   ngAfterViewInit() {
@@ -82,7 +87,7 @@ export class PaymentsComponent {
   }
 
   applyFilter(filterValue: any) {
-    filterValue = filterValue.value;
+    // filterValue = filterValue.value;
     this.userPlans.filter = filterValue.trim().toLowerCase();
     if (this.userPlans.paginator) {
       this.userPlans.paginator.firstPage();

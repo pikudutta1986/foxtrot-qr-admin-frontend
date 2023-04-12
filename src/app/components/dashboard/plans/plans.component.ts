@@ -35,6 +35,9 @@ export class PlansComponent {
 
   ngOnInit(): void {
     this.getPlans();
+    this.helperService.searchInput.subscribe((res:any) => {
+      this.applyFilter(res);
+    });
   }
 
   ngAfterViewInit() {   
@@ -73,7 +76,7 @@ export class PlansComponent {
   }
 
   applyFilter(filterValue: any) {
-    filterValue = filterValue.value;
+    // filterValue = filterValue.value;
     this.userPlans.filter = filterValue.trim().toLowerCase();
     if (this.userPlans.paginator) {
       this.userPlans.paginator.firstPage();

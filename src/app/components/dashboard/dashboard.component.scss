@@ -1,6 +1,6 @@
 .loader {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 6;    
@@ -17,4 +17,287 @@
 
 .pr {
     position: relative;
+}
+// 
+
+
+.qr-top{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    
+    position: relative;
+}
+.main-content{
+    width: 84%;
+    float: right;
+    min-height: 100vh;
+    position: absolute;
+    right: 0;
+    background: #fff;
+}
+.qr-sidebar{
+    width: 16%;
+    height: 100vh;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,12%);
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+.nameA{
+    margin: 20px 0;
+}
+.nameA h2{
+    color: #FF14B5;
+    font: 500 30px/30px "Montserrat", sans-serif;
+}
+.pink-box{
+   
+    border-radius: 10px;
+    background: #FF14B5;
+    padding: 20px;
+}
+.pink-box ul{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+}
+.pink-box ul li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.pink-box ul li label{
+    color: #fff;
+    font: 600 12px/20px "Montserrat", sans-serif;
+    flex: 1;
+    margin-right: 10px;
+}
+.pink-box ul li span{
+    color: #fff;
+    font: 500 50px/50px "Montserrat", sans-serif;
+    flex: 1;
+}
+.white-box{
+    margin: 30px 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 20px;
+    -webkit-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+    -moz-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+    box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+}
+.week{
+    margin: 5px 0;
+    border-bottom: 1px solid #ccc;
+    color: #FF14B5;
+    font: 500 20px/30px "Montserrat", sans-serif;
+}
+.plan-box{
+    margin: 30px 0;
+    background: #FF14B5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 100vh;
+    position: relative;
+    -webkit-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+    -moz-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+    box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+}
+.plan{
+    margin: 5px 0;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font: 500 20px/30px "Montserrat", sans-serif;
+}
+.plan-payment2 h3{
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    font: bold 16px/30px "Montserrat", sans-serif;
+}
+.plan-payment2 h4{
+    text-align: center;
+    color: #fff;
+    font: bold 30px/30px "Montserrat", sans-serif;
+}
+.plan-payment2 h4 label{
+    font-size: 14px;
+    line-height: 14px;
+    margin-right: 5px;
+    vertical-align: top;
+}
+.plan-payment2 h4 span{
+    font-size: 14px;
+    margin-left: 5px;
+}
+.plan-payment2 h5{
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    font: 500 13px/30px "Montserrat", sans-serif;
+}
+.change-plan{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.change-plan a{
+    background: #fff;
+    width: 160px;
+    height: 50px;
+    display: block;
+    text-align: center;
+    border-radius: 100px;
+    color: #FF14B5;
+    font: 500 15px/50px "Montserrat", sans-serif;
+    transition: all 0.5s;
+    -webkit-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+    -moz-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+    box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+}
+.change-plan a:hover{
+    background: #000;
+    color: #fff;
+}
+a{
+    text-decoration: none;
+}
+.change-method{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+.change-method a{
+    width: 220px;
+    height: 50px;
+    border-radius: 100px;
+    text-align: center;
+    display: block;
+    color: #fff;
+    font: 500 15px/50px "Montserrat", sans-serif;
+    background: #FF14B5;
+    -webkit-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+-moz-box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+box-shadow: -4px 12px 26px -7px rgba(0,0,0,0.16);
+}
+.master-card{
+    border-radius: 6px;
+    width: 70%;
+    min-height: 159px;
+    background: #DBF5FC;
+    padding: 20px;
+    position: relative;
+    margin: 30px auto;
+}
+.master-card p{
+    color: #000;
+    font: 400 14px/30px "Montserrat", sans-serif;
+}
+.master-card h2{
+    text-align: right;
+    color: #000;
+    font: bold 20px/30px "Montserrat", sans-serif;
+    position: absolute;
+    right: 8px;
+    bottom: 15px;
+}
+.locationH{
+    width: 100%;
+    display: inline-block;
+    margin: 6px 0;
+    border-bottom: 1px solid #ccc;
+}
+.locationH ul{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.locationH ul li{
+    list-style-type: none;
+    margin: 5px 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+    flex: 1;
+    margin-right: 10px;
+    color: #000;
+    font: normal 14px/30px "Montserrat", sans-serif;
+}
+.locationL{
+    width: 100%;
+    display: inline-block;
+    margin: 6px 0;
+}
+.locationL ul{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.locationL ul li{
+    list-style-type: none;
+    margin: 5px 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+    flex: 1;
+    margin-right: 10px;
+    color: #000;
+    font: 600 15px/30px "Montserrat", sans-serif;
+}
+.scan1{
+    color: #000;
+    text-align: center;
+    font: 400 15px/20px "Montserrat", sans-serif;
+}
+.scan2{
+    color: #000;
+    text-align: center;
+    font: 600 50px/50px "Montserrat", sans-serif;
+}
+.weekly-view{
+    padding: 20px;
+}
+.weekly-view img{
+    width: 100%;
+    object-fit: contain;
+}
+.we-view{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.we-view select{
+    border: 0;
+    background: none;
+    width: 70%;
+    height: 50px;
+    color: #000;
+    font: 600 15px/50px "Montserrat", sans-serif;
+    outline: none;
+}
+.circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    
+}
+.circle img{
+    width: 126px;
+    height: 126px;
+    object-fit: contain;
 }

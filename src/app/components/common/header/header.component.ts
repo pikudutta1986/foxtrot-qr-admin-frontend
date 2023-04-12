@@ -15,11 +15,16 @@ export class HeaderComponent {
   routerEvents: any;
 
   authenticated:boolean = false;
+  adminEmail:any = '';
+
+  searchInput:any = '';
+
 
   constructor(
     private helperService: HelperService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdRef:ChangeDetectorRef
   ) {
     this.currentRoute = this.router.url.substring(1);
     this.routerEvents = this.router.events.subscribe((event: any) => {
@@ -35,26 +40,23 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
-    // let auth_token: any = sessionStorage.getItem('admin_token');
-    // auth_token = JSON.parse(auth_token);
-
+    
     let token: any = sessionStorage.getItem('admin_token');
     if(token) {
       this.authenticated = true;
     } else {
       this.authenticated = false;
     }
+
     this.authService.isLogged.subscribe((res:any) => {
-      if(res) {
-        this.authenticated = res;
-      } else {
-        this.authenticated = res;
-      }
+      this.authenticated = res;
     });
   }
 
   ngAfterViewInit() {
-
+    let user_name: any = sessionStorage.getItem('user_name');
+    this.adminEmail = user_name;   
+    this.cdRef.detectChanges();
   }
 
   logout() {  
@@ -78,6 +80,10 @@ export class HeaderComponent {
 
   ngOnDestroy(): void {
     this.routerEvents.unsubscribe();
+  }
+
+  search() {
+    this.helperService.searchInput.next(this.searchInput);
   }
   
 }

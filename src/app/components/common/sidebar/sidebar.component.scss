@@ -1,0 +1,37 @@
+.logo{
+    padding: 30px;
+}
+.logo img{
+    max-width: 100%;
+    object-fit: contain;
+}
+ul.side-menu{
+    width: 100%;
+    display: inline-block;
+    padding: 0;
+}
+ul.side-menu li{
+    width: 100%;
+    display: inline-block;
+    list-style-type: none;
+}
+ul.side-menu li a{
+    width: 100%;
+    display: block;
+    color: #000;
+    font: 600 16px/24px "Montserrat", sans-serif;
+    text-align: left;
+    text-decoration: none;    
+    transition: all 0.5s;
+    padding: 15px 0px 15px 13px;
+}
+ul.side-menu li a:hover{
+    background: #DBF5FC;
+}
+ul.side-menu li a.active{
+    background: #DBF5FC;
+}
+
+.logout:hover {
+    cursor: pointer;
+}

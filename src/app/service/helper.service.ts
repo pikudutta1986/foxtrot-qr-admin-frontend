@@ -12,6 +12,7 @@ export class HelperService {
   access_token:any = '';
   isSidebarToggled = new Subject<boolean>();
   userName = new Subject<any>();
+  searchInput = new Subject<any>();
 
   constructor(private http: HttpClient) {
     this.access_token = sessionStorage.getItem('admin_token');

@@ -65,6 +65,10 @@ export class UsersComponent {
       country_code: [''],
     });
 
+    this.helperService.searchInput.subscribe((res:any) => {
+      this.applyFilter(res);
+    });
+
   }
 
   ngAfterViewInit() {
@@ -203,7 +207,7 @@ export class UsersComponent {
 
   // filter for all column
   applyFilter(filterValue: any) {
-    filterValue = filterValue.value;
+    // filterValue = filterValue.value;
     this.userFiles.filter = filterValue.trim().toLowerCase();
     if (this.userFiles.paginator) {
       this.userFiles.paginator.firstPage();

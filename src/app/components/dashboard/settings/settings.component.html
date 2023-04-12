@@ -1,13 +1,13 @@
 
 <!-- Card Change Password -->
-<div class="row">
+<div class="row mb-4">
   <div class="col-sm-3"></div>  
   <div class="col-sm-6">
     <div class="card mt-4" id="password"> 
       <div class="card-header text-center d-flex align-items-center">
-        <div class="col-sm-4 col-md-4"></div>
-        <div class="col-sm-4 col-md-4 d-flex justify-content-center align-items-center"><span class="settings-header">Change Password</span></div>    
-        <div class="{{'col-sm-4 col-md-4 text-center text-white alert alert-'+classType}}">
+        <div class="col-sm-4 col-md-3"></div>
+        <div class="col-sm-4 col-md-6 d-flex justify-content-center align-items-center"><span class="settings-header">Change Password</span></div>    
+        <div class="{{'col-sm-4 col-md-3 text-center text-white alert alert-'+classType}}">
           {{msg}}
         </div>    
       </div>
@@ -47,7 +47,7 @@
             </li>
           </ul>
           <button (click)="reset()" [disabled]="!passwordResetForm.valid"
-            class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+            class="btn btn-primary float-end mt-6 mb-0">Update password</button>
         </form>
       </div>
     </div>
