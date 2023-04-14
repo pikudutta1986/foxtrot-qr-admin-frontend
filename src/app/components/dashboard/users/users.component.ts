@@ -85,6 +85,9 @@ export class UsersComponent {
         this.setData();
       }
       this.helperService.hideloader();
+    },
+    (e:any) => {
+      this.helperService.hideloader();
     });
 
   }

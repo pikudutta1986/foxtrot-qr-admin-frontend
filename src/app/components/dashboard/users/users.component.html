@@ -1,13 +1,14 @@
-<div class="container-fluid d-flex justify-content-start mb-3 align-items-center">
-    <div class="col-md-3 d-flex">
-       
-    </div>
+<div class="container-fluid d-flex my-2 justify-content-start align-items-center">
+    <div class="col-md-3 d-flex"></div>
     <div class="{{'col-md-5 text-center text-white alert alert-'+classType}}">
         {{message}}
     </div>
     <div class="col-md-4 text-end">
-        <i class="fa fa-plus" style="font-size:24px" data-bs-toggle="modal" data-bs-target="#modal-form">
-        </i>
+        <button class="btn btn-primary primary-color">
+            <i class="fa fa-plus" data-bs-toggle="modal" data-bs-target="#modal-form">
+            </i>
+            ADD
+        </button>        
     </div>
 </div>
 
@@ -77,6 +78,10 @@
             </td>
         </ng-container>
 
+        <tr class="mat-row text-center" *matNoDataRow>
+            <td class="mat-cell py-4" colspan="4">No users found!</td>
+        </tr>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
@@ -91,20 +96,19 @@
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
 
         <div class="modal-content">
-            <div class="col text-end">
+            <div class="col text-end my-2 mx-2">
                 <button #closebutton type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                     aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-0">
-                <div class="card card-plain">
+                <div class="">
                     <div class="card-header pb-0 text-left">
-                        <p class="mb-0 text-center modalTitle">Create new user</p>
+                        <p class="text-center modalTitle">Create new user</p>
                         <p class="text-center" style="{{'color:'+classType}}">{{msgForModal}}</p>
                     </div>
-                    <div class="card-body">
-                        <form role="form text-left" [formGroup]="registerForm">
+                    <div>
+                        <form class="p-3" role="form text-left" [formGroup]="registerForm">
                             <mat-form-field appearance="fill" class="w-100">
                                 <mat-label>Email</mat-label>
                                 <input formControlName="email" matInput>
@@ -117,7 +121,7 @@
                           
                             <div class="text-center">
                                 <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
-                                    class="btn btn-round btn-info btn-lg w-100 mt-4 mb-0">Submit</button>
+                                    class="btn btn-round primary-color btn-lg w-100 mt-4 mb-0">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -132,20 +136,19 @@
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
 
         <div class="modal-content">
-            <div class="col text-end">
+            <div class="col text-end my-2 mx-2">
                 <button #closeUpdateModal type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                     aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-0">
-                <div class="card card-plain">
+                <div class="">
                     <div class="card-header pb-0 text-left">
-                        <p class="mb-0 text-center modalTitle">Update user Details</p>
+                        <p class="text-center modalTitle">Update user Details</p>
                         <p class="text-center" style="{{'color:'+classType}}">{{msgForModal}}</p>
                     </div>
-                    <div class="card-body">
-                        <form role="form text-left" [formGroup]="updateForm">
+                    <div>
+                        <form class="p-3" role="form text-left" [formGroup]="updateForm">
                             <mat-form-field appearance="fill" class="w-100">
                                 <mat-label>Device Id</mat-label>
                                 <input formControlName="device_id" matInput>
@@ -163,7 +166,7 @@
                           
                             <div class="text-center">
                                 <button (click)="saveUser()" type="button" 
-                                    class="btn btn-round bg-primary btn-lg w-100 mt-4 mb-0">Update</button>
+                                    class="btn btn-round primary-color btn-lg w-100 mt-4 mb-0">Update</button>
                             </div>
                         </form>
                     </div>

@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class PlansComponent {
 
-  displayedColumns: string[] = ['position', 'name', 'price', 'descriptions', 'number_of_codes', 'duration_in_months', 'tracking_enabled', 'only_trackable', 'contains_ad', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'price', 'descriptions', 'number_of_codes', 'duration_in_months', 'contains_ad', 'created_at', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
