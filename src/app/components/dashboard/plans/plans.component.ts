@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class PlansComponent {
 
-  displayedColumns: string[] = ['position', 'name', 'price', 'descriptions', 'number_of_codes', 'duration_in_months', 'contains_ad', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'descriptions', 'number_of_codes', 'created_at', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -86,7 +86,6 @@ export class PlansComponent {
   editPlan(element: any) {
     localStorage.setItem('currentPlan', JSON.stringify(element));
     this.router.navigate(['dashboard/plans/edit',element.id]);
-    console.log(element, 'e')
   }
 
   createPlan() {
@@ -94,7 +93,6 @@ export class PlansComponent {
   }
 
   deletePlan(element: any) {
-    console.log(element, 'e')
     this.helperService.showloader();
     let url = `auth/admin/plans/${element.id}`;
     this.helperService.delete(url).subscribe(

@@ -21,65 +21,54 @@ export class CreatePlanComponent {
   ) { }
 
   ngOnInit(): void {
+
     this.createForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      price: ['', [Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,2})?$")]],
-      number_of_codes: ['',[Validators.required, Validators.pattern("^[0-9]*$")]],
-      duration_in_months: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      tracking_enabled: [false, [Validators.required]],
-      only_trackable: [false, [Validators.required]],
-      contains_ad: [false, [Validators.required]],
+      tagline: ['', [Validators.required]],
+      is_free: [false, [Validators.required]],
+      price_tag_prefix: [''],
+      price_tag_surfix: [''],
+      is_custom: [false, [Validators.required]],
       descriptions: ['', [Validators.required]],
+      number_of_codes_tag_prefix: ['', [Validators.required]],
+      number_of_codes: ['', [Validators.pattern("^[0-9]*$")]],
+      number_of_codes_text: ['', [Validators.required]],
+      cta_text: ['', [Validators.required]],
+      sorting_order: ['', [Validators.required]],
     });
 
-    this.setData();
   }
 
-  setData() {
-    let currentPlan: any = localStorage.getItem('currentPlan');
-    currentPlan = JSON.parse(currentPlan);
-    if (currentPlan && currentPlan.id) {
-      currentPlan.descriptions = currentPlan.descriptions.toString();
-      this.createForm.controls.name.setValue(currentPlan.name);
-      this.createForm.controls.price.setValue(currentPlan.price);
-      this.createForm.controls.number_of_codes.setValue(currentPlan.number_of_codes);
-      this.createForm.controls.duration_in_months.setValue(currentPlan.duration_in_months);
-      this.createForm.controls.tracking_enabled.setValue(currentPlan.tracking_enabled);
-      this.createForm.controls.only_trackable.setValue(currentPlan.only_trackable);
-      this.createForm.controls.contains_ad.setValue(currentPlan.contains_ad);
-      this.createForm.controls.descriptions.setValue(currentPlan.descriptions);
-    }
-
-  }
-
+  // submit form
   submit() {
-    if(this.createForm.valid) {
+    if (this.createForm.valid) {
+
       this.helperService.showloader();
-      let params:any = this.createForm.value;
-      params.tracking_enabled = params.tracking_enabled ? 1 : 0;
-      params.only_trackable = params.only_trackable ? 1 : 0;
-      params.contains_ad = params.contains_ad ? 1 : 0;
+
+      let params: any = this.createForm.value;
+      params.is_free = params.is_free ? 1 : 0;
+      params.is_custom = params.is_custom ? 1 : 0;
       params.descriptions = params.descriptions.split(',');
 
       let url = 'auth/admin/plans';
-      this.helperService.post(url,params).subscribe(
-        (res:any) => {
-          if(res.status) {
+
+      this.helperService.post(url, params).subscribe(
+        (res: any) => {
+          if (res.status) {
             this.msg = res.message;
             this.createForm.reset();
-          } else {  
+          } else {
             this.msg = res.message;
           }
-          
+
           this.helperService.hideloader();
         },
-        (err:any) => {
+        (err: any) => {
           this.helperService.hideloader();
           console.log(err);
         }
       )
-    }
-   
+    };
 
   }
 

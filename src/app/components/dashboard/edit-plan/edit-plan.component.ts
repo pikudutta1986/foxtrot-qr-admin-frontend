@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HelperService } from 'src/app/service/helper.service';
 
 @Component({
@@ -12,76 +12,113 @@ export class EditPlanComponent {
 
   editForm: any = FormGroup;
   msg = '';
-  currentPLanId:any;
+  currentPLanId: any;
 
   constructor(
     public helperService: HelperService,
     private formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    let params: any = this.route.snapshot.params;
+    
+    this.currentPLanId = params.id;
+
     this.editForm = this.formBuilder.group({
       name: ['', [Validators.required]],
+      tagline: ['', [Validators.required]],
       // price: ['', [Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,2})?$")]],
-      // number_of_codes: ['',[Validators.required, Validators.pattern("^[0-9]*$")]],
-      // duration_in_months: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      // tracking_enabled: ['', [Validators.required]],
-      // only_trackable: ['', [Validators.required]],
-      contains_ad: ['', [Validators.required]],
+      is_free: [false, [Validators.required]],
+      price_tag_prefix: [''],
+      price_tag_surfix: [''],
+      is_custom: [false, [Validators.required]],
       descriptions: ['', [Validators.required]],
+      number_of_codes_tag_prefix: ['', [Validators.required]],
+      number_of_codes: ['', ],
+      number_of_codes_text: ['', [Validators.required]],
+      cta_text: ['', [Validators.required]],
+      sorting_order: ['', [Validators.required]],
     });
 
-    this.setData();
+    this.getPlanDetailsById();
   }
 
-  setData() {
-    let currentPlan: any = localStorage.getItem('currentPlan');
-    currentPlan = JSON.parse(currentPlan);
+  setData(currentPlan: any) {
+
     if (currentPlan && currentPlan.id) {
-      this.currentPLanId = currentPlan.id;
       currentPlan.descriptions = currentPlan.descriptions.toString();
+
       this.editForm.controls.name.setValue(currentPlan.name);
-      // this.editForm.controls.price.setValue(currentPlan.price);
-      // this.editForm.controls.number_of_codes.setValue(currentPlan.number_of_codes);
-      // this.editForm.controls.duration_in_months.setValue(currentPlan.duration_in_months);
-      // this.editForm.controls.tracking_enabled.setValue(currentPlan.tracking_enabled);
-      // this.editForm.controls.only_trackable.setValue(currentPlan.only_trackable);
-      this.editForm.controls.contains_ad.setValue(currentPlan.contains_ad);
+      this.editForm.controls.tagline.setValue(currentPlan.tagline);
+      this.editForm.controls.number_of_codes.setValue(currentPlan.number_of_codes);
+      this.editForm.controls.is_free.setValue(currentPlan.is_free);
+      this.editForm.controls.is_custom.setValue(currentPlan.is_custom);
+      this.editForm.controls.price_tag_prefix.setValue(currentPlan.price_tag_prefix);
+      this.editForm.controls.price_tag_surfix.setValue(currentPlan.price_tag_surfix);
+
+      this.editForm.controls.number_of_codes_tag_prefix.setValue(currentPlan.number_of_codes_tag_prefix);
+      this.editForm.controls.number_of_codes_text.setValue(currentPlan.number_of_codes_text);
+
       this.editForm.controls.descriptions.setValue(currentPlan.descriptions);
+      this.editForm.controls.cta_text.setValue(currentPlan.cta_text);
+      this.editForm.controls.sorting_order.setValue(currentPlan.sorting_order);
     }
 
   }
 
+  getPlanDetailsById() {
+    this.helperService.showloader();
+
+    let url = `auth/admin/plans/${this.currentPLanId}`;
+
+    this.helperService.get(url).subscribe(
+      (res: any) => {
+        console.log(res)
+        if (res.status) {
+          this.setData(res.plan)
+        } else {
+          this.msg = res.message;
+        }
+
+        this.helperService.hideloader();
+      },
+      (err: any) => {
+        this.helperService.hideloader();
+        console.log(err);
+      }
+    )
+  }
+
   update() {
-    if(this.editForm.valid) {
-      let params:any = this.editForm.value;
-      // params.tracking_enabled = params.tracking_enabled ? 1 : 0;
-      // params.only_trackable = params.only_trackable ? 1 : 0;
-      params.contains_ad = params.contains_ad ? 1 : 0;
+    if (this.editForm.valid) {
+      this.helperService.showloader();
+      let params: any = this.editForm.value;
+
       params.descriptions = params.descriptions.split(',');
-      console.log(params);
 
       let url = `auth/admin/plans/${this.currentPLanId}`;
-      this.helperService.patch(url,params).subscribe(
-        (res:any) => {
-          if(res.status) {
+
+      this.helperService.patch(url, params).subscribe(
+        (res: any) => {
+          if (res.status) {
             this.msg = res.message;
-            localStorage.setItem('currentPlan', JSON.stringify(res.plan));;
-          } else {  
+            localStorage.setItem('currentPlan', JSON.stringify(res.plan));
+          } else {
             this.msg = res.message;
           }
-          
+
           this.helperService.hideloader();
         },
-        (err:any) => {
+        (err: any) => {
           this.helperService.hideloader();
           console.log(err);
         }
       )
     }
-   
+
 
   }
 

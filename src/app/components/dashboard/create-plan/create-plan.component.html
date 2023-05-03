@@ -2,6 +2,7 @@
     <div class="msg d-flex align-items-center justify-content-center">
         {{msg}}
     </div>
+
     <form role="form" [formGroup]="createForm" method="post" class="text-start">
         <div class="text-center d-grid">
             <mat-form-field appearance="fill">
@@ -11,36 +12,65 @@
             </mat-form-field>
 
             <mat-form-field appearance="fill">
-                <mat-label>Price</mat-label>
-                <input matInput placeholder="Price" formControlName="price" required>
-                <mat-error *ngIf="createForm.controls.price.invalid"></mat-error>
+                <mat-label>Tagline</mat-label>
+                <input matInput placeholder="Tagline" formControlName="tagline" required>
+                <mat-error *ngIf="createForm.controls.tagline.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Number of Codes Tag Prefix</mat-label>
+                <input matInput placeholder="Number of Codes Tag Prefix" formControlName="number_of_codes_tag_prefix">
+                <mat-error *ngIf="createForm.controls.number_of_codes_tag_prefix.invalid"></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Number Of Codes</mat-label>
-                <input matInput placeholder="Number of codes" formControlName="number_of_codes" required>
+                <input matInput placeholder="Number of codes" formControlName="number_of_codes">
                 <mat-error *ngIf="createForm.controls.number_of_codes.invalid"></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
-                <mat-label>Duration in Month</mat-label>
-                <input matInput placeholder="Duration in month" formControlName="duration_in_months" required>
-                <mat-error *ngIf="createForm.controls.duration_in_months.invalid"></mat-error>
+                <mat-label>Number of Codes Text</mat-label>
+                <input matInput placeholder="Number of Codes Text" formControlName="number_of_codes_text">
+                <mat-error *ngIf="createForm.controls.number_of_codes_text.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Price Tag Prefix</mat-label>
+                <input matInput placeholder="Price Tag Prefix" formControlName="price_tag_prefix">
+                <mat-error *ngIf="createForm.controls.price_tag_prefix.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Price Tag Sufix</mat-label>
+                <input matInput placeholder="Price Tag Sufix" formControlName="price_tag_surfix">
+                <mat-error *ngIf="createForm.controls.price_tag_surfix.invalid"></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Descriptions</mat-label>
-                <input matInput placeholder="Descriptions" formControlName="descriptions" required>
+                <textarea matInput placeholder="Descriptions" formControlName="descriptions" required></textarea>
                 <mat-error *ngIf="createForm.controls.descriptions.invalid"></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Cta Text</mat-label>
+                <input matInput placeholder="Cta Text" formControlName="cta_text" required>
+                <mat-error *ngIf="createForm.controls.cta_text.invalid"></mat-error>
             </mat-form-field>
 
             <div class="d-flex">
                 <section class="example-section">
-                    <mat-checkbox matInput formControlName="tracking_enabled" class="example-margin">Enable Tracking</mat-checkbox>
-                    <mat-checkbox matInput formControlName="only_trackable" class="example-margin">Only Trackable</mat-checkbox>
-                    <mat-checkbox matInput formControlName="contains_ad" class="example-margin">Contains Ads</mat-checkbox>
+                    <mat-checkbox matInput formControlName="is_free" class="example-margin">Free</mat-checkbox>
+                    <mat-checkbox matInput formControlName="is_custom" class="example-margin">Custom</mat-checkbox>
                 </section>
             </div>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Sorting Order</mat-label>
+                <input matInput placeholder="Sorting Order" formControlName="sorting_order" required>
+                <mat-error *ngIf="createForm.controls.sorting_order.invalid"></mat-error>
+            </mat-form-field>
 
             <button type="button" (click)="submit()" [disabled]="!createForm.valid"
                 class="btn btn-primary primary-color w-100 my-4 mb-2">Submit</button>
