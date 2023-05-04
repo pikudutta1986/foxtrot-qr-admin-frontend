@@ -9,6 +9,9 @@ import { PaymentsComponent } from './payments/payments.component';
 import { PlansComponent } from './plans/plans.component';
 import { SettingsComponent } from './settings/settings.component';
 import { UsersComponent } from './users/users.component';
+import { PricingComponent } from './pricing/pricing.component';
+import { EditPricingComponent } from './edit-pricing/edit-pricing.component';
+import { CreatePricingComponent } from './create-pricing/create-pricing.component';
 
 const routes: Routes = [
   { 
@@ -28,6 +31,15 @@ const routes: Routes = [
       },
       {
         path: 'plans/edit/:id', component: EditPlanComponent
+      },
+      {
+        path: 'pricing', component: PricingComponent
+      },
+      {
+        path: 'pricing/create-pricing', component: CreatePricingComponent
+      },
+      {
+        path: 'pricing/edit/:id', component: EditPricingComponent
       },
       {
         path: 'analytics', component: AnalyticsComponent

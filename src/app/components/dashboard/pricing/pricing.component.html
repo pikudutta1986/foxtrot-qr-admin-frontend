@@ -1,0 +1,110 @@
+<div class="container-fluid d-flex my-2 justify-content-between align-items-center">
+    <div class="col-md-3 d-flex"></div>
+    <div class="{{'col-md-4 text-center text-white alert alert-'+classType}}">
+        {{message}}
+    </div>
+    <div class="col-md-4 d-flex justify-content-end">
+        <button class="btn btn-primary primary-color" (click)="createPricing()">
+            <i class="fa fa-plus"></i>
+            ADD
+        </button>
+    </div>
+</div>
+
+<div class="mat-elevation-z8 cb mb-4">
+    <table mat-table [dataSource]="srcPricings" matSort class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> No. </th>
+            <td mat-cell *matCellDef="let element; let i = index;">
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.id}}.
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Name </th>
+            <td mat-cell *matCellDef="let element" class="align-middle text-left">
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.name}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Price </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    ${{element.price}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- payment_gateway Column -->
+        <ng-container matColumnDef="payment_gateway">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Description </th>
+            <td mat-cell *matCellDef="let element">
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.payment_gateway}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Duration Column -->
+        <ng-container matColumnDef="duration_in_months">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Duration </th>
+            <td mat-cell *matCellDef="let element">               
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{(element.duration_in_months) ? element.duration_in_months + ' month' : ''}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- platform Column -->
+        <ng-container matColumnDef="platform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Platform </th>
+            <td mat-cell *matCellDef="let element">
+                <span class="text-secondary text-xs font-weight-normal">
+                    {{element.platform}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Created at Column -->
+        <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Created At </th>
+            <td mat-cell *matCellDef="let element" class="align-middle text-left">
+                <!-- {{element.created_at | date:'shortDate'}} -->
+                <span class="text-secondary text-xs font-weight-normal">{{element.created_at | date:'shortDate'}}</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
+            <td mat-cell *matCellDef="let element" class="action-link text-center">
+                <a (click)="editPricing(element)"><mat-icon class="customHover">edit</mat-icon></a>
+                <a (click)="deletePricing(element)"><mat-icon class="customHover">delete_outline</mat-icon></a>
+            </td>
+        </ng-container>
+
+        <tr class="mat-row text-center" *matNoDataRow>
+            <td class="mat-cell py-4" colspan="11">No Pricing found!</td>
+        </tr>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+<mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+</mat-paginator>

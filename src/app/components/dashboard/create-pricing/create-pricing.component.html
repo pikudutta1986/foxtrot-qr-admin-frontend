@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="msg d-flex align-items-center justify-content-center">
+        {{msg}}
+    </div>
+
+    <form role="form" [formGroup]="createForm" method="post" class="text-start">
+        <div class="text-center d-grid">
+            <div class="d-flex">
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Plans</mat-label>
+                        <mat-select formControlName="plan_id" >
+                            <mat-option *ngFor="let plan of plans" [value]="plan.id">
+                                {{plan.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="createForm.controls.payment_gateway.invalid"></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Platform</mat-label>
+                        <mat-select formControlName="platform" >
+                            <mat-option *ngFor="let platform of platforms" [value]="platform">
+                                {{platform}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="createForm.controls.platform.invalid"></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Payment Gateway</mat-label>
+                        <mat-select formControlName="payment_gateway" >
+                            <mat-option *ngFor="let gateway of gateways" [value]="gateway">
+                                {{gateway}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="createForm.controls.payment_gateway.invalid"></mat-error>
+                    </mat-form-field>
+                </div>                
+            </div>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Ultra.." formControlName="name" >
+                <mat-error *ngIf="createForm.controls.name.invalid"></mat-error>
+            </mat-form-field>
+
+            <div class="d-flex">
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>price</mat-label>
+                        <input matInput placeholder="price" formControlName="price" >
+                        <mat-error *ngIf="createForm.controls.price.invalid"></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>duration_in_months</mat-label>
+                        <input matInput placeholder="duration_in_months" formControlName="duration_in_months" >
+                        <mat-error *ngIf="createForm.controls.duration_in_months.invalid"></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>time_interval</mat-label>
+                        <input matInput placeholder="time_interval" formControlName="time_interval" >
+                        <mat-error *ngIf="createForm.controls.time_interval.invalid"></mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>discounted_price</mat-label>
+                        <input matInput placeholder="price" formControlName="discounted_price" >
+                        <mat-error *ngIf="createForm.controls.discounted_price.invalid"></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Start date</mat-label>
+                        <input matInput formControlName="discount_start_date" [matDatepicker]="startDatepicker">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatepicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-4 text-start">
+                    <mat-form-field appearance="fill">
+                        <mat-label>End date</mat-label>
+                        <input matInput formControlName="discount_end_date" [matDatepicker]="endDatepicker">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endDatepicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <section class="example-section">
+                    <mat-checkbox matInput formControlName="list_on_ui" class="example-margin">list_on_ui</mat-checkbox>
+                    <mat-checkbox matInput formControlName="is_recurring"
+                        class="example-margin">is_recurring</mat-checkbox>
+                    <mat-checkbox matInput formControlName="discount_enabled"
+                        class="example-margin">discount_enabled</mat-checkbox>
+                </section>
+            </div>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Sorting Order</mat-label>
+                <input matInput placeholder="Sorting Order" formControlName="sorting_order">
+                <mat-error *ngIf="createForm.controls.sorting_order.invalid"></mat-error>
+            </mat-form-field>
+
+            <button type="button" (click)="submit()" [disabled]="!createForm.valid"
+                class="btn btn-primary primary-color w-100 my-4 mb-2">Submit</button>
+        </div>
+    </form>
+</div>

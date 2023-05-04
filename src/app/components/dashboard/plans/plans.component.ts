@@ -21,7 +21,7 @@ export class PlansComponent {
   message = '';
   classType: any = '';
   userPlans: any = [];
-  
+
   plans: any = '';
 
   selectedUserId: any = '';
@@ -35,12 +35,12 @@ export class PlansComponent {
 
   ngOnInit(): void {
     this.getPlans();
-    this.helperService.searchInput.subscribe((res:any) => {
+    this.helperService.searchInput.subscribe((res: any) => {
       this.applyFilter(res);
     });
   }
 
-  ngAfterViewInit() {   
+  ngAfterViewInit() {
     // this.cdr.detectChanges();
   }
 
@@ -85,30 +85,30 @@ export class PlansComponent {
 
   editPlan(element: any) {
     localStorage.setItem('currentPlan', JSON.stringify(element));
-    this.router.navigate(['dashboard/plans/edit',element.id]);
+    this.router.navigate(['dashboard/plans/edit', element.id]);
   }
 
   createPlan() {
-    this.router.navigate(['dashboard/plans/create-plan']);    
+    this.router.navigate(['dashboard/plans/create-plan']);
   }
 
   deletePlan(element: any) {
     this.helperService.showloader();
     let url = `auth/admin/plans/${element.id}`;
     this.helperService.delete(url).subscribe(
-      (res:any) => {
+      (res: any) => {
         this.helperService.hideloader();
         console.log(res);
-        if(res.status) {
+        if (res.status) {
           this.getPlans();
           // this.message = res.message;
         } else {
 
         }
         this.message = res.message;
-        
+
       },
-      (errors:any) => {
+      (errors: any) => {
         console.log(errors);
         this.helperService.hideloader();
       },

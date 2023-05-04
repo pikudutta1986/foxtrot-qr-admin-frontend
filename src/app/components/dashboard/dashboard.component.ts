@@ -13,7 +13,10 @@ export class DashboardComponent {
 
   constructor(
     private helperService: HelperService,
-    private router: Router) { }
+    private router: Router) { 
+      this.getAllplans();
+      this.getAllPricings();
+  }
 
   ngOnInit() {
     
@@ -42,6 +45,37 @@ export class DashboardComponent {
         sessionStorage.setItem ('user_name', res.email);
       }
     });    
+  }
+
+  getAllplans() {
+    let params = 'auth/admin/plans';
+    this.helperService.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.helperService.allPlans = res.plans;    
+        } else {         
+          this.helperService.allPlans = []; 
+        }
+      },
+      (err: any) => {
+        console.log(err);
+      });    
+  }
+
+  getAllPricings() {
+    let params = 'auth/admin/pricings ';
+    this.helperService.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.helperService.allPricings = res.pricings;           
+        } else {
+          this.helperService.allPricings = [];
+        }
+      },
+      (err: any) => {
+        console.log(err);
+      });
+
   }
 
 }
