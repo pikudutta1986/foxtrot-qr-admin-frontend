@@ -3,103 +3,120 @@
         {{msg}}
     </div>
     <form role="form" [formGroup]="editForm" method="post" class="text-start">
-        <div class="text-center d-grid">
-            <mat-form-field appearance="fill">
-                <mat-label>Name</mat-label>
-                <input matInput placeholder="Ultra.." formControlName="name" required>
-                <mat-error *ngIf="editForm.controls.name.invalid"></mat-error>
-            </mat-form-field>
+        <div class="set-ac1 d-flex">
+            <h2>Edit Plan</h2>
+        </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Tagline</mat-label>
-                <input matInput placeholder="Tagline" formControlName="tagline" required>
-                <mat-error *ngIf="editForm.controls.tagline.invalid"></mat-error>
-            </mat-form-field>
-            
-            <mat-form-field appearance="fill">
-                <mat-label>Number of Codes Tag Prefix</mat-label>
-                <input matInput placeholder="Number of Codes Tag Prefix" formControlName="number_of_codes_tag_prefix" >
-                <mat-error *ngIf="editForm.controls.number_of_codes_tag_prefix.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Number Of Codes</mat-label>
-                <input matInput placeholder="Number of codes" formControlName="number_of_codes" >
-                <mat-error *ngIf="editForm.controls.number_of_codes.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Number of Codes Text</mat-label>
-                <input matInput placeholder="Number of Codes Text" formControlName="number_of_codes_text" >
-                <mat-error *ngIf="editForm.controls.number_of_codes_text.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Price Tag Prefix</mat-label>
-                <input matInput placeholder="Price Tag Prefix" formControlName="price_tag_prefix" >
-                <mat-error *ngIf="editForm.controls.price_tag_prefix.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Price Tag Sufix</mat-label>
-                <input matInput placeholder="Price Tag Sufix" formControlName="price_tag_surfix" >
-                <mat-error *ngIf="editForm.controls.price_tag_surfix.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Descriptions</mat-label>
-                <textarea matInput placeholder="Descriptions" formControlName="descriptions" required></textarea>
-                <mat-error *ngIf="editForm.controls.descriptions.invalid"></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-                <mat-label>Cta Text</mat-label>
-                <input matInput placeholder="Cta Text" formControlName="cta_text" required>
-                <mat-error *ngIf="editForm.controls.cta_text.invalid"></mat-error>
-            </mat-form-field>
-
-            <div class="d-flex">
-                <section class="example-section">
-                    <mat-checkbox matInput formControlName="is_free" class="example-margin">Free</mat-checkbox>
-                    <mat-checkbox matInput formControlName="is_custom" class="example-margin">Custom</mat-checkbox>
-                </section>
-            </div>
-            <!-- <div class="d-flex">
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Discount Start Date</mat-label>
-                        <input matInput [matDatepicker]="startpicker" formControlName="discount_start_date">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
-                        <mat-datepicker #startpicker></mat-datepicker>
-                    </mat-form-field>
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Name:</span>
                 </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Discount End Date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="discount_end_date">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>        
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Discounted Price</mat-label>
-                        <input matInput placeholder="Discounted Price" formControlName="discounted_price" required>
-                        <mat-error *ngIf="editForm.controls.discounted_price.invalid"></mat-error>
-                    </mat-form-field>
-                </div>        
-            </div> -->
+                <div class="set-ac2">
+                    <input matInput placeholder="Ultra.." formControlName="name" required>
+                    <mat-error *ngIf="editForm.controls.name.invalid"></mat-error>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Tagline:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Tagline" formControlName="tagline" required>
+                    <mat-error *ngIf="editForm.controls.tagline.invalid"></mat-error>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Number of Codes Tag Prefix:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Number of Codes Tag Prefix" formControlName="number_of_codes_tag_prefix">
+                    <mat-error *ngIf="editForm.controls.number_of_codes_tag_prefix.invalid"></mat-error>
+                </div>
+            </div>           
+        </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Sorting Order</mat-label>
-                <input matInput placeholder="Sorting Order" formControlName="sorting_order" required>
-                <mat-error *ngIf="editForm.controls.sorting_order.invalid"></mat-error>
-            </mat-form-field>
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Number Of Codes:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Number of codes" formControlName="number_of_codes">
+                    <mat-error *ngIf="editForm.controls.number_of_codes.invalid"></mat-error>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Number of Codes Text:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Number of Codes Text" formControlName="number_of_codes_text">
+                    <mat-error *ngIf="editForm.controls.number_of_codes_text.invalid"></mat-error>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Price Tag Prefix:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Price Tag Prefix" formControlName="price_tag_prefix">
+                    <mat-error *ngIf="editForm.controls.price_tag_prefix.invalid"></mat-error>
+                </div>
+            </div>            
+        </div>
 
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Price Tag Sufix:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Price Tag Sufix" formControlName="price_tag_surfix">
+                    <mat-error *ngIf="editForm.controls.price_tag_surfix.invalid"></mat-error>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Cta Text:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Cta Text" formControlName="cta_text" required>
+                    <mat-error *ngIf="editForm.controls.cta_text.invalid"></mat-error>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Sorting Order:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Sorting Order" formControlName="sorting_order" required>
+                    <mat-error *ngIf="editForm.controls.sorting_order.invalid"></mat-error>
+                </div>
+            </div>           
+        </div>
+
+        <div class="">
+            <div class="set-ac">
+                <span>Descriptions:</span>
+            </div>
+            <div class="set-ac2">
+                <textarea class="w-100" matInput placeholder="Descriptions" formControlName="descriptions" required></textarea>
+                <mat-error *ngIf="editForm.controls.descriptions.invalid"></mat-error>
+            </div>
+        </div>
+     
+        <div class="d-flex">
+            <section class="example-section">
+                <mat-checkbox matInput formControlName="is_free" class="example-margin">Free</mat-checkbox>
+                <mat-checkbox matInput formControlName="is_custom" class="example-margin">Custom</mat-checkbox>
+            </section>
+        </div>
+
+        <div class="d-flex justify-content-center">
             <button type="button" (click)="update()" [disabled]="!editForm.valid"
-                class="btn btn-primary w-100 my-4 mb-2">Update</button>
+                class="btn btn-primary default-btn my-4 mb-2">Update</button>
         </div>
     </form>
 </div>

@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 .cursor {
     cursor: pointer;
 }
@@ -21,12 +29,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .list-group-item:hover {
-    background: lightgray!important;
+    background: lightgray !important;
     cursor: pointer;
 }
 
 .list-group-item.active {
-    background: lightgray!important;
+    background: lightgray !important;
     cursor: pointer;
 }
 
@@ -42,11 +50,372 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .primary-color {
-    background-color: #02b4e7 !important;   
-    border-color: #02b4e7 !important; 
+    background-color: #02b4e7 !important;
+    border-color: #02b4e7 !important;
     color: white !important
 }
 
 .home {
-    background-color: #8ADEF6 !important; 
+    background-color: #8ADEF6 !important;
+}
+
+.default-btn {
+    border: none;
+    width: 124px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    background: #FF14B5;
+    font: 500 20px/20px Montserrat, sans-serif;
+}
+
+.default-btn:hover {
+    background-color: black !important;
+}
+
+.default-btn:disabled {
+    background: #FF14B5;
+}
+
+.mat-column-descriptions {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    // flex: 0 0 28% !important;
+    width: 40% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    padding: 20px 5px !important;
+}
+
+.mat-column-email {
+    padding: 20px 5px !important;
+}
+
+.mat-column-payment_gateway {
+    padding: 20px 5px !important;
+}
+
+.mat-column-amount {
+    padding: 20px 5px !important;
+}
+
+.mat-column-action {
+    // display: flex;
+    width: 180px;
+}
+
+.Icon {
+    background-color: #fff;
+    color: #20826c;
+    display: block;
+    height: 50px;
+    width: 50px;
+    position: relative;
+    text-decoration: none;
+    border-radius: 50%;
+    transition: color 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner {
+    display: block;
+    height: 100%;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
+}
+
+.inner:hover {
+    cursor: pointer;
+}
+
+.matIcon {
+    color: #fff;
+    z-index: 99;
+}
+
+.matIcon:hover {
+    cursor: pointer;
+}
+
+.editIcon {
+    background-color: #20826c;
+}
+
+.deleteIcon {
+    background-color: red;
+}
+
+.mat-mdc-paginator-container {
+    padding: 15px 8px !important;
+}
+
+.set-ac span {
+    font: 500 15px/20px Montserrat, sans-serif;
+}
+
+.set-ac1 h2 {
+    color: #ff14b5;
+    font: 500 20px/20px Montserrat, sans-serif;
+}
+
+.set-ac2 {
+    width: 100%;
+    display: inline-block;
+    margin: 5px 0 15px;
+    position: relative;
+}
+
+.set-ac2 input {
+    // width: 100%;
+    width: auto;
+    min-width: 205px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #000;
+    font: 500 15px/20px Montserrat, sans-serif;
+}
+
+.set-ac2 mat-select {
+    // width: 100%;
+    width: auto;
+    min-width: 205px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #000;
+    font: 500 15px/20px Montserrat, sans-serif;
+}
+
+.set-ac2 textarea {
+    // width: 100%;
+    width: auto;
+    min-width: 205px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #000;
+    font: 500 15px/20px Montserrat, sans-serif;
+}
+
+.mat-mdc-select-value {
+    margin-right: 0.5rem !important;
+    margin-left: 0.5rem !important;
+}
+
+input {
+    box-shadow: none !important;
+}
+
+.matDateToggler {
+    position: absolute;
+    left: 45%;
+    top: -10%;
+}
+
+.nameA {
+    margin: 20px 0;
+}
+
+.nameA h2 {
+    color: #ff14b5;
+    font: 500 30px/30px Montserrat, sans-serif;
+}
+
+.pink-box {
+    border-radius: 10px;
+    background: #FF14B5;
+    padding: 20px;
+}
+
+.pink-box ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+}
+
+.pink-box ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pink-box ul li label {
+    color: #fff;
+    font: 600 12px/20px Montserrat, sans-serif;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.pink-box ul li span {
+    color: #fff;
+    font: 500 50px/50px Montserrat, sans-serif;
+    flex: 1;
+}
+
+.white-box {
+    margin: 30px 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 20px;
+    box-shadow: -4px 12px 26px -7px #00000029;
+}
+
+.week {
+    margin: 5px 0;
+    border-bottom: 1px solid #ccc;
+    color: #ff14b5;
+    font: 500 20px/30px Montserrat, sans-serif;
+}
+
+.scan1 {
+    color: #000;
+    text-align: center;
+    font: 400 15px/20px Montserrat, sans-serif;
+}
+
+.scan2 {
+    color: #000;
+    text-align: center;
+    font: 600 50px/50px Montserrat, sans-serif;
+}
+
+.we-view {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.we-view select {
+    border: 0;
+    background: none;
+    width: 70%;
+    height: 50px;
+    color: #000;
+    font: 600 15px/50px Montserrat, sans-serif;
+    outline: none;
+}
+
+.weekly-view {
+    padding: 20px;
+}
+
+.locationH {
+    width: 100%;
+    display: inline-block;
+    margin: 6px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.locationH ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.locationH ul li {
+    list-style-type: none;
+    margin: 5px 10px 5px 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+    flex: 1;
+    color: #000;
+    font: 14px/30px Montserrat, sans-serif;
+}
+
+.locationL {
+    width: 100%;
+    display: inline-block;
+    margin: 6px 0;
+}
+
+.locationL ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.locationL ul li {
+    list-style-type: none;
+    margin: 5px 10px 5px 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+    flex: 1;
+    color: #000;
+    font: 600 15px/30px Montserrat, sans-serif;
+}
+
+.master-card {
+    border-radius: 6px;
+    width: 70%;
+    min-height: 159px;
+    background: #DBF5FC;
+    padding: 20px;
+    position: relative;
+    margin: 30px auto;
+}
+
+.master-card p {
+    color: #000;
+    font: 400 14px/30px Montserrat, sans-serif;
+}
+
+.master-card h2 {
+    text-align: right;
+    color: #000;
+    font: 700 20px/30px Montserrat, sans-serif;
+    position: absolute;
+    right: 8px;
+    bottom: 15px;
+}
+
+.change-method {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.change-method a {
+    width: 220px;
+    height: 50px;
+    border-radius: 100px;
+    text-align: center;
+    display: block;
+    color: #fff;
+    cursor: pointer;
+    font: 500 15px/50px Montserrat, sans-serif;
+    background: #FF14B5;
+    box-shadow: -4px 12px 26px -7px #00000029;
+}
+
+a {
+    text-decoration: none;
 }

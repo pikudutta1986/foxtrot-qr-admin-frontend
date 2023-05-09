@@ -4,123 +4,138 @@
     </div>
 
     <form role="form" [formGroup]="editForm" method="post" class="text-start">
-        <div class="text-center d-grid">
-            <div class="d-flex">
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Plans</mat-label>
-                        <mat-select formControlName="plan_id" >
-                            <mat-option *ngFor="let plan of plans" [value]="plan.id">
-                                {{plan.name}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="editForm.controls.payment_gateway.invalid"></mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Platform</mat-label>
-                        <mat-select formControlName="platform" >
-                            <mat-option *ngFor="let platform of platforms" [value]="platform">
-                                {{platform}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="editForm.controls.platform.invalid"></mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Payment Gateway</mat-label>
-                        <mat-select formControlName="payment_gateway" >
-                            <mat-option *ngFor="let gateway of gateways" [value]="gateway">
-                                {{gateway}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="editForm.controls.payment_gateway.invalid"></mat-error>
-                    </mat-form-field>
-                </div>                
-            </div>
+        <div class="set-ac1 d-flex">
+            <h2>Edit Pricing</h2>
+        </div>
 
-            <div class="d-flex">
-                <div class="col-sm-12 text-start">
-                    <mat-form-field appearance="fill" class="w-100">
-                        <mat-label>Name</mat-label>
-                        <input matInput placeholder="Ultra.." formControlName="name" >
-                        <mat-error *ngIf="editForm.controls.name.invalid"></mat-error>
-                    </mat-form-field>
-                </div>                
-            </div>            
-
-            <div class="d-flex">
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>price</mat-label>
-                        <input matInput placeholder="price" formControlName="price" >
-                        <mat-error *ngIf="editForm.controls.price.invalid"></mat-error>
-                    </mat-form-field>
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Plan:</span>
                 </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>duration_in_months</mat-label>
-                        <input matInput placeholder="duration_in_months" formControlName="duration_in_months" >
-                        <mat-error *ngIf="editForm.controls.duration_in_months.invalid"></mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>time_interval</mat-label>
-                        <input matInput placeholder="time_interval" formControlName="time_interval" >
-                        <mat-error *ngIf="editForm.controls.time_interval.invalid"></mat-error>
-                    </mat-form-field>
+                <div class="set-ac2">
+                    <mat-select formControlName="plan_id">
+                        <mat-option *ngFor="let plan of plans" [value]="plan.id">
+                            {{plan.name}}
+                        </mat-option>
+                    </mat-select>
                 </div>
             </div>
-
-            <div class="d-flex">
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>discounted_price</mat-label>
-                        <input matInput placeholder="price" formControlName="discounted_price" >
-                        <mat-error *ngIf="editForm.controls.discounted_price.invalid"></mat-error>
-                    </mat-form-field>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Platform:</span>
                 </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Start date</mat-label>
-                        <input matInput formControlName="discount_start_date" [matDatepicker]="startDatepicker">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="startDatepicker"></mat-datepicker-toggle>
-                        <mat-datepicker #startDatepicker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                <div class="col-sm-4 text-start">
-                    <mat-form-field appearance="fill">
-                        <mat-label>End date</mat-label>
-                        <input matInput formControlName="discount_end_date" [matDatepicker]="endDatepicker">
-                        <mat-hint>MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="endDatepicker"></mat-datepicker-toggle>
-                        <mat-datepicker #endDatepicker></mat-datepicker>
-                    </mat-form-field>
+                <div class="set-ac2">
+                    <mat-select formControlName="platform">
+                        <mat-option *ngFor="let platform of platforms" [value]="platform">
+                            {{platform}}
+                        </mat-option>
+                    </mat-select>
                 </div>
             </div>
-
-            <div class="d-flex">
-                <section class="example-section">
-                    <mat-checkbox matInput formControlName="list_on_ui" class="example-margin">List on Ui</mat-checkbox>
-                    <mat-checkbox matInput formControlName="is_recurring"
-                        class="example-margin">Recurring</mat-checkbox>
-                    <mat-checkbox matInput formControlName="discount_enabled"
-                        class="example-margin">Discount Enabled</mat-checkbox>
-                </section>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Payment Gateway:</span>
+                </div>
+                <div class="set-ac2">
+                    <mat-select formControlName="payment_gateway">
+                        <mat-option *ngFor="let gateway of gateways" [value]="gateway">
+                            {{gateway}}
+                        </mat-option>
+                    </mat-select>
+                </div>
             </div>
+        </div>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Sorting Order</mat-label>
-                <input matInput placeholder="Sorting Order" formControlName="sorting_order" >
-                <mat-error *ngIf="editForm.controls.sorting_order.invalid"></mat-error>
-            </mat-form-field>
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Name:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Ultra.." formControlName="name">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Price:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="price" formControlName="price">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Duration in months:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="duration_in_months" formControlName="duration_in_months">
+                </div>
+            </div>
+        </div>
 
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Time interval:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="time_interval" formControlName="time_interval">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Discounted price:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Discounted price" formControlName="discounted_price">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Sorting Order:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="Sorting Order" formControlName="sorting_order">
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>Start date:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput formControlName="discount_start_date" [matDatepicker]="startDatepicker">
+                    <mat-datepicker-toggle class="matDateToggler" matIconSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatepicker></mat-datepicker>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="set-ac">
+                    <span>End date:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput formControlName="discount_end_date" [matDatepicker]="endDatepicker">
+                    <mat-datepicker-toggle class="matDateToggler" matIconSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endDatepicker></mat-datepicker>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <section class="example-section">
+                <mat-checkbox matInput formControlName="list_on_ui" class="example-margin">List on Ui</mat-checkbox>
+                <mat-checkbox matInput formControlName="is_recurring" class="example-margin">Recurring</mat-checkbox>
+                <mat-checkbox matInput formControlName="discount_enabled" class="example-margin">Discount
+                    Enabled</mat-checkbox>
+            </section>
+        </div>
+
+        <div class="d-flex justify-content-center">
             <button type="button" (click)="update()" [disabled]="!editForm.valid"
-                class="btn btn-primary primary-color my-4 mb-2">Update</button>
+                class="btn btn-primary default-btn my-4 mb-2">Update</button>
         </div>
     </form>
 </div>

@@ -1,63 +1,107 @@
-<div class="row mb-4">
-
-  <div class="col-lg-4 col-md-6 mt-4">
-    <div class="card z-index-2 p-3">
-      <div class="text-center mb-3">
-        <mat-form-field appearance="fill">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
+<div class="nameA">
+  <h2>Hi {{userData?.first_name}},</h2>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="pink-box">
+      <ul>
+        <li><label>Total Scans</label><span>31</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="pink-box">
+      <ul>
+        <li><label>QR Remaining</label><span>149</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="pink-box">
+      <ul>
+        <li><label>Total QR Live</label><span>1</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="white-box">
+      <div class="week">
+        <h2>This Week’s Activity</h2>
       </div>
-      <div class="border-radius-lg pe-1">
-        <app-bar-chart [srcData]="users" [type]="userType"></app-bar-chart>
-      </div> 
-    </div>     
-  </div> 
-
-  <div class="col-lg-4 col-md-6 mt-4">
-    <div class="card z-index-2 p-3">
-      <div class="text-center mb-3">
-        <mat-form-field appearance="fill">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="pickerp">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="pickerp"></mat-datepicker-toggle>
-          <mat-date-range-picker #pickerp></mat-date-range-picker>
-        </mat-form-field>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="scan1">Total Scans</div>
+          <div class="scan2">21</div>
+        </div>
+        <div class="col-sm-8">
+          <div class="we-view">
+            <select [(ngModel)]="viewType" (change)="onChangeViewType($event)">
+              <option [value]="'weekly'">Weekly View</option>
+              <option [value]="'monthly'">Monthly View</option>
+              <option [value]="'yearly'">Yearly View</option>
+            </select>
+          </div>
+          <div class="weekly-view">
+            <app-bar-chart [srcData]="columnChartsData" [type]="'qr'"></app-bar-chart>
+          </div>
+        </div>
       </div>
-      <div class="border-radius-lg pe-1">
-        <app-bar-chart [srcData]="payments" [type]="paymentType"></app-bar-chart>
-      </div> 
-    </div>     
-  </div> 
-
-  <div class="col-lg-4 col-md-6 mt-4">
-    <div class="card z-index-2 p-3">
-      <div class="text-center mb-3">
-        <mat-form-field appearance="fill">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="pickerqr">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="pickerqr"></mat-datepicker-toggle>
-          <mat-date-range-picker #pickerqr></mat-date-range-picker>
-        </mat-form-field>
+    </div>
+    <div class="white-box">
+      <div class="week">
+        <h2>Device Type</h2>
       </div>
-      <div class="border-radius-lg pe-1">
-        <app-bar-chart [srcData]="qrs" [type]="qrType"></app-bar-chart>
-      </div>  
-    </div>    
-  </div> 
- 
+      <app-bar-chart [srcData]="platforms" [type]="'platform'" class="pie"></app-bar-chart>
+      <div class="location">
+        <div class="locationH">
+          <ul>
+            <li>Total Scans</li>
+            <li>Locations</li>
+          </ul>
+        </div>
+        <div class="locationL" *ngFor="let item of platforms | keyvalue">
+          <ul>
+            <li style="color:#FF14B5;">{{item.value}}</li>
+            <li style="color:#FF14B5;">{{item.key}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5">
+    <div class="white-box">
+      <div class="week">
+        <h2>Locations</h2>
+      </div>
+      <div class="location">
+        <div class="locationH">
+          <ul>
+            <li>Total Scans</li>
+            <li>Locations</li>
+          </ul>
+        </div>
+        <div class="locationL" *ngFor="let item of locationChartData | keyvalue">
+          <ul>
+            <li>{{item.value}}</li>
+            <li>{{item.key}}</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <div class="white-box">
+      <div class="week">
+        <h2>Payment Method</h2>
+      </div>
+      <div class="master-card">
+        <p>Mastercard</p>
+        <h2>8345 **** **** 7920</h2>
+      </div>
+
+      <div class="change-method"><a href="#">Change Payment Method</a></div>
+    </div>
+  </div>
+
 </div>
