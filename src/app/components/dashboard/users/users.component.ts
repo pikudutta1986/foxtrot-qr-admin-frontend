@@ -42,6 +42,23 @@ export class UsersComponent {
 
   selectedUserId: any = '';
 
+  platforms:any = [
+    {
+      id:'web',
+      text: 'Web'
+    },
+    {
+      id:'android',
+      text: 'Android'
+    },
+    {
+      id:'ios',
+      text: 'iOS'
+    },
+  ];
+
+  showmOdal:boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private _liveAnnouncer: LiveAnnouncer,
@@ -55,14 +72,14 @@ export class UsersComponent {
     this.getUsers();
 
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
 
     this.updateForm = this.formBuilder.group({
-      device_id: [''],
-      platform: [''],
-      country_code: [''],
+      device_id: ['',[Validators.required, Validators.pattern('^[a-zA-Z0-9 \-\']+')]],
+      platform: ['', [Validators.required]],
+      country_code: ['', [Validators.required]],
     });
 
     this.helperService.searchInput.subscribe((res:any) => {
@@ -75,9 +92,16 @@ export class UsersComponent {
 
   }
 
+  get formControl() {
+    return this.registerForm.controls;
+  }
+
+  get editFormControl() {
+    return this.updateForm.controls;
+  }
+
   // get users
   getUsers() {
-
     this.helperService.get('auth/admin/users').subscribe((res: any) => {
       if (res.success) {
         this.srcData = res.users.data;
@@ -108,8 +132,8 @@ export class UsersComponent {
         this.message = 'Successfully created';
         this.msgForModal = '';
         this.registerForm.reset();
-        let el: HTMLElement = this.closebutton.nativeElement as HTMLElement;
-        el.click();
+        // let el: HTMLElement = this.closebutton.nativeElement as HTMLElement;
+        // el.click();
         this.getUsers();
       } else {
         if (res.errors) {
@@ -132,11 +156,13 @@ export class UsersComponent {
 
   // edit user
   editUser(element: any) {
+    console.log(element)
     element.isEdit = true;
-    this.selectedUserId = element.id;
-    this.updateForm.controls.device_id.setValue(element.id);
+    this.selectedUserId = element.id;    
+    this.updateForm.controls.device_id.setValue(element.device_id);
     this.updateForm.controls.platform.setValue(element.platform);
     this.updateForm.controls.country_code.setValue(element.country_code);
+    // this.helperService.showloader();
   }
 
   // delete user
@@ -166,21 +192,21 @@ export class UsersComponent {
 
   // update user
   saveUser() {
-
-    this.helperService.showloader();
+    this.showmOdal = true;
     let url = `auth/admin/users/${this.selectedUserId}`;
     let data = this.updateForm.value;
     this.helperService.patch(url, data).subscribe((res: any) => {
       if (res.status) {
         this.classType = 'success';
         this.message = 'Successfully updated';
+        this.showmOdal = false;
         let el: HTMLElement = this.closeUpdateModal.nativeElement as HTMLElement;
         el.click();
         this.getUsers();
       } else {
         this.classType = 'danger';
         this.message = 'Something went wrong';
-        this.helperService.hideloader();
+        this.showmOdal = false;
       }
 
     },
@@ -189,7 +215,7 @@ export class UsersComponent {
         console.error('error caught in component')
         this.message = 'something went wrong'
         this.classType = 'danger';
-        this.helperService.hideloader();
+        this.showmOdal = false;
     })
   }
 

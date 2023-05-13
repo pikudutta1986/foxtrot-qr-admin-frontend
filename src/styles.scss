@@ -178,8 +178,12 @@ body {
 .set-ac2 {
     width: 100%;
     display: inline-block;
-    margin: 5px 0 15px;
+    margin: 5px 0 5px;
     position: relative;
+}
+
+.c-font-size {
+    font-size: 17px;
 }
 
 .set-ac2 input {
@@ -418,4 +422,37 @@ input {
 
 a {
     text-decoration: none;
+}
+
+.f-height {
+    height: 30px;
+}
+
+.pr-3 {
+    padding-right: 1rem!important;
+}
+
+.alert-success {
+    background-color: #20826c !important;
+}
+
+.alert-danger {
+    background-color: red;
+}
+
+.cs {
+    width: auto;
+    min-width: 205px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #000;
+    font: 500 15px/20px Montserrat, sans-serif;
+}
+
+.modal-loader {
+    position: absolute;
+    right: 50%;
+    top: 40%;
+    z-index: 9999;
 }

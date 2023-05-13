@@ -27,7 +27,7 @@ export class LoginComponent {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       remember: ['']
     });
 
@@ -58,7 +58,7 @@ export class LoginComponent {
     });
 
     this.loginForm.get('password').valueChanges.subscribe((val: any) => {
-      if (val) {
+      if (val && val.length > 7) {
         this.password.nativeElement.className = '';
         this.password.nativeElement.classList.add('form-control','is-valid');
       } else {

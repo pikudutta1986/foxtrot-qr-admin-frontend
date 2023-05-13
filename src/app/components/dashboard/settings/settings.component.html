@@ -17,13 +17,41 @@
           <div class="set-ac2">
               <input class="w-100" matInput formControlName="current_password" placeholder="Current Password">
           </div>
+          <div class="f-height">
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.current_password.touched) && formControl.current_password.errors?.required">
+                Current password is required
+            </span>
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.current_password.touched) && formControl.current_password.errors?.minlength">
+              Password must be at least 8 characters long.
+          </span>
+          </div>
           
           <div class="set-ac2">
-            <input class="w-100" matInput formControlName="password" placeholder="New password">
+            <input type="password" class="w-100" matInput formControlName="password" placeholder="New password">
+          </div>
+          <div class="f-height">
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.password.touched) && formControl.password.errors?.required">
+                Password is required
+            </span>
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.password.touched) && formControl.password.errors?.minlength">
+              Password must be at least 8 characters long.
+            </span>
           </div>
 
           <div class="set-ac2">
-            <input class="w-100" matInput formControlName="password_confirmation" placeholder="Confirm New password">
+            <input type="text" class="w-100" matInput formControlName="password_confirmation" placeholder="Confirm New password">
+          </div>
+          <div class="f-height">
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.password_confirmation.touched) && formControl.password_confirmation.errors?.required">
+                Confirm password is required
+            </span>
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.password_confirmation.touched) && formControl.password_confirmation.errors?.minlength">
+              Password must be at least 8 characters long.
+            </span>
+            <span class="text-danger c-font-size mx-2" *ngIf="(formControl.password_confirmation.touched) && formControl.password_confirmation.errors?.confirmedValidator">
+              Password mismatch.
+            </span>
+            
           </div>
               
           <h5 class="mt-2">Password requirements</h5>

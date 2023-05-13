@@ -2,13 +2,54 @@
     <div class="col-md-3 d-flex"></div>
     <div class="{{'col-md-5 text-center text-white alert alert-'+classType}}">
         {{message}}
-    </div>
-    <div class="col-md-4 d-flex justify-content-end">
-        <button class="btn btn-primary default-btn" data-bs-toggle="modal" data-bs-target="#modal-form">
-            <!-- <i class="fa fa-plus"></i> -->
-            Create
-        </button>        
-    </div>
+    </div>   
+</div>
+
+<div class="row">
+    <form class="my-3" role="form text-left" [formGroup]="registerForm">
+        <div class="d-flex align-items-center" >
+            <div class="col-md-4 pr-3">
+                <div class="set-ac">
+                    <span>Email:</span>
+                </div>
+                <div class="set-ac2">
+                    <input class="w-100" type="email" matInput placeholder="t@qr-fox.com" formControlName="email">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.email.touched) && formControl.email.errors?.required">
+                        Email is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.email.touched) && formControl.email.errors?.pattern">
+                        Invalid Email
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4 pr-3">
+                <div class="set-ac">
+                    <span>Password:</span>
+                </div>
+                <div class="set-ac2">
+                    <input class="w-100" type="password" matInput placeholder="password" formControlName="password">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.password.touched) && formControl.password.errors?.required">
+                        Password is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.password.touched) && formControl.password.errors?.minlength">
+                        must be at least 8 characters long.
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
+                        class="btn btn-primary default-btn btn-lg">Create</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="mat-elevation-z8 cb">
@@ -52,8 +93,9 @@
             <th mat-header-cell *matHeaderCellDef
                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
             <td mat-cell *matCellDef="let element" class="action-link text-center">
-                <div  class="d-flex align-items-center justify-content-center">
-                    <a class="Icon editIcon mx-1" (click)="editUser(element)" data-bs-toggle="modal" data-bs-target="#update-form">
+                <div class="d-flex align-items-center justify-content-center">
+                    <a class="Icon editIcon mx-1" (click)="editUser(element)" data-bs-toggle="modal"
+                        data-bs-target="#update-form">
                         <span class="inner"></span>
                         <mat-icon class="matIcon">edit</mat-icon>
                     </a>
@@ -77,52 +119,12 @@
     </mat-paginator>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-
-        <div class="modal-content">
-            <div class="col text-end my-2 mx-2">
-                <button #closebutton type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                    aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                <div class="">
-                    <div class="card-header pb-0 text-left">
-                        <p class="text-center modalTitle">Create new user</p>
-                        <p class="text-center" style="{{'color:'+classType}}">{{msgForModal}}</p>
-                    </div>
-                    <div>
-                        <form class="p-3" role="form text-left" [formGroup]="registerForm">
-                            <mat-form-field appearance="fill" class="w-100">
-                                <mat-label>Email</mat-label>
-                                <input formControlName="email" matInput>
-                            </mat-form-field>
-
-                            <mat-form-field appearance="fill" class="w-100">
-                                <mat-label>Password</mat-label>
-                                <input formControlName="password" matInput>
-                            </mat-form-field>
-                          
-                            <div class="d-flex justify-content-center">
-                                <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
-                                    class="btn btn-primary default-btn btn-lg mt-4 mb-0">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="update-form" tabindex="-1" role="dialog" aria-labelledby="update-form" aria-hidden="true"
     data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
+            <div class="spinner-border modal-loader" *ngIf="showmOdal"></div>
             <div class="col text-end my-2 mx-2">
                 <button #closeUpdateModal type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                     aria-label="Close">
@@ -136,23 +138,57 @@
                     </div>
                     <div>
                         <form class="p-3" role="form text-left" [formGroup]="updateForm">
-                            <mat-form-field appearance="fill" class="w-100">
-                                <mat-label>Device Id</mat-label>
-                                <input formControlName="device_id" matInput>
-                            </mat-form-field>
 
-                            <mat-form-field appearance="fill" class="w-100">
-                                <mat-label>Platform</mat-label>
-                                <input formControlName="platform" matInput>
-                            </mat-form-field>
+                            <div class="col-sm-12">
+                                <div class="set-ac">
+                                    <span>Device Id:</span>
+                                </div>
+                                <div class="set-ac2">
+                                    <input class="w-100" type="text" matInput placeholder="Device id" formControlName="device_id">                                   
+                                </div>
+                                <div class="f-height">
+                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.device_id.touched) && editFormControl.device_id.errors?.required">
+                                        Device Id is required
+                                    </span>
+                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.device_id.touched) && editFormControl.device_id.errors?.pattern">
+                                        Invalid Device Id
+                                    </span>
+                                </div>
+                            </div>
 
-                            <mat-form-field appearance="fill" class="w-100">
-                                <mat-label>Country Code</mat-label>
-                                <input formControlName="country_code" matInput>
-                            </mat-form-field>
-                          
+                            <div class="col-sm-12">
+                                <div class="set-ac">
+                                    <span>Platform:</span>
+                                </div>
+                                <div class="set-ac2">                                   
+                                    <select matNativeControl class="w-100 cs" formControlName="platform">
+                                        <option value="" disabled>select</option>
+                                        <option *ngFor="let item of platforms" [value]="item.id">{{item.text}}</option>
+                                    </select>                                   
+                                </div>
+                                <div class="f-height">
+                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.platform.touched) && editFormControl.platform.errors?.required">
+                                        Platform is required
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="set-ac">
+                                    <span>Country Code:</span>
+                                </div>
+                                <div class="set-ac2">
+                                    <input type="text" class="w-100" formControlName="country_code" matInput>                                  
+                                </div>
+                                <div class="f-height">
+                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.country_code.touched) && editFormControl.country_code.errors?.required">
+                                        Country code is required
+                                    </span>                                    
+                                </div>
+                            </div>
+
                             <div class="d-flex justify-content-center">
-                                <button (click)="saveUser()" type="button" 
+                                <button [disabled]="!updateForm.valid" (click)="saveUser()" type="button"
                                     class="btn btn-primary default-btn btn-lg mt-4 mb-0">Update</button>
                             </div>
                         </form>

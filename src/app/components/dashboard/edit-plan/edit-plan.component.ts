@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HelperService } from 'src/app/service/helper.service';
 
@@ -27,29 +27,46 @@ export class EditPlanComponent {
     
     this.currentPLanId = params.id;
 
-    this.editForm = this.formBuilder.group({
+    this.editForm =this.formBuilder.group({
       name: ['', [Validators.required]],
-      tagline: ['', [Validators.required]],
-      // price: ['', [Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,2})?$")]],
+      tagline: [''],
       is_free: [false, [Validators.required]],
       price_tag_prefix: [''],
       price_tag_surfix: [''],
       is_custom: [false, [Validators.required]],
-      descriptions: ['', [Validators.required]],
-      number_of_codes_tag_prefix: ['', [Validators.required]],
-      number_of_codes: ['', ],
-      number_of_codes_text: ['', [Validators.required]],
+      descriptions:this.formBuilder.array([]), 
+      number_of_codes_tag_prefix: [''],
+      number_of_codes: ['', [Validators.pattern("^[0-9]*$")]],
+      number_of_codes_text: [''],
       cta_text: ['', [Validators.required]],
-      sorting_order: ['', [Validators.required]],
+      sorting_order: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
     });
 
     this.getPlanDetailsById();
   }
 
+  get formControl() {
+    return this.editForm.controls;
+  }
+
+  get descriptions() {
+    return this.editForm.get('descriptions') as FormArray;
+  }
+
+  addDescription() {
+    this.descriptions.push(this.formBuilder.control(null, Validators.required));
+  } 
+
   setData(currentPlan: any) {
 
     if (currentPlan && currentPlan.id) {
-      currentPlan.descriptions = currentPlan.descriptions.toString();
+      // currentPlan.descriptions = currentPlan.descriptions.toString();
+
+      if(currentPlan.descriptions && currentPlan.descriptions.length > 0) {
+        currentPlan.descriptions.forEach((element:any) => {
+          this.descriptions.push(this.formBuilder.control(element, Validators.required));          
+        });
+      }
 
       this.editForm.controls.name.setValue(currentPlan.name);
       this.editForm.controls.tagline.setValue(currentPlan.tagline);
@@ -62,7 +79,7 @@ export class EditPlanComponent {
       this.editForm.controls.number_of_codes_tag_prefix.setValue(currentPlan.number_of_codes_tag_prefix);
       this.editForm.controls.number_of_codes_text.setValue(currentPlan.number_of_codes_text);
 
-      this.editForm.controls.descriptions.setValue(currentPlan.descriptions);
+      // this.editForm.controls.descriptions.setValue(currentPlan.descriptions);
       this.editForm.controls.cta_text.setValue(currentPlan.cta_text);
       this.editForm.controls.sorting_order.setValue(currentPlan.sorting_order);
     }
@@ -76,13 +93,11 @@ export class EditPlanComponent {
 
     this.helperService.get(url).subscribe(
       (res: any) => {
-        console.log(res)
         if (res.status) {
           this.setData(res.plan)
         } else {
           this.msg = res.message;
         }
-
         this.helperService.hideloader();
       },
       (err: any) => {
@@ -97,7 +112,15 @@ export class EditPlanComponent {
       this.helperService.showloader();
       let params: any = this.editForm.value;
 
-      params.descriptions = params.descriptions.split(',');
+      // params.descriptions = params.descriptions.split(',');
+
+      if (params.descriptions.length < 1) {
+        delete params.descriptions;
+      }
+
+      if (!params.number_of_codes) {
+        delete params.number_of_codes;
+      }
 
       let url = `auth/admin/plans/${this.currentPLanId}`;
 

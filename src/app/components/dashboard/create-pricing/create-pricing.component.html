@@ -20,6 +20,11 @@
                         </mat-option>
                     </mat-select>
                 </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.plan_id.touched) && formControl.plan_id.errors?.required">
+                        Plan is required
+                    </span>
+                </div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
@@ -27,10 +32,15 @@
                 </div>
                 <div class="set-ac2">
                     <mat-select formControlName="platform">
-                        <mat-option *ngFor="let platform of platforms" [value]="platform">
-                            {{platform}}
+                        <mat-option *ngFor="let platform of platforms" [value]="platform.id">
+                            {{platform.text}}
                         </mat-option>
                     </mat-select>
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.platform.touched) && formControl.platform.errors?.required">
+                        Platform is required
+                    </span>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -44,6 +54,11 @@
                         </mat-option>
                     </mat-select>
                 </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.payment_gateway.touched) && formControl.payment_gateway.errors?.required">
+                        Payment mode is required
+                    </span>
+                </div>
             </div>
         </div>
         
@@ -55,6 +70,11 @@
                 <div class="set-ac2">
                     <input matInput placeholder="Ultra.." formControlName="name">
                 </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.name.touched) && formControl.name.errors?.required">
+                        Name is required
+                    </span>
+                </div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
@@ -63,6 +83,14 @@
                 <div class="set-ac2">
                     <input matInput placeholder="$4" formControlName="price">
                 </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.price.touched) && formControl.price.errors?.required">
+                        Price is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.price.touched) && formControl.price.errors?.pattern">
+                        Invalid price
+                    </span>
+                </div>                
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
@@ -70,6 +98,14 @@
                 </div>
                 <div class="set-ac2">
                     <input matInput placeholder="1-12" formControlName="duration_in_months">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.duration_in_months.touched) && formControl.duration_in_months.errors?.required">
+                        Duration is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.duration_in_months.touched) && formControl.duration_in_months.errors?.pattern">
+                        Invalid duration
+                    </span>
                 </div>
             </div>
         </div>
@@ -82,6 +118,11 @@
                 <div class="set-ac2">
                     <input matInput placeholder="month" formControlName="time_interval">
                 </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.time_interval.touched) && formControl.time_interval.errors?.required">
+                        Time interval is required
+                    </span>
+                </div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
@@ -90,6 +131,11 @@
                 <div class="set-ac2">
                     <input matInput placeholder="$2.65" formControlName="discounted_price">
                 </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discounted_price.touched) && formControl.discounted_price.errors?.pattern">
+                        Invalid price
+                    </span>
+                </div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
@@ -97,6 +143,14 @@
                 </div>
                 <div class="set-ac2">
                     <input matInput placeholder="2" formControlName="sorting_order">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.sorting_order.touched) && formControl.sorting_order.errors?.required">
+                        Sorting Order is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.sorting_order.touched) && formControl.sorting_order.errors?.pattern">
+                        Invalid Sorting Order
+                    </span>
                 </div>
             </div>
         </div>
@@ -107,9 +161,18 @@
                     <span>Discount Start date:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput formControlName="discount_start_date" [matDatepicker]="startDatepicker">
+                    <input type="date" formControlName="discount_start_date">
+                    <!-- <input matInput type="date" formControlName="discount_start_date" [matDatepicker]="startDatepicker">
                     <mat-datepicker-toggle class="matDateToggler" matIconSuffix [for]="startDatepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #startDatepicker></mat-datepicker>
+                    <mat-datepicker #startDatepicker></mat-datepicker> -->
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="formControl.discount_start_date.errors?.required">
+                        Start date is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discount_start_date.touched) && formControl.discount_start_date.errors?.dateValidator">
+                        date must be on or after today
+                    </span>                              
                 </div>
             </div>
             <div class="col-sm-4">
@@ -117,13 +180,25 @@
                     <span>Discount End date:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput formControlName="discount_end_date" [matDatepicker]="endDatepicker">
+                    <input type="date" matInput formControlName="discount_end_date">
+                    <!-- <input matInput formControlName="discount_end_date" [matDatepicker]="endDatepicker">
                     <mat-datepicker-toggle class="matDateToggler" matIconSuffix [for]="endDatepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #endDatepicker></mat-datepicker>
+                    <mat-datepicker #endDatepicker></mat-datepicker> -->
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="formControl.discount_end_date.errors?.required">
+                        End date is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discount_end_date.touched) && formControl.discount_end_date.errors?.dateValidator">
+                        date must be on or after today
+                    </span> 
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discount_end_date.touched) && formControl.discount_end_date.errors?.minLength">
+                        must be greater than starting date
+                    </span>   
                 </div>
             </div>
         </div>
-
+       
         <div class="d-flex">
             <section class="example-section">
                 <mat-checkbox matInput formControlName="list_on_ui" class="example-margin">List on Ui</mat-checkbox>

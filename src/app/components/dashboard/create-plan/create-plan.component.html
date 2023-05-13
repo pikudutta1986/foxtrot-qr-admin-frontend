@@ -15,8 +15,13 @@
                     <span>Name:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Ultra.." formControlName="name" required>
-                    <mat-error *ngIf="createForm.controls.name.invalid"></mat-error>
+                    <input type="text" matInput placeholder="Ultra.." formControlName="name">
+                </div>
+
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.name.touched) && formControl.name.errors?.required">
+                        Name is required
+                    </span>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -24,19 +29,19 @@
                     <span>Tagline:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Tagline" formControlName="tagline" required>
-                    <mat-error *ngIf="createForm.controls.tagline.invalid"></mat-error>
+                    <input type="text" matInput placeholder="Tagline" formControlName="tagline">
                 </div>
+                <div class="f-height"></div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
                     <span>Number of Codes Tag Prefix:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Number of Codes Tag Prefix"
+                    <input type="text" matInput placeholder="Codes Tag Prefix"
                         formControlName="number_of_codes_tag_prefix">
-                    <mat-error *ngIf="createForm.controls.number_of_codes_tag_prefix.invalid"></mat-error>
                 </div>
+                <div class="f-height"></div>
             </div>
         </div>
 
@@ -46,8 +51,12 @@
                     <span>Number Of Codes:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Number of codes" formControlName="number_of_codes">
-                    <mat-error *ngIf="createForm.controls.number_of_codes.invalid"></mat-error>
+                    <input type="text" matInput placeholder="Number of codes" formControlName="number_of_codes">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.number_of_codes.touched) && formControl.number_of_codes.errors?.pattern">
+                        Integer number is required
+                    </span>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -56,8 +65,8 @@
                 </div>
                 <div class="set-ac2">
                     <input matInput placeholder="Number of Codes Text" formControlName="number_of_codes_text">
-                    <mat-error *ngIf="createForm.controls.number_of_codes_text.invalid"></mat-error>
                 </div>
+                <div class="f-height"></div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
@@ -65,8 +74,8 @@
                 </div>
                 <div class="set-ac2">
                     <input matInput placeholder="Price Tag Prefix" formControlName="price_tag_prefix">
-                    <mat-error *ngIf="createForm.controls.price_tag_prefix.invalid"></mat-error>
                 </div>
+                <div class="f-height"></div>
             </div>
         </div>
 
@@ -76,17 +85,21 @@
                     <span>Price Tag Sufix:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Price Tag Sufix" formControlName="price_tag_surfix">
-                    <mat-error *ngIf="createForm.controls.price_tag_surfix.invalid"></mat-error>
+                    <input type="text" matInput placeholder="Price Tag Sufix" formControlName="price_tag_surfix">
                 </div>
+                <div class="f-height"></div>
             </div>
             <div class="col-sm-4">
                 <div class="set-ac">
                     <span>Cta Text:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Cta Text" formControlName="cta_text" required>
-                    <mat-error *ngIf="createForm.controls.cta_text.invalid"></mat-error>
+                    <input type="text" matInput placeholder="Cta Text" formControlName="cta_text">                   
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.cta_text.touched) && formControl.cta_text.errors?.required">
+                        Cta Text is required
+                    </span>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -94,23 +107,37 @@
                     <span>Sorting Order:</span>
                 </div>
                 <div class="set-ac2">
-                    <input matInput placeholder="Sorting Order" formControlName="sorting_order" required>
-                    <mat-error *ngIf="createForm.controls.sorting_order.invalid"></mat-error>
+                    <input type="text" matInput placeholder="Sorting Order" formControlName="sorting_order">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.sorting_order.touched) && formControl.sorting_order.errors?.required">
+                        Sorting Order is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.sorting_order.touched) && formControl.sorting_order.errors?.pattern">
+                        Integer number is required
+                    </span>                   
                 </div>
             </div>
         </div>
 
-        <div class="">
-            <div class="set-ac">
+        <div class="" formArrayName="descriptions">
+            <!-- <div class="set-ac">
                 <span>Descriptions:</span>
+            </div> -->
+           
+            <button type="button" class="btn btn-sm btn-success mb-3 btn-block" (click)="addDescription()">Add Descriptions</button>
+            <div class="set-ac2" *ngFor="let item of descriptions.controls; let i = index">
+                <textarea class="w-100" matInput placeholder="Descriptions" [formControlName]="i"
+                    ></textarea>
+                <span class="text-danger c-font-size mx-2" *ngIf="(item.touched) && item.invalid">
+                    Description is required
+                </span>
             </div>
-            <div class="set-ac2">
-                <textarea class="w-100" matInput placeholder="Descriptions" formControlName="descriptions" required></textarea>
-                <mat-error *ngIf="createForm.controls.descriptions.invalid"></mat-error>
-            </div>
+           
         </div>
 
-        <div class="d-flex">
+        <div class="f-height"></div>
+        <div class="d-flex">            
             <section class="example-section">
                 <mat-checkbox matInput formControlName="is_free" class="example-margin">Free</mat-checkbox>
                 <mat-checkbox matInput formControlName="is_custom" class="example-margin">Custom</mat-checkbox>

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HelperService } from 'src/app/service/helper.service';
 
@@ -24,20 +24,34 @@ export class CreatePlanComponent {
 
     this.createForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      tagline: ['', [Validators.required]],
+      tagline: [''],
       is_free: [false, [Validators.required]],
       price_tag_prefix: [''],
       price_tag_surfix: [''],
       is_custom: [false, [Validators.required]],
-      descriptions: ['', [Validators.required]],
-      number_of_codes_tag_prefix: ['', [Validators.required]],
+      descriptions:this.formBuilder.array([]), 
+      number_of_codes_tag_prefix: [''],
       number_of_codes: ['', [Validators.pattern("^[0-9]*$")]],
-      number_of_codes_text: ['', [Validators.required]],
+      number_of_codes_text: [''],
       cta_text: ['', [Validators.required]],
-      sorting_order: ['', [Validators.required]],
+      sorting_order: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
     });
 
+    // this.addDescription();
+
   }
+
+  get formControl() {
+    return this.createForm.controls;
+  }
+
+  get descriptions() {
+    return this.createForm.get('descriptions') as FormArray;
+  }
+
+  addDescription() {
+    this.descriptions.push(this.formBuilder.control(null, Validators.required));
+  } 
 
   // submit form
   submit() {
@@ -48,7 +62,14 @@ export class CreatePlanComponent {
       let params: any = this.createForm.value;
       params.is_free = params.is_free ? 1 : 0;
       params.is_custom = params.is_custom ? 1 : 0;
-      params.descriptions = params.descriptions.split(',');
+
+      if (params.descriptions.length < 1) {
+        delete params.descriptions;
+      }
+
+      if (!params.number_of_codes) {
+        delete params.number_of_codes;
+      }
 
       let url = 'auth/admin/plans';
 
@@ -57,6 +78,8 @@ export class CreatePlanComponent {
           if (res.status) {
             this.msg = res.message;
             this.createForm.reset();
+            this.createForm.controls.is_free.setValue(false);
+            this.createForm.controls.is_custom.setValue(false);
           } else {
             this.msg = res.message;
           }

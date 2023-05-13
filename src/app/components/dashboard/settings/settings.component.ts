@@ -33,6 +33,10 @@ export class SettingsComponent {
 
   }
 
+  get formControl() {
+    return this.passwordResetForm.controls;
+  }
+
   // reset
   reset() {
     this.helperService.showloader();

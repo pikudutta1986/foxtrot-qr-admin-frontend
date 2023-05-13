@@ -13,7 +13,20 @@ export class EditPricingComponent {
   public editForm: any = FormGroup;
   public msg = '';
 
-  platforms:any = ['Web', 'Android', 'iOS'];
+  platforms:any = [
+    {
+      id:'web',
+      text: 'Web'
+    },
+    {
+      id:'android',
+      text: 'Android'
+    },
+    {
+      id:'ios',
+      text: 'iOS'
+    },
+  ];
   gateways:any =  ['Payfast', 'Google Play', 'Apple Pay'];
 
   currentPricingId:any;
@@ -33,28 +46,36 @@ export class EditPricingComponent {
     
     this.currentPricingId = params.id;
 
-    this.editForm = this.formBuilder.group({
+    this.editForm =  this.formBuilder.group({
       plan_id: ['',[Validators.required]],
       name: ['', [Validators.required]],
       list_on_ui: [true, [Validators.required]],
       platform: ['', [Validators.required]],
       payment_gateway: ['', [Validators.required]],
       gateway_plan_id: [],
-      time_interval: [''],
-      price: ['', [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
-      duration_in_months: ['', [Validators.pattern("^[0-9]*$")]],
+      time_interval: ['',[Validators.required]],
+      price: ['', [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
+      duration_in_months: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       is_recurring: [false,[Validators.required]],      
       discount_enabled: [false,[Validators.required]],
       discounted_price: ['', [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
       discount_start_date: [''],
       discount_end_date: [''],
-      sorting_order: ['', [Validators.pattern("^[0-9]*$")]],
+      sorting_order: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+    },
+    {
+      validator: this.dateValidator('discount_start_date', 'discount_end_date'),
     });
+
 
     this.helperService.showloader();
 
     this.getPlans();
 
+  }
+
+  get formControl() {
+    return this.editForm.controls;
   }
 
   getPricingDetailsById() {
@@ -95,6 +116,8 @@ export class EditPricingComponent {
       this.editForm.controls.discount_start_date.setValue(currentPricing.discount_start_date);
       this.editForm.controls.discount_end_date.setValue(currentPricing.discount_end_date);
       this.editForm.controls.sorting_order.setValue(currentPricing.sorting_order);
+
+      console.log(this.editForm.value)
     }
 
     this.helperService.hideloader();
@@ -148,6 +171,53 @@ export class EditPricingComponent {
         console.log(err);
       });
 
+  }
+
+  // discount date validator
+  dateValidator(controlName: string, discountEndControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const discountEndControl = formGroup.controls[discountEndControlName];
+     
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
+      let ct = today.getTime();
+
+      let startDate = Date.parse(control.value);
+      let endDate = Date.parse(discountEndControl.value)
+
+      if (control.value) {
+        if (!discountEndControl.value) {
+          discountEndControl.setErrors({ required: true });
+        }
+      }
+
+      if (discountEndControl.value) {
+        if (!control.value) {
+          control.setErrors({ required: true });
+        }
+      }     
+
+      if(control.value && discountEndControl.value) {
+        if(startDate > endDate) {
+          discountEndControl.setErrors({ minLength: true });
+        }
+
+        if(startDate < endDate) {
+          control.setErrors(null);
+          discountEndControl.setErrors(null);
+        }
+      }
+
+      if (ct > Date.parse(control.value)) {
+        control.setErrors({ dateValidator: true });
+      }
+
+      if (ct > Date.parse(discountEndControl.value)) {
+        discountEndControl.setErrors({ dateValidator: true });
+      }
+
+    };
   }
 
   ngOnDestroy(): void {
