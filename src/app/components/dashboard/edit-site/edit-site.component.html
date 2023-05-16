@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="msg d-flex align-items-center justify-content-center">
+        {{msg}}
+    </div>
+
+    <form role="form" [formGroup]="editForm" method="post" class="text-start">
+        <div class="set-ac1 d-flex">
+            <h2>Edit Settings</h2>
+        </div>
+
+        <div *ngFor="let field of formFields" class="col-md-12">
+            <div class="set-ac">
+                <span>{{field.value}}:</span>
+            </div>
+            <div class="set-ac2">
+                <mat-select (selectionChange)="onChange($event)" [formControlName]="field.id"
+                    *ngIf="field.id == 'type'">
+                    <mat-option *ngFor="let type of dataTypes" [value]="type.id">
+                        {{type.text}}
+                    </mat-option>
+                </mat-select>
+                <input [formControlName]="field.id" [(ngModel)]="keyValue" *ngIf="field.id == 'key'" class="w-100"
+                    matInput placeholder="{{field.value}}">
+                <div class="w-100" formArrayName="{{field.id}}" *ngIf="field.id == 'array_value'">
+                    <button type="button" class="btn btn-sm btn-success mb-3 btn-block" (click)="addDescription()">Add
+                        Descriptions</button>
+                    <div class="set-ac2" *ngFor="let item of array_values.controls; let i = index">
+                        <textarea class="w-100" matInput placeholder="Descriptions" [formControlName]="i"></textarea>
+                        <span class="text-danger c-font-size mx-2" *ngIf="(item.touched) && item.invalid">
+                            Description is required
+                        </span>
+                    </div>
+                </div>
+                <!-- <textarea [formControlName]="field.id" *ngIf="field.id == 'array_value'" class="w-100"></textarea> -->
+                <input [formControlName]="field.id" *ngIf="field.id !== 'boolean_value' && 
+                    field.id !== 'key' && 
+                    field.id !== 'type' && 
+                    field.id !== 'array_value' && 
+                    field.id !== 'date_value' && 
+                    field.id !== 'timestamp_value'" class="w-100" matInput placeholder="{{field.value}}">
+                <mat-checkbox [formControlName]="field.id" *ngIf="field.id == 'boolean_value'" matInput
+                    class="example-margin">✓ for True</mat-checkbox>
+                <input type="date" [formControlName]="field.id" matInput *ngIf="field.id == 'date_value'">
+                <input type="datetime-local" [formControlName]="field.id" matInput
+                    *ngIf="field.id == 'timestamp_value'">
+            </div>
+            <div class="f-height">
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'key' && (formControl.key.touched) && formControl.key.errors?.required">
+                    {{field.value}} is required
+                </span>
+
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'integer_value' && (formControl.integer_value.touched) && formControl.integer_value.errors?.pattern">
+                    Invalid integer value
+                </span>
+
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'float_value' && (formControl.float_value.touched) && formControl.float_value.errors?.pattern">
+                    Invalid float value
+                </span>
+            </div>
+        </div>
+
+        <div>
+            <div class="col-md-12 d-flex justify-content-center">
+                <button (click)="update()" type="button" [disabled]="!editForm.valid"
+                    class="btn btn-primary default-btn my-4 mb-2">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,18 +1,17 @@
 <div class="container-fluid d-flex my-2 justify-content-between align-items-center">
     <div class="col-md-3 d-flex"></div>
-    <div class="{{'col-md-4 text-center text-white alert alert-'+classType}}">
+    <div *ngIf="errorStatus" class="{{'col-md-4 text-center text-white alert alert-'+classType}}">
         {{message}}
     </div>
     <div class="col-md-4 d-flex justify-content-end">
-        <button class="btn btn-primary default-btn" (click)="createPlan()">
-            <!-- <i class="fa fa-plus"></i> -->
+        <button class="btn btn-primary default-btn" (click)="createSettings()">
             Create
         </button>
     </div>
 </div>
 
 <div class="mat-elevation-z8 cb mb-4">
-    <table mat-table [dataSource]="userPlans" matSort class="mat-elevation-z8">
+    <table mat-table [dataSource]="settings" matSort class="mat-elevation-z8">
 
         <!-- Position Column -->
         <ng-container matColumnDef="position">
@@ -25,35 +24,24 @@
             </td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
+        <!-- Key Column -->
+        <ng-container matColumnDef="key">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
-                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Name </th>
-            <td mat-cell *matCellDef="let element" class="align-middle text-left">
-                <span class="text-secondary text-xs font-weight-normal">
-                    {{element.name}}
-                </span>
-            </td>
-        </ng-container>
-
-        <!-- Descriptions Column -->
-        <ng-container matColumnDef="descriptions">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header
-                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Description </th>
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Key </th>
             <td mat-cell *matCellDef="let element">
                 <span class="text-secondary text-xs font-weight-normal">
-                    {{element.descriptions}}
+                    {{element.key}}
                 </span>
             </td>
         </ng-container>      
 
-        <!-- number_of_codes Column -->
-        <ng-container matColumnDef="number_of_codes">
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef mat-sort-header
-                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codes </th>
+                class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type </th>
             <td mat-cell *matCellDef="let element">
                 <span class="text-secondary text-xs font-weight-normal">
-                    {{element.number_of_codes_text}}
+                    {{element.type}}
                 </span>
             </td>
         </ng-container>
@@ -73,11 +61,11 @@
                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
             <td mat-cell *matCellDef="let element" class="action-link text-center">
                 <div class="d-flex align-items-center justify-content-center">
-                    <a (click)="editPlan(element)" class="Icon editIcon mx-1">
+                    <a (click)="editSettings(element)" class="Icon editIcon mx-1">
                         <span class="inner"></span>
                         <mat-icon class="matIcon">edit</mat-icon>
                     </a>
-                    <a (click)="deletePlan(element)" class="Icon deleteIcon mx-1">
+                    <a (click)="deleteSettings(element)" class="Icon deleteIcon mx-1">
                         <span class="inner"></span>
                         <mat-icon class="matIcon">delete_outline</mat-icon>
                     </a>
@@ -86,7 +74,7 @@
         </ng-container>
 
         <tr class="mat-row text-center" *matNoDataRow>
-            <td class="mat-cell py-4" colspan="11">No plans found!</td>
+            <td class="mat-cell py-4" colspan="11">No Settings found!</td>
         </tr>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -95,4 +83,3 @@
     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
     </mat-paginator>
 </div>
-

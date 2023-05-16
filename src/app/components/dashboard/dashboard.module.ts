@@ -34,6 +34,9 @@ import { CreatePlanComponent } from './create-plan/create-plan.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { EditPricingComponent } from './edit-pricing/edit-pricing.component';
 import { CreatePricingComponent } from './create-pricing/create-pricing.component';
+import { SiteComponent } from './site/site.component';
+import { EditSiteComponent } from './edit-site/edit-site.component';
+import { CreateSiteComponent } from './create-site/create-site.component';
 
 const materialModules = [
   MatCardModule,
@@ -71,7 +74,10 @@ const materialModules = [
     CreatePlanComponent,
     PricingComponent,
     EditPricingComponent,
-    CreatePricingComponent
+    CreatePricingComponent,
+    SiteComponent,
+    EditSiteComponent,
+    CreateSiteComponent
   ],
   imports: [
     CommonModule,

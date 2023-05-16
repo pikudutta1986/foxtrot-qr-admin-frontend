@@ -42,6 +42,12 @@
             </a>
         </li>
         <li>
+            <a routerLinkActive="active" [routerLink]="'./site-settings'">
+                <label><i class="fa fa-cog" aria-hidden="true"></i></label>
+                <span class="nav-link-text ms-2 ps-1">Site Settings</span>
+            </a>
+        </li>
+        <li>
             <a class="logout" (click)="logout()">
                 <label><i class="fa fa-sign-out" aria-hidden="true"></i></label>
                 <span class="nav-link-text ms-2 ps-1">Log Out</span>

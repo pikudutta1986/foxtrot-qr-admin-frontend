@@ -12,6 +12,9 @@ import { UsersComponent } from './users/users.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { EditPricingComponent } from './edit-pricing/edit-pricing.component';
 import { CreatePricingComponent } from './create-pricing/create-pricing.component';
+import { SiteComponent } from './site/site.component';
+import { EditSiteComponent } from './edit-site/edit-site.component';
+import { CreateSiteComponent } from './create-site/create-site.component';
 
 const routes: Routes = [
   { 
@@ -46,7 +49,17 @@ const routes: Routes = [
       },
       {
         path: 'settings', component: SettingsComponent
-      }
+      },
+      {
+        path: 'site-settings', component: SiteComponent
+      },
+      {
+        path: 'site-settings/create-settings', component: CreateSiteComponent
+      },
+      {
+        path: 'site-settings/edit/:id', component: EditSiteComponent
+      },
+
     ]
   },
   

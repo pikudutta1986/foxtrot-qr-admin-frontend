@@ -13,12 +13,13 @@ export class HelperService {
   isSidebarToggled = new Subject<boolean>();
   userName = new Subject<any>();
   searchInput = new Subject<any>();
+  
   allPlans:any;
   allPricings:any;
+  settings:any;
 
   constructor(private http: HttpClient) {
     this.access_token = sessionStorage.getItem('admin_token');
-    console.log(this.access_token,'at')
   }
 
   // get request
@@ -72,6 +73,25 @@ export class HelperService {
   showloader() {  
     let d:any = document;      
     d.getElementById('overlay').style.display = 'block';
+  }
+
+ // get site settings
+  getSiteSettings() {
+    let params = 'auth/admin/settings';
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
+    });
+    const requestOptions = { headers: headers };
+    return this.http.get(`${this.backendUrl}${params}`, requestOptions)
+      .toPromise()
+      .then((res: any) => {
+        if (res.success) {
+          this.settings = res.settings;
+        } else {
+          this.settings = [];
+        }
+        return res;
+      });    
   }
 
 

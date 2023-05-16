@@ -65,16 +65,15 @@ export class PlansComponent {
 
   }
 
-  setData() {
-    // this.plans.map((x:any) => {
-    //   x.isEdit = false;
-    // });
+  // set data
+  setData() {    
     this.userPlans = new MatTableDataSource(this.plans)
     this.userPlans.paginator = this.paginator;
     this.userPlans.sort = this.sort;
     this.helperService.hideloader();
   }
 
+  // filter
   applyFilter(filterValue: any) {
     // filterValue = filterValue.value;
     this.userPlans.filter = filterValue.trim().toLowerCase();
@@ -83,15 +82,18 @@ export class PlansComponent {
     }
   }
 
+  // edit
   editPlan(element: any) {
     localStorage.setItem('currentPlan', JSON.stringify(element));
     this.router.navigate(['dashboard/plans/edit', element.id]);
   }
 
+  // create
   createPlan() {
     this.router.navigate(['dashboard/plans/create-plan']);
   }
 
+  // delete
   deletePlan(element: any) {
     this.helperService.showloader();
     let url = `auth/admin/plans/${element.id}`;
