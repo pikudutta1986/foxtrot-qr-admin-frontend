@@ -73,38 +73,38 @@ export class SiteComponent {
 
   // edit
   editSettings(element: any) {
-    // localStorage.setItem('currentSiteSettings', JSON.stringify(element));
-    // this.router.navigate(['dashboard/site-settings/edit', element.id]);
+    localStorage.setItem('currentSiteSettings', JSON.stringify(element));
+    this.router.navigate(['dashboard/site-settings/edit', element.id]);
   }
 
   // delete
   deleteSettings(element: any) {
-    // this.helperService.showloader();
-    // let url = `auth/admin/settings/${element.id}`;
-    // this.helperService.delete(url).subscribe(
-    //   (res: any) => {
-    //     if (res.status) {
-    //       this.helperService.getSiteSettings().then((resp:any) => {
-    //         if(resp.success) {
-    //           this.globalSettings = resp.settings;
-    //           this.setData();
-    //           this.message = res.message;
-    //           this.errorStatus = true;
-    //         }
-    //       });
-    //       // this.message = res.message;
-    //     } else {
-    //       this.helperService.hideloader();
-    //     }
+    this.helperService.showloader();
+    let url = `auth/admin/settings/${element.id}`;
+    this.helperService.delete(url).subscribe(
+      (res: any) => {
+        if (res.status) {
+          this.helperService.getSiteSettings().then((resp:any) => {
+            if(resp.success) {
+              this.globalSettings = resp.settings;
+              this.setData();
+              this.message = res.message;
+              this.errorStatus = true;
+            }
+          });
+          // this.message = res.message;
+        } else {
+          this.helperService.hideloader();
+        }
         
 
-    //   },
-    //   (errors: any) => {
-    //     console.log(errors);
-    //     this.helperService.hideloader();
-    //   },
-    // )
-    // this.classType = 'danger';
+      },
+      (errors: any) => {
+        console.log(errors);
+        this.helperService.hideloader();
+      },
+    )
+    this.classType = 'danger';
   }
 
   // filter
