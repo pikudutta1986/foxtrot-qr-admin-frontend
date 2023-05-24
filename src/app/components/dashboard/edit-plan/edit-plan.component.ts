@@ -128,6 +128,7 @@ export class EditPlanComponent {
         (res: any) => {
           if (res.status) {
             this.msg = res.message;
+            this.refreshAllPlans();
             localStorage.setItem('currentPlan', JSON.stringify(res.plan));
           } else {
             this.msg = res.message;
@@ -142,6 +143,22 @@ export class EditPlanComponent {
       )
     }
 
+
+  }
+
+  refreshAllPlans() {
+    let params = 'auth/admin/plans ';
+    this.helperService.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.helperService.allPlans = res.plans;           
+        } else {
+          this.helperService.allPlans = [];
+        }
+      },
+      (err: any) => {
+        console.log(err);
+      });
 
   }
 

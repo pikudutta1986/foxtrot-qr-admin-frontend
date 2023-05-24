@@ -69,8 +69,6 @@ export class UsersComponent {
 
     this.helperService.showloader();
 
-    this.getUsers();
-
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -89,7 +87,8 @@ export class UsersComponent {
   }
 
   ngAfterViewInit() {
-
+    this.getUsers();
+    this.cdr.detectChanges();
   }
 
   get formControl() {
@@ -102,17 +101,15 @@ export class UsersComponent {
 
   // get users
   getUsers() {
-    this.helperService.get('auth/admin/users').subscribe((res: any) => {
-      if (res.success) {
-        this.srcData = res.users.data;
-        this.mainSrcData = JSON.stringify(res.users.data);
-        this.setData();
-      }
-      this.helperService.hideloader();
-    },
-    (e:any) => {
-      this.helperService.hideloader();
-    });
+    if(this.helperService.allUsers && this.helperService.allUsers.length > 0 ) {
+      this.srcData = this.helperService.allUsers;
+      this.mainSrcData = JSON.stringify(this.helperService.allUsers);
+      this.setData();
+    } else {
+      setTimeout(() => {
+        this.getUsers();
+      }, 1000);
+    }
 
   }
 
@@ -121,6 +118,7 @@ export class UsersComponent {
     this.userFiles = new MatTableDataSource(this.srcData)
     this.userFiles.paginator = this.paginator;
     this.userFiles.sort = this.sort;
+    this.helperService.hideloader();
   }
 
   // add new user
@@ -134,7 +132,7 @@ export class UsersComponent {
         this.registerForm.reset();
         // let el: HTMLElement = this.closebutton.nativeElement as HTMLElement;
         // el.click();
-        this.getUsers();
+        this.refreshAllUser();
       } else {
         if (res.errors) {
           this.msgForModal = res.errors.email[0];
@@ -173,7 +171,7 @@ export class UsersComponent {
       if (res.status) {
         this.classType = 'danger';
         this.message = 'Successfully deleted';
-        this.getUsers();
+        this.refreshAllUser();
       } else {
         this.classType = 'danger';
         this.message = 'Something went wrong';
@@ -202,7 +200,7 @@ export class UsersComponent {
         this.showmOdal = false;
         let el: HTMLElement = this.closeUpdateModal.nativeElement as HTMLElement;
         el.click();
-        this.getUsers();
+        this.refreshAllUser();
       } else {
         this.classType = 'danger';
         this.message = 'Something went wrong';
@@ -250,6 +248,20 @@ export class UsersComponent {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  // refresh all userlist
+  refreshAllUser() {
+    this.helperService.get('auth/admin/users').subscribe((res: any) => {
+      if (res.success) {
+        this.helperService.allUsers = res.users.data;
+        this.getUsers();
+      }
+      this.helperService.hideloader();
+    },
+    (e:any) => {
+      this.helperService.hideloader();
+    });
   }
 
 }

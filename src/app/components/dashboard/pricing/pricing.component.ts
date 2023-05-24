@@ -33,7 +33,6 @@ export class PricingComponent {
 
   ngOnInit(): void {
     this.helperService.showloader();
-    // this.getPricings();
     this.helperService.searchInput.subscribe((res:any) => {
       this.applyFilter(res);
     });
@@ -45,23 +44,7 @@ export class PricingComponent {
   }
 
   // ALL PRICING  
-  getPricings() {
-    // this.helperService.showloader();
-    // let params = 'auth/admin/pricings ';
-    // this.helperService.get(params).subscribe(
-    //   (res: any) => {
-    //     if (res.success) {
-    //       this.pricings = res.pricings;
-    //       this.setData();
-    //     } else {
-    //       this.srcPricings = [];
-    //       this.helperService.hideloader();
-    //     }
-    //   },
-    //   (err: any) => {
-    //     console.log(err);
-    //     this.helperService.hideloader();
-    //   });
+  getPricings() {   
     if(this.helperService.allPricings && this.helperService.allPricings.length > 0 ) {
       this.pricings = this.helperService.allPricings;
       this.setData();

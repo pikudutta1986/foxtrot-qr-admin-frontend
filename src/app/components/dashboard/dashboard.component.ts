@@ -13,7 +13,8 @@ export class DashboardComponent {
 
   constructor(
     private helperService: HelperService,
-    private router: Router) { 
+    private router: Router) {
+      this.getAllUsers(); 
       this.getAllplans();
       this.getAllPricings();
       this.helperService.getSiteSettings();
@@ -35,6 +36,22 @@ export class DashboardComponent {
 
   ngOnChanges() {
     console.log(this.router.url)
+  }
+
+  // get all users
+  getAllUsers() {
+    let params = 'auth/admin/users';
+    this.helperService.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.helperService.allUsers = res.users.data;    
+        } else {         
+          this.helperService.allUsers = []; 
+        }
+      },
+      (e: any) => {
+        console.log(e);
+    });    
   }
 
   // get user details
@@ -60,8 +77,8 @@ export class DashboardComponent {
           this.helperService.allPlans = []; 
         }
       },
-      (err: any) => {
-        console.log(err);
+      (e: any) => {
+        console.log(e);
     });    
   }
 

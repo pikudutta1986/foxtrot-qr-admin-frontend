@@ -9,14 +9,15 @@ import { environment } from './../../environments/environment';
 export class HelperService {
 
   backendUrl = environment.apiBase;
-  access_token:any = '';
+  access_token: any = '';
   isSidebarToggled = new Subject<boolean>();
   userName = new Subject<any>();
   searchInput = new Subject<any>();
-  
-  allPlans:any;
-  allPricings:any;
-  settings:any;
+
+  allUsers:any;
+  allPlans: any;
+  allPricings: any;
+  settings: any;
 
   constructor(private http: HttpClient) {
     this.access_token = sessionStorage.getItem('admin_token');
@@ -65,17 +66,17 @@ export class HelperService {
     return false;
   }
 
-  hideloader() {  
-    let d:any = document;      
+  hideloader() {
+    let d: any = document;
     d.getElementById('overlay').style.display = 'none';
   }
 
-  showloader() {  
-    let d:any = document;      
+  showloader() {
+    let d: any = document;
     d.getElementById('overlay').style.display = 'block';
   }
 
- // get site settings
+  // get site settings
   getSiteSettings() {
     let params = 'auth/admin/settings';
     let headers = new HttpHeaders({
@@ -91,7 +92,14 @@ export class HelperService {
           this.settings = [];
         }
         return res;
-      });    
+      });
+  }
+
+  // if unauthenticated auto logout 
+  browserLogout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    return true;
   }
 
 

@@ -33,35 +33,28 @@ export class PlansComponent {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
-    this.getPlans();
+  ngOnInit(): void {    
+    this.helperService.showloader();
     this.helperService.searchInput.subscribe((res: any) => {
       this.applyFilter(res);
     });
   }
 
   ngAfterViewInit() {
-    // this.cdr.detectChanges();
+    this.getPlans();
+    this.cdr.detectChanges();
   }
 
   // ALL PLANS  
   getPlans() {
-    this.helperService.showloader();
-    let params = 'auth/admin/plans';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.plans = res.plans;
-          this.setData();
-        } else {
-          this.userPlans = [];
-          this.helperService.hideloader();
-        }
-      },
-      (err: any) => {
-        console.log(err);
-        this.helperService.hideloader();
-      });
+    if(this.helperService.allPlans && this.helperService.allPlans.length > 0 ) {
+      this.plans = this.helperService.allPlans;
+      this.setData();
+    } else {
+      setTimeout(() => {
+        this.getPlans();
+      }, 1000);
+    }
 
   }
 

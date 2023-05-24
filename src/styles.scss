@@ -456,3 +456,9 @@ a {
     top: 40%;
     z-index: 9999;
 }
+
+.cb {
+    border-radius: 8px;
+    // overflow:hidden !important;
+    overflow-x: auto;
+}
