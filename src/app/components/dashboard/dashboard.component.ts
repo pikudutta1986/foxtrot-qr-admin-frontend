@@ -31,6 +31,10 @@ export class DashboardComponent {
       }
     });
 
+    this.helperService.error.subscribe((e:any) => {
+      this.helperService.hideloader();
+    });
+
     // this.getUserDetails();
   }
 

@@ -27,7 +27,9 @@ export class AppInterceptor implements HttpInterceptor {
               if(this.helperService.browserLogout()) {
                 this.router.navigate((['/']));
               }
-          }
+          } else {
+            this.helperService.error.next(err.error);
+          } 
           console.log(err,'error')
         }
         return new Observable<HttpEvent<any>>();

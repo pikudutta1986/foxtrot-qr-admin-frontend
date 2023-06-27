@@ -19,6 +19,8 @@ export class HelperService {
   allPricings: any;
   settings: any;
 
+  error = new Subject<any>();
+
   constructor(private http: HttpClient) {
     this.access_token = sessionStorage.getItem('admin_token');
   }
