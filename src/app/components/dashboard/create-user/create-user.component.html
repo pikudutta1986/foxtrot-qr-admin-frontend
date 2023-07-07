@@ -1,0 +1,63 @@
+<div class="row m-0">
+    <form class="my-3" role="form text-left" [formGroup]="registerForm">
+        <div class="col-md-6 mx-auto">
+            <div class="col-md-12">
+                <div class="set-ac">
+                    <span>Email:</span>
+                </div>
+                <div class="set-ac2">
+                    <input class="w-100" type="email" matInput placeholder="t@qr-fox.com" formControlName="email">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.email.touched) && formControl.email.errors?.required">
+                        Email is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.email.touched) && formControl.email.errors?.pattern">
+                        Invalid Email
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="set-ac">
+                    <span>Password:</span>
+                </div>
+                <div class="set-ac2">
+                    <input class="w-100" type="password" matInput placeholder="password" formControlName="password">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.password.touched) && formControl.password.errors?.required">
+                        Password is required
+                    </span>
+                    <span class="text-danger c-font-size mx-2"
+                        *ngIf="(formControl.password.touched) && formControl.password.errors?.minlength">
+                        must be at least 8 characters long.
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="set-ac">
+                    <span>Plan:</span>
+                </div>
+                <div class="set-ac2">
+                    <mat-select formControlName="plan_id">
+                        <mat-option *ngFor="let plan of plans" [value]="plan.id" [disabled]="plan.disabled">
+                            {{plan.name}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.plan_id.touched) && formControl.plan_id.errors?.required">
+                        Plan is required
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12 mb-2 d-flex justify-content-center">
+                <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
+                    class="btn btn-primary default-btn btn-lg">Create</button>
+            </div>
+        </div>
+    </form>
+</div>

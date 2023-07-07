@@ -35,3 +35,52 @@ ul.side-menu li a.active{
 .logout:hover {
     cursor: pointer;
 }
+
+.user-sub-menu {
+    display: none;
+}
+
+.users:hover {
+    .user-sub-menu  {
+        display: block !important;
+    }
+}
+
+.down-arrow {
+    position: absolute;
+    right: 10px;
+}
+
+.nav>li {
+    position: relative;
+    display: block;
+}
+
+.nav-list li a {
+	text-decoration: none;
+	display: block;
+	padding: 10px;
+	cursor: pointer;
+	border-bottom: 1px solid #515151 !important;
+	color: #9d9d9d;
+}
+
+.nav-list > li > a {
+	color: #C4C4C4;
+	font-size: 14px;
+	padding-left: 13px !important;
+	border-bottom: 1px solid #585858;
+}
+
+.nav-list > li > a:hover {
+	background-color: #444444;
+}
+
+#column_left {
+	background-color: #515151;
+}
+
+.left-content {
+    height: 100vh;
+    overflow-y: auto;
+}

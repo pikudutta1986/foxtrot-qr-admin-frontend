@@ -10,8 +10,8 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class EditPricingComponent {
 
-  public editForm: any = FormGroup;
-  public msg = '';
+  editForm: any = FormGroup;
+  msg = '';
 
   platforms:any = [
     {
@@ -31,6 +31,8 @@ export class EditPricingComponent {
 
   currentPricingId:any;
   plans:any;
+
+  isDisabled:any = true;
 
   constructor(
     public helperService: HelperService,
@@ -67,10 +69,13 @@ export class EditPricingComponent {
       validator: this.dateValidator('discount_start_date', 'discount_end_date'),
     });
 
-
     this.helperService.showloader();
 
     this.getPlans();
+
+    this.editForm.get("discount_enabled").valueChanges.subscribe((x:any) => {
+      this.setEnableStatus(x);
+    });
 
   }
 
@@ -81,8 +86,7 @@ export class EditPricingComponent {
   getPricingDetailsById() {
     if(this.helperService.allPricings && this.helperService.allPricings.length > 0) {      
       let currentPricing: any= this.helperService.allPricings.find((x:any) => x.id == this.currentPricingId);
-      console.log(this.currentPricingId,currentPricing.id)
-      if(this.currentPricingId == currentPricing.id) {
+      if(this.currentPricingId == currentPricing.id) {        
         this.setData(currentPricing)
       } 
     } 
@@ -117,6 +121,12 @@ export class EditPricingComponent {
       this.editForm.controls.discount_end_date.setValue(currentPricing.discount_end_date);
       this.editForm.controls.sorting_order.setValue(currentPricing.sorting_order);
 
+      if(currentPricing.discount_enabled) {
+        this.isDisabled = false;        
+      } else {
+        this.isDisabled = true;
+        this.setEnableStatus(false);        
+      }
       console.log(this.editForm.value)
     }
 
@@ -220,7 +230,24 @@ export class EditPricingComponent {
     };
   }
 
+  setEnableStatus(val:any) {
+    if(val) {
+        this.editForm.controls['discounted_price'].enable();
+        this.editForm.controls['discount_start_date'].enable();
+        this.editForm.controls['discount_end_date'].enable();
+    } else {
+        this.editForm.controls['discounted_price'].disable();
+        this.editForm.controls['discount_start_date'].disable();
+        this.editForm.controls['discount_end_date'].disable();
+    }
+  }
+
   ngOnDestroy(): void {
+    let currentPricing:any = localStorage.getItem('selectedPricing');
+    currentPricing = JSON.parse(currentPricing);
+    if(currentPricing) {
+      localStorage.removeItem('selectedPricing');
+    }
   }
 
 }

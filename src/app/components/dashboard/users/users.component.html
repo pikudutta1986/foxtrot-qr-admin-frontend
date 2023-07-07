@@ -2,57 +2,49 @@
     <div class="col-md-3 d-flex"></div>
     <div class="{{'col-md-5 text-center text-white alert alert-'+classType}}">
         {{message}}
-    </div>   
+    </div>
 </div>
 
-<!-- <div class="row"> -->
-    <div class="white-box">
-        <form class="my-3" role="form text-left" [formGroup]="registerForm">
-            <div class="d-flex align-items-center" >
-                <div class="col-md-5 pr-3">
-                    <div class="set-ac">
-                        <span>Email:</span>
-                    </div>
-                    <div class="set-ac2">
-                        <input class="w-100" type="email" matInput placeholder="t@qr-fox.com" formControlName="email">
-                    </div>
-                    <div class="f-height">
-                        <span class="text-danger c-font-size mx-2"
-                            *ngIf="(formControl.email.touched) && formControl.email.errors?.required">
-                            Email is required
-                        </span>
-                        <span class="text-danger c-font-size mx-2"
-                            *ngIf="(formControl.email.touched) && formControl.email.errors?.pattern">
-                            Invalid Email
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-5 pr-3">
-                    <div class="set-ac">
-                        <span>Password:</span>
-                    </div>
-                    <div class="set-ac2">
-                        <input class="w-100" type="password" matInput placeholder="password" formControlName="password">
-                    </div>
-                    <div class="f-height">
-                        <span class="text-danger c-font-size mx-2"
-                            *ngIf="(formControl.password.touched) && formControl.password.errors?.required">
-                            Password is required
-                        </span>
-                        <span class="text-danger c-font-size mx-2"
-                            *ngIf="(formControl.password.touched) && formControl.password.errors?.minlength">
-                            must be at least 8 characters long.
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-2 d-flex justify-content-center">
-                    <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
-                            class="btn btn-primary default-btn btn-lg">Create</button>
-                </div>
-            </div>
-        </form>
-    </div>   
-<!-- </div> -->
+
+
+<div class="row mb-4 align-items-center" [formGroup]="range">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-5 col-xl-4 col-xxl-3 mb-15-xs-d">
+        <div class="set-ac2 m-0">
+            <input style="height: 56px;" type="text" formControlName="searchInputText" placeholder="Search">
+        </div>
+    </div>
+    <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-xxl-2 text-left">
+        <div class="set-ac2">
+            <mat-select formControlName="plan_id">
+                <mat-option *ngFor="let plan of plans" [value]="plan.id">
+                    {{plan.name}}
+                </mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+        <div class="">
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Start date">
+                    (dateChange)="addEvent($event)"
+                    <input (dateChange)="addEvent($event)" matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start
+                    date</mat-error>
+                <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-xxl-2 text-end">
+        <button class="btn btn-primary" (click)="export()">Export</button>
+    </div>
+</div>
+
 
 <div class="mat-elevation-z8 cb">
     <table mat-table [dataSource]="userFiles" matSort class="mat-elevation-z8"
@@ -96,8 +88,9 @@
                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
             <td mat-cell *matCellDef="let element" class="action-link text-center">
                 <div class="d-flex align-items-center justify-content-center">
-                    <a class="Icon editIcon mx-1" (click)="editUser(element)" data-bs-toggle="modal"
-                        data-bs-target="#update-form">
+                    <a class="Icon editIcon mx-1" (click)="editUser(element)">
+                        <!-- data-bs-toggle="modal" -->
+                        <!-- data-bs-target="#update-form" -->
                         <span class="inner"></span>
                         <mat-icon class="matIcon">edit</mat-icon>
                     </a>
@@ -116,87 +109,14 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-    </mat-paginator>
 </div>
 
-
-<div class="modal fade" id="update-form" tabindex="-1" role="dialog" aria-labelledby="update-form" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="spinner-border modal-loader" *ngIf="showmOdal"></div>
-            <div class="col text-end my-2 mx-2">
-                <button #closeUpdateModal type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                    aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body p-0">
-                <div class="">
-                    <div class="card-header pb-0 text-left">
-                        <p class="text-center modalTitle">User Details</p>
-                        <p class="text-center" style="{{'color:'+classType}}">{{msgForModal}}</p>
-                    </div>
-                    <div>
-                        <form class="p-3" role="form text-left" [formGroup]="updateForm">
-
-                            <div class="col-sm-12">
-                                <div class="set-ac">
-                                    <span>Device Id:</span>
-                                </div>
-                                <div class="set-ac2">
-                                    <input class="w-100" type="text" matInput placeholder="Device id" formControlName="device_id">                                   
-                                </div>
-                                <div class="f-height">
-                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.device_id.touched) && editFormControl.device_id.errors?.required">
-                                        Device Id is required
-                                    </span>
-                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.device_id.touched) && editFormControl.device_id.errors?.pattern">
-                                        Invalid Device Id
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="set-ac">
-                                    <span>Platform:</span>
-                                </div>
-                                <div class="set-ac2">                                   
-                                    <select matNativeControl class="w-100 cs" formControlName="platform">
-                                        <option value="" disabled>select</option>
-                                        <option *ngFor="let item of platforms" [value]="item.id">{{item.text}}</option>
-                                    </select>                                   
-                                </div>
-                                <div class="f-height">
-                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.platform.touched) && editFormControl.platform.errors?.required">
-                                        Platform is required
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="set-ac">
-                                    <span>Country Code:</span>
-                                </div>
-                                <div class="set-ac2">
-                                    <input type="text" class="w-100" formControlName="country_code" matInput>                                  
-                                </div>
-                                <div class="f-height">
-                                    <span class="text-danger c-font-size mx-2" *ngIf="(editFormControl.country_code.touched) && editFormControl.country_code.errors?.required">
-                                        Country code is required
-                                    </span>                                    
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-center">
-                                <button [disabled]="!updateForm.valid" (click)="saveUser()" type="button"
-                                    class="btn btn-primary default-btn btn-lg mt-4 mb-0">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="mb-40 mt-45">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li *ngFor="let item of links" class="page-item {{(item.active) ? 'active' : ''}}">
+                <a class="page-link" (click)="gotoPage(item)">{{item.label}}</a>
+            </li>
+        </ul>
+    </nav>
 </div>

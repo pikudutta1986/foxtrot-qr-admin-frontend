@@ -15,6 +15,8 @@ import { CreatePricingComponent } from './create-pricing/create-pricing.componen
 import { SiteComponent } from './site/site.component';
 import { EditSiteComponent } from './edit-site/edit-site.component';
 import { CreateSiteComponent } from './create-site/create-site.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
   { 
@@ -22,6 +24,12 @@ const routes: Routes = [
     children: [
       {
         path: 'users', component: UsersComponent
+      },
+      {
+        path: 'users/create', component: CreateUserComponent
+      },
+      {
+        path: 'users/edit/:id', component: EditUserComponent
       },
       {
         path: 'payments', component: PaymentsComponent

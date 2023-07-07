@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HelperService } from 'src/app/service/helper.service';
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
@@ -26,9 +28,6 @@ export class UsersComponent {
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  public registerForm: any = FormGroup;
-  public updateForm: any = FormGroup;
 
   @ViewChild('closebutton') closebutton!: ElementRef<HTMLInputElement>;
   @ViewChild('closeUpdateModal') closeUpdateModal!: ElementRef<HTMLInputElement>;
@@ -58,109 +57,49 @@ export class UsersComponent {
   ];
 
   showmOdal:boolean = false;
+  links:any;
+  range: any;
+  plans:any = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private _liveAnnouncer: LiveAnnouncer,
     public cdr: ChangeDetectorRef,
+    private router: Router,
     public helperService: HelperService) { }
 
   ngOnInit(): void {
 
     this.helperService.showloader();
-
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-    });
-
-    this.updateForm = this.formBuilder.group({
-      device_id: ['',[Validators.required, Validators.pattern('^[a-zA-Z0-9 \-\']+')]],
-      platform: ['', [Validators.required]],
-      country_code: ['', [Validators.required]],
-    });
+    this.getPlans();
+    // this.refreshAllUser();
 
     this.helperService.searchInput.subscribe((res:any) => {
       this.applyFilter(res);
     });
 
+    this.range = this.formBuilder.group({
+      searchInputText: "",
+      start: new FormControl<Date | null>(null),
+      end: new FormControl<Date | null>(null),
+      plan_id: ""
+    });
+
+    this.range.get('searchInputText').valueChanges.subscribe((val: any) => {
+      // this.applyFilterOn();
+    });
+
   }
 
   ngAfterViewInit() {
-    this.getUsers();
+    this.refreshAllUser();
     this.cdr.detectChanges();
   }
-
-  get formControl() {
-    return this.registerForm.controls;
-  }
-
-  get editFormControl() {
-    return this.updateForm.controls;
-  }
-
-  // get users
-  getUsers() {
-    if(this.helperService.allUsers && this.helperService.allUsers.length > 0 ) {
-      this.srcData = this.helperService.allUsers;
-      this.mainSrcData = JSON.stringify(this.helperService.allUsers);
-      this.setData();
-    } else {
-      setTimeout(() => {
-        this.getUsers();
-      }, 1000);
-    }
-
-  }
-
-  // set data 
-  setData() {
-    this.userFiles = new MatTableDataSource(this.srcData)
-    this.userFiles.paginator = this.paginator;
-    this.userFiles.sort = this.sort;
-    this.helperService.hideloader();
-  }
-
-  // add new user
-  addUser() {
-    this.helperService.showloader();
-    this.helperService.post('auth/admin/users', this.registerForm.value).subscribe((res: any) => {
-      if (res.status) {
-        this.classType = 'success';
-        this.message = 'Successfully created';
-        this.msgForModal = '';
-        this.registerForm.reset();
-        // let el: HTMLElement = this.closebutton.nativeElement as HTMLElement;
-        // el.click();
-        this.refreshAllUser();
-      } else {
-        if (res.errors) {
-          this.msgForModal = res.errors.email[0];
-          this.classType = 'red';
-        }
-        this.helperService.hideloader();
-      }
-    },
-      //Error callback
-      (error) => {
-        console.error('error caught in component')
-        this.msgForModal = 'something went wrong'
-        this.classType = 'red';
-        this.helperService.hideloader();
-      }
-    );
-
-  }
-
+  
   // edit user
   editUser(element: any) {
-    console.log(element)
-    element.isEdit = true;
-    this.selectedUserId = element.id;    
-    this.updateForm.controls.device_id.setValue(element.device_id);
-    this.updateForm.controls.platform.setValue(element.platform);
-    this.updateForm.controls.country_code.setValue(element.country_code);
-    // this.helperService.showloader();
+    localStorage.setItem('currentEditedUser', JSON.stringify(element));
+    this.router.navigate(['dashboard/users/edit', element.id]);
   }
 
   // delete user
@@ -186,35 +125,6 @@ export class UsersComponent {
         this.classType = 'danger';
         this.helperService.hideloader();
       })
-  }
-
-  // update user
-  saveUser() {
-    this.showmOdal = true;
-    let url = `auth/admin/users/${this.selectedUserId}`;
-    let data = this.updateForm.value;
-    this.helperService.patch(url, data).subscribe((res: any) => {
-      if (res.status) {
-        this.classType = 'success';
-        this.message = 'Successfully updated';
-        this.showmOdal = false;
-        let el: HTMLElement = this.closeUpdateModal.nativeElement as HTMLElement;
-        el.click();
-        this.refreshAllUser();
-      } else {
-        this.classType = 'danger';
-        this.message = 'Something went wrong';
-        this.showmOdal = false;
-      }
-
-    },
-      //Error callback
-      (error) => {
-        console.error('error caught in component')
-        this.message = 'something went wrong'
-        this.classType = 'danger';
-        this.showmOdal = false;
-    })
   }
 
   // cancel editing
@@ -255,13 +165,91 @@ export class UsersComponent {
     this.helperService.get('auth/admin/users').subscribe((res: any) => {
       if (res.success) {
         this.helperService.allUsers = res.users.data;
-        this.getUsers();
+        this.setPagination(res.users);
       }
       this.helperService.hideloader();
     },
     (e:any) => {
       this.helperService.hideloader();
     });
+  }
+
+  gotoPage(page:any) {   
+    if(page.url) {      
+      this.helperService.scrollToTop();           
+      setTimeout(() => {        
+        this.helperService.showloader();
+        this.helperService.rawGet(page.url).subscribe((res:any) => {
+          if (res.success) {
+            this.setPagination(res.users);         
+          } else {
+            this.srcData = [];
+          }
+          this.helperService.hideloader();
+        })           
+      }, 500);                      
+    }   
+  }
+
+  setPagination(links:any) {
+    
+    this.srcData = links.data; 
+    
+    this.userFiles = new MatTableDataSource(this.srcData)
+    this.userFiles.sort = this.sort;             
+    
+    let srclinks = links.links;
+    
+    if(srclinks.length > 0) {
+      srclinks.map((l:any) => {
+        let text = l.label;
+        let laquo = text.includes("&laquo;");
+        if(laquo) {
+          l.label = text.replace('&laquo;','');
+        }
+        let raquo = text.includes("&raquo;");
+        if(raquo) {
+          l.label = text.replace('&raquo;','');
+        }
+      });
+
+      this.links = srclinks;
+    }
+
+    this.helperService.hideloader();
+       
+  }  
+
+  // on date change
+  addEvent(e: any) {
+    let val = this.range.value;
+    if ((val.start && val.end) && (val.start != null && val.end != null)) {
+      console.log(val)
+
+      var startTime = new Date(val.start).getTime() / 1000;
+      var endTime = new Date(val.end).getTime() / 1000;
+
+      if (startTime > endTime) {
+        console.log('start time should be less than end time')
+      } else {
+        // this.applyFilterOn();
+      }
+    }
+  }
+
+  getPlans() {
+    if(this.helperService.allPlans && this.helperService.allPlans.length > 0) {
+      this.plans = this.helperService.allPlans;     
+      let selectedPlan = this.plans[0].id;
+    } else {
+      setTimeout(() => {
+        this.getPlans();        
+      }, 1000);
+    }
+  }
+
+  export() {
+    console.log('export')
   }
 
 }

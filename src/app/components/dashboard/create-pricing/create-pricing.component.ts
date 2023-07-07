@@ -10,8 +10,8 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class CreatePricingComponent {
 
-  public createForm: any = FormGroup;
-  public msg = '';
+  createForm: any = FormGroup;
+  msg = '';
 
   plans: any;
 
@@ -60,9 +60,15 @@ export class CreatePricingComponent {
     },
       {
         validator: this.dateValidator('discount_start_date', 'discount_end_date'),
-      });
+    });
 
     this.getPlans();
+
+    this.setEnableStatus(false);
+
+    this.createForm.get("discount_enabled").valueChanges.subscribe((x:any) => {
+      this.setEnableStatus(x);
+    });
   }
 
   getPlans() {
@@ -184,6 +190,18 @@ export class CreatePricingComponent {
       }
 
     };
+  }
+
+  setEnableStatus(val:any) {
+    if(val) {
+        this.createForm.controls['discounted_price'].enable();
+        this.createForm.controls['discount_start_date'].enable();
+        this.createForm.controls['discount_end_date'].enable();
+    } else {
+        this.createForm.controls['discounted_price'].disable();
+        this.createForm.controls['discount_start_date'].disable();
+        this.createForm.controls['discount_end_date'].disable();
+    }
   }
 
 }

@@ -9,8 +9,8 @@
             <h2>Create Plan</h2>
         </div>
 
-        <div class="d-flex">
-            <div class="col-sm-4">
+        <div class="row">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Name:</span>
                 </div>
@@ -24,7 +24,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Tagline:</span>
                 </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="f-height"></div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Number of Codes Tag Prefix:</span>
                 </div>
@@ -43,10 +43,7 @@
                 </div>
                 <div class="f-height"></div>
             </div>
-        </div>
-
-        <div class="d-flex">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Number Of Codes:</span>
                 </div>
@@ -59,7 +56,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Number of Codes Text:</span>
                 </div>
@@ -68,7 +65,7 @@
                 </div>
                 <div class="f-height"></div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Price Tag Prefix:</span>
                 </div>
@@ -77,10 +74,7 @@
                 </div>
                 <div class="f-height"></div>
             </div>
-        </div>
-
-        <div class="d-flex">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Price Tag Sufix:</span>
                 </div>
@@ -89,7 +83,7 @@
                 </div>
                 <div class="f-height"></div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Cta Text:</span>
                 </div>
@@ -102,7 +96,7 @@
                     </span>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Sorting Order:</span>
                 </div>
@@ -120,6 +114,7 @@
             </div>
         </div>
 
+      
         <div class="" formArrayName="descriptions">
             <!-- <div class="set-ac">
                 <span>Descriptions:</span>
@@ -144,7 +139,7 @@
             </section>
         </div>
 
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-start">
             <button type="button" (click)="submit()" [disabled]="!createForm.valid"
                 class="btn btn-primary default-btn my-4 mb-2">Submit</button>
         </div>

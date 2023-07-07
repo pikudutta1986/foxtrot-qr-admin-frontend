@@ -48,7 +48,7 @@ export class DashboardComponent {
     this.helperService.get(params).subscribe(
       (res: any) => {
         if (res.success) {
-          this.helperService.allUsers = res.users.data;    
+          this.helperService.allUsers = res.users;    
         } else {         
           this.helperService.allUsers = []; 
         }

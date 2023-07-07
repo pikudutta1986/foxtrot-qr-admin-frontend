@@ -61,6 +61,15 @@ export class HelperService {
     return this.http.delete(`${this.backendUrl}${url}`, requestOptions);
   }
 
+  // raw get request
+  rawGet(url: any) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
+    });
+    const requestOptions = { headers: headers };
+    return this.http.get(`${url}`, requestOptions);
+  }
+
   validateEmail(email: any) {
     if (/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/.test(email)) {
       return true;
@@ -102,6 +111,10 @@ export class HelperService {
     localStorage.clear();
     sessionStorage.clear();
     return true;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
 
