@@ -42,7 +42,7 @@
                     <span>Plan:</span>
                 </div>
                 <div class="set-ac2">
-                    <mat-select formControlName="plan_id">
+                    <mat-select formControlName="plan_id" (selectionChange)="onChangePlan($event.value)">
                         <mat-option *ngFor="let plan of plans" [value]="plan.id" [disabled]="plan.disabled">
                             {{plan.name}}
                         </mat-option>
@@ -54,7 +54,45 @@
                     </span>
                 </div>
             </div>
+
+            <div class="col-md-12" *ngIf="enableDetails">
+                <div class="set-ac">
+                    <span>Platform:</span>
+                </div>
+                <div class="set-ac2">
+                    <mat-select formControlName="platform" (selectionChange)="onChangePlatform($event.value)">
+                        <mat-option *ngFor="let item of platforms" [value]="item.id">
+                            {{item.text}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="platformError">
+                        Platform is required
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="enablePriceDetails">
+                <div class="set-ac">
+                    <span>Price:</span>
+                </div>
+                <div class="set-ac2">
+                    <mat-select formControlName="price" (selectionChange)="onChangePrice($event.value)">
+                        <mat-option *ngFor="let item of prices" [value]="item.id">
+                            {{item.price}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="priceError">
+                        Price is required
+                    </span>
+                </div>
+            </div>
+
             <div class="col-md-12 mb-2 d-flex justify-content-center">
+                <!-- [disabled]="!registerForm.valid" -->
                 <button (click)="addUser()" type="button" [disabled]="!registerForm.valid"
                     class="btn btn-primary default-btn btn-lg">Create</button>
             </div>
