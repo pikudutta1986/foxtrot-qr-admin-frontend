@@ -8,6 +8,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { HelperService } from 'src/app/service/helper.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 declare var $: any;
 
 @Component({
@@ -24,14 +25,14 @@ export class UsersComponent {
 
   matcher = new ErrorStateMatcher();
 
-  displayedColumns: string[] = ['position', 'email', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'email', 'plan', 'current_plan_expiry_day', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   @ViewChild('closebutton') closebutton!: ElementRef<HTMLInputElement>;
   @ViewChild('closeUpdateModal') closeUpdateModal!: ElementRef<HTMLInputElement>;
-  
+
 
   msgForModal: any = '';
 
@@ -41,61 +42,64 @@ export class UsersComponent {
 
   selectedUserId: any = '';
 
-  platforms:any = [
+  platforms: any = [
     {
-      id:'web',
+      id: 'web',
       text: 'Web'
     },
     {
-      id:'android',
+      id: 'android',
       text: 'Android'
     },
     {
-      id:'ios',
+      id: 'ios',
       text: 'iOS'
     },
   ];
 
-  showmOdal:boolean = false;
-  links:any;
+  showmOdal: boolean = false;
+  links: any;
   range: any;
-  plans:any = [];
+  plans: any = [];
+  total: any = '';
 
+  searchInputText: any = '';
+  planId: any = '';
+  from_date: any = '';
+  to_date: any = '';
+  keyupTimer: any;
   constructor(
     private formBuilder: FormBuilder,
     private _liveAnnouncer: LiveAnnouncer,
     public cdr: ChangeDetectorRef,
     private router: Router,
+    private _snackBar: MatSnackBar,
     public helperService: HelperService) { }
 
   ngOnInit(): void {
 
     this.helperService.showloader();
     this.getPlans();
-    // this.refreshAllUser();
-
-    this.helperService.searchInput.subscribe((res:any) => {
-      this.applyFilter(res);
-    });
-
-    this.range = this.formBuilder.group({
-      searchInputText: "",
-      start: new FormControl<Date | null>(null),
-      end: new FormControl<Date | null>(null),
-      plan_id: ""
-    });
-
-    this.range.get('searchInputText').valueChanges.subscribe((val: any) => {
-      // this.applyFilterOn();
-    });
+    this.getUsers();
 
   }
 
   ngAfterViewInit() {
-    this.refreshAllUser();
-    this.cdr.detectChanges();
+
   }
-  
+
+  // get users
+  getUsers() {
+    if (this.helperService.allUsers && this.helperService.allUsers.data && this.helperService.allUsers.data.length > 0) {
+      this.setPagination(this.helperService.allUsers);
+    } else {
+      setTimeout(() => {
+        this.getUsers();
+      }, 1000);
+    }
+
+  }
+
   // edit user
   editUser(element: any) {
     localStorage.setItem('currentEditedUser', JSON.stringify(element));
@@ -104,16 +108,19 @@ export class UsersComponent {
 
   // delete user
   deleteUser(element: any) {
+    this.helperService.scrollToTop();
     this.helperService.showloader();
     let url = `auth/admin/users/${element.id}`;
     this.helperService.delete(url).subscribe((res: any) => {
       if (res.status) {
-        this.classType = 'danger';
-        this.message = 'Successfully deleted';
-        this.refreshAllUser();
+        this.helperService.snackPositionTopCenter(res.message);
+        this.helperService.allUsers = [];
+        this.helperService.getAllUsers();
+        setTimeout(() => {
+          this.getUsers();
+        }, 1000);
       } else {
-        this.classType = 'danger';
-        this.message = 'Something went wrong';
+        this.helperService.snackPositionTopCenter('Something went wrong');
         this.helperService.hideloader();
       }
 
@@ -160,56 +167,45 @@ export class UsersComponent {
     }
   }
 
-  // refresh all userlist
-  refreshAllUser() {
-    this.helperService.get('auth/admin/users').subscribe((res: any) => {
-      if (res.success) {
-        this.helperService.allUsers = res.users.data;
-        this.setPagination(res.users);
-      }
-      this.helperService.hideloader();
-    },
-    (e:any) => {
-      this.helperService.hideloader();
-    });
-  }
-
-  gotoPage(page:any) {   
-    if(page.url) {      
-      this.helperService.scrollToTop();           
-      setTimeout(() => {        
+  gotoPage(page: any) {
+    if (page.url) {
+      this.helperService.scrollToTop();
+      setTimeout(() => {
         this.helperService.showloader();
-        this.helperService.rawGet(page.url).subscribe((res:any) => {
+        this.helperService.rawGet(page.url).subscribe((res: any) => {
           if (res.success) {
-            this.setPagination(res.users);         
+            this.setPagination(res.users);
           } else {
             this.srcData = [];
           }
           this.helperService.hideloader();
-        })           
-      }, 500);                      
-    }   
+        })
+      }, 500);
+    }
   }
 
-  setPagination(links:any) {
-    
-    this.srcData = links.data; 
-    
+  setPagination(links: any) {
+    let srcData = links.data;
+    srcData.map((x:any) => {
+      x.plan = x.plan.name;
+    });
+    this.srcData = srcData;
+    this.total = links.total;
     this.userFiles = new MatTableDataSource(this.srcData)
-    this.userFiles.sort = this.sort;             
-    
+    this.userFiles.sort = this.sort;
+
     let srclinks = links.links;
-    
-    if(srclinks.length > 0) {
-      srclinks.map((l:any) => {
+
+    if (srclinks.length > 0) {
+      srclinks.map((l: any) => {
         let text = l.label;
         let laquo = text.includes("&laquo;");
-        if(laquo) {
-          l.label = text.replace('&laquo;','');
+        if (laquo) {
+          l.label = text.replace('&laquo;', '');
         }
         let raquo = text.includes("&raquo;");
-        if(raquo) {
-          l.label = text.replace('&raquo;','');
+        if (raquo) {
+          l.label = text.replace('&raquo;', '');
         }
       });
 
@@ -217,39 +213,87 @@ export class UsersComponent {
     }
 
     this.helperService.hideloader();
-       
-  }  
 
-  // on date change
-  addEvent(e: any) {
-    let val = this.range.value;
-    if ((val.start && val.end) && (val.start != null && val.end != null)) {
-      console.log(val)
-
-      var startTime = new Date(val.start).getTime() / 1000;
-      var endTime = new Date(val.end).getTime() / 1000;
-
-      if (startTime > endTime) {
-        console.log('start time should be less than end time')
-      } else {
-        // this.applyFilterOn();
-      }
-    }
   }
-
+ 
   getPlans() {
-    if(this.helperService.allPlans && this.helperService.allPlans.length > 0) {
-      this.plans = this.helperService.allPlans;     
+    if (this.helperService.allPlans && this.helperService.allPlans.length > 0) {
+      this.plans = this.helperService.allPlans;
       let selectedPlan = this.plans[0].id;
     } else {
       setTimeout(() => {
-        this.getPlans();        
+        this.getPlans();
       }, 1000);
     }
   }
 
+  filter(download?: any) {
+    let param = '';
+
+    if (this.searchInputText) {
+      param = `search=${this.searchInputText}`;
+    }
+
+    if (this.planId) {
+      if (param && param.length > 0) {
+        param = `${param},plan=${this.planId}`;
+      } else {
+        param = `${param}plan=${this.planId}`;
+      }
+    }
+
+    if (this.from_date) {
+      if (param && param.length > 0) {
+        param = `${param},from_date=${this.from_date}`;
+      } else {
+        param = `${param}from_date=${this.from_date}`;
+      }
+    }
+
+    if (this.to_date) {
+      if (param && param.length > 0) {
+        param = `${param},to_date=${this.to_date}`;
+      } else {
+        param = `${param}to_date=${this.to_date}`;
+      }
+    }
+
+    if (download) {
+      if (param && param.length > 0) {
+        param = `${param},download=1`;
+      } else {
+        param = `${param}download=1`;
+      }
+    }
+    // console.log(param)
+
+    clearTimeout(this.keyupTimer);
+    this.keyupTimer = setTimeout(() => {
+      this.getFilterData(param);
+    }, 1800);
+
+
+  }
+
   export() {
     console.log('export')
+  }
+
+  // get filter data
+  getFilterData(p: any) {
+    this.helperService.showloader();
+    let params = 'auth/admin/users';
+    let s = `${params}?${p}`
+    this.helperService.get(s).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.setPagination(res.users);
+          this.helperService.hideloader();
+        }
+      },
+      (e: any) => {
+        console.log(e);
+      });
   }
 
 }

@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from './../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class HelperService {
 
   backendUrl = environment.apiBase;
@@ -21,7 +23,7 @@ export class HelperService {
 
   error = new Subject<any>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private _snackBar: MatSnackBar,) {
     this.access_token = sessionStorage.getItem('admin_token');
   }
 
@@ -88,7 +90,7 @@ export class HelperService {
   }
 
   // get site settings
-  getSiteSettings() {
+  async getSiteSettings() {
     let params = 'auth/admin/settings';
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${sessionStorage.getItem('admin_token')}`
@@ -115,6 +117,64 @@ export class HelperService {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // top position snackbar
+  snackPositionTopCenter(message:any) {
+    this._snackBar.open(message, "", {
+      duration: 7000,
+      horizontalPosition: "center",
+      verticalPosition: "top",
+    });
+  }
+
+  // set plans
+  setPlans() {
+    let params = 'auth/admin/plans';
+    this.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.allPlans = res.plans;    
+        } else {         
+          this.allPlans = []; 
+        }
+      },
+      (e: any) => {
+        console.log(e);
+    });    
+  }
+
+  // get all pricings
+  getAllPricings() {
+    let params = 'auth/admin/pricings ';
+    this.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.allPricings = res.pricings;           
+        } else {
+          this.allPricings = [];
+        }
+      },
+      (err: any) => {
+        console.log(err);
+    });
+
+  }
+
+  // get all users
+  getAllUsers() {
+    let params = 'auth/admin/users';
+    this.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.allUsers = res.users;    
+        } else {         
+          this.allUsers = []; 
+        }
+      },
+      (e: any) => {
+        console.log(e);
+    });    
   }
 
 

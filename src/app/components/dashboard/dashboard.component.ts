@@ -14,9 +14,9 @@ export class DashboardComponent {
   constructor(
     private helperService: HelperService,
     private router: Router) {
-      this.getAllUsers(); 
-      this.getAllplans();
-      this.getAllPricings();
+      this.helperService.getAllUsers(); 
+      this.helperService.setPlans();
+      this.helperService.getAllPricings();
       this.helperService.getSiteSettings();
   }
 
@@ -32,31 +32,16 @@ export class DashboardComponent {
     });
 
     this.helperService.error.subscribe((e:any) => {
+      console.log(e.message)
       this.helperService.hideloader();
+      this.helperService.snackPositionTopCenter(e.message)
     });
 
-    // this.getUserDetails();
   }
 
   ngOnChanges() {
     console.log(this.router.url)
-  }
-
-  // get all users
-  getAllUsers() {
-    let params = 'auth/admin/users';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allUsers = res.users;    
-        } else {         
-          this.helperService.allUsers = []; 
-        }
-      },
-      (e: any) => {
-        console.log(e);
-    });    
-  }
+  }  
 
   // get user details
   getUserDetails() {
@@ -69,39 +54,5 @@ export class DashboardComponent {
       }
     });    
   }
-
-  // get all plans
-  getAllplans() {
-    let params = 'auth/admin/plans';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allPlans = res.plans;    
-        } else {         
-          this.helperService.allPlans = []; 
-        }
-      },
-      (e: any) => {
-        console.log(e);
-    });    
-  }
-
-  // get all pricings
-  getAllPricings() {
-    let params = 'auth/admin/pricings ';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allPricings = res.pricings;           
-        } else {
-          this.helperService.allPricings = [];
-        }
-      },
-      (err: any) => {
-        console.log(err);
-    });
-
-  }
-
 
 }

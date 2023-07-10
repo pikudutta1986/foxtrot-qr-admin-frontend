@@ -72,14 +72,16 @@ export class EditUserComponent {
 
   // update user
   saveUser() {
+    this.helperService.scrollToTop();
     let url = `auth/admin/users/${this.selectedUserId}`;
     let data = this.updateForm.value;
     this.helperService.showloader();
     this.helperService.patch(url, data).subscribe((res: any) => {
       if (res.status) {
-        this.notificationMsg = 'Successfully Updated';
         this.helperService.hideloader();
-        this.snackPositionTopCenter();
+        this.helperService.snackPositionTopCenter('Successfully Updated');
+        this.helperService.allUsers = [];
+        this.helperService.getAllUsers();
       } else {
         this.helperService.hideloader();
       }
@@ -89,15 +91,6 @@ export class EditUserComponent {
       (error) => {
         console.error('error caught in component')      
     })
-  }
-
-  // top position snackbar
-  snackPositionTopCenter() {
-    this._snackBar.open(this.notificationMsg, "", {
-      duration: 7000,
-      horizontalPosition: "center",
-      verticalPosition: "top",
-    });
   }
 
   // on destroy

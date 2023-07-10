@@ -136,6 +136,7 @@ export class EditPricingComponent {
 
   update() {
     if (this.editForm.valid) {
+      this.helperService.scrollToTop();
       this.helperService.showloader();
       let params: any = this.editForm.value;
       if(!params.discounted_price) {
@@ -151,10 +152,10 @@ export class EditPricingComponent {
       this.helperService.patch(url, params).subscribe(
         (res: any) => {
           if (res.status) {
-            this.msg = res.message;
-            this.refreshAllPricings();
+            this.helperService.snackPositionTopCenter(res.message);
+            this.helperService.getAllPricings();
           } else {
-            this.msg = res.message;
+            this.helperService.snackPositionTopCenter(res.message);
           }
 
           this.helperService.hideloader();
@@ -165,22 +166,6 @@ export class EditPricingComponent {
         }
       )
     }
-  }
-
-  refreshAllPricings() {
-    let params = 'auth/admin/pricings ';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allPricings = res.pricings;           
-        } else {
-          this.helperService.allPricings = [];
-        }
-      },
-      (err: any) => {
-        console.log(err);
-      });
-
   }
 
   // discount date validator

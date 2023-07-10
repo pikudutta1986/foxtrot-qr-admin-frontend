@@ -88,27 +88,28 @@ export class PlansComponent {
 
   // delete
   deletePlan(element: any) {
+    this.helperService.scrollToTop();
     this.helperService.showloader();
     let url = `auth/admin/plans/${element.id}`;
     this.helperService.delete(url).subscribe(
-      (res: any) => {
-        this.helperService.hideloader();
-        console.log(res);
+      (res: any) => {        
         if (res.status) {
-          this.getPlans();
-          // this.message = res.message;
+          this.helperService.allPlans = [];
+          this.helperService.setPlans();
+          setTimeout(() => {
+            this.getPlans();
+            this.helperService.hideloader();            
+          }, 1000);
+          this.helperService.snackPositionTopCenter(res.message);
         } else {
-
+          this.helperService.snackPositionTopCenter(res.message);
         }
-        this.message = res.message;
-
       },
       (errors: any) => {
         console.log(errors);
         this.helperService.hideloader();
       },
     )
-    this.classType = 'danger';
   }
 
 }

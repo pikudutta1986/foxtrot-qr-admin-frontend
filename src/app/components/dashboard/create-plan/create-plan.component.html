@@ -1,10 +1,5 @@
 <div class="container">
-    <div class="msg d-flex align-items-center justify-content-center">
-        {{msg}}
-    </div>
-
-    <form role="form" [formGroup]="createForm" method="post" class="text-start">
-
+    <form role="form" [formGroup]="createForm" method="post" class="text-start mt-4">
         <div class="set-ac1 d-flex">
             <h2>Create Plan</h2>
         </div>
@@ -113,7 +108,6 @@
                 </div>
             </div>
         </div>
-
       
         <div class="" formArrayName="descriptions">
             <!-- <div class="set-ac">
@@ -132,6 +126,7 @@
         </div>
 
         <div class="f-height"></div>
+        
         <div class="d-flex">            
             <section class="example-section">
                 <mat-checkbox matInput formControlName="is_free" class="example-margin">Free</mat-checkbox>

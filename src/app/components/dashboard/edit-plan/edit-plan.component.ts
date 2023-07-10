@@ -109,6 +109,7 @@ export class EditPlanComponent {
 
   update() {
     if (this.editForm.valid) {
+      this.helperService.scrollToTop();
       this.helperService.showloader();
       let params: any = this.editForm.value;
 
@@ -127,11 +128,12 @@ export class EditPlanComponent {
       this.helperService.patch(url, params).subscribe(
         (res: any) => {
           if (res.status) {
-            this.msg = res.message;
-            this.refreshAllPlans();
+            this.helperService.snackPositionTopCenter(res.message);
+            this.helperService.allPlans = [];
+            this.helperService.setPlans();
             localStorage.setItem('currentPlan', JSON.stringify(res.plan));
           } else {
-            this.msg = res.message;
+            this.helperService.snackPositionTopCenter(res.message);
           }
 
           this.helperService.hideloader();
@@ -142,23 +144,6 @@ export class EditPlanComponent {
         }
       )
     }
-
-
-  }
-
-  refreshAllPlans() {
-    let params = 'auth/admin/plans ';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allPlans = res.plans;           
-        } else {
-          this.helperService.allPlans = [];
-        }
-      },
-      (err: any) => {
-        console.log(err);
-      });
 
   }
 

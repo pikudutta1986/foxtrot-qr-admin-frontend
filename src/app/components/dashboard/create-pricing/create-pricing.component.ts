@@ -88,7 +88,7 @@ export class CreatePricingComponent {
   // submit form
   submit() {
     if (this.createForm.valid) {
-
+      this.helperService.scrollToTop();
       this.helperService.showloader();
 
       let params: any = this.createForm.value;
@@ -108,16 +108,13 @@ export class CreatePricingComponent {
       this.helperService.post(url, params).subscribe(
         (res: any) => {
           if (res.status) {
-            this.msg = res.message;
             this.createForm.reset();
             this.createForm.controls.list_on_ui.setValue(true);
             this.createForm.controls.is_recurring.setValue(false);
             this.createForm.controls.discount_enabled.setValue(false);
-            this.refreshAllPricings();
-          } else {
-            this.msg = res.message;
-          }
-
+            this.helperService.getAllPricings();
+          } 
+          this.helperService.snackPositionTopCenter(res.message)
           this.helperService.hideloader();
         },
         (err: any) => {
@@ -126,22 +123,6 @@ export class CreatePricingComponent {
         }
       )
     };
-
-  }
-
-  refreshAllPricings() {
-    let params = 'auth/admin/pricings ';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allPricings = res.pricings;
-        } else {
-          this.helperService.allPricings = [];
-        }
-      },
-      (err: any) => {
-        console.log(err);
-      });
 
   }
 

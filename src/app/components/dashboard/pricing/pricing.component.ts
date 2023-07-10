@@ -17,6 +17,7 @@ export class PricingComponent {
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  pageSize:any = 10;
 
   message = '';
   classType: any = '';
@@ -84,16 +85,17 @@ export class PricingComponent {
     this.helperService.showloader();
     let url = `auth/admin/pricings/${element.id}`;
     this.helperService.delete(url).subscribe(
-      (res:any) => {
-        this.helperService.hideloader();
+      (res:any) => {        
         if(res.status) {
-          this.refreshAllPricings();
-          // this.message = res.message;
-        } else {
-
-        }
-        this.message = res.message;
-        
+          this.helperService.allPricings = [];
+          this.helperService.getAllPricings();
+          setTimeout(() => {
+            this.getPricings();
+            this.helperService.hideloader();
+            this.helperService.snackPositionTopCenter(res.message);
+          }, 1000);
+        } 
+        // this.message = res.message;        
       },
       (errors:any) => {
         console.log(errors);
@@ -103,21 +105,5 @@ export class PricingComponent {
     this.classType = 'danger';
   }
 
-  refreshAllPricings() {
-    let params = 'auth/admin/pricings ';
-    this.helperService.get(params).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.helperService.allPricings = res.pricings;  
-          this.getPricings();         
-        } else {
-          this.helperService.allPricings = [];
-        }
-      },
-      (err: any) => {
-        console.log(err);
-      });
-
-  }
-
+  
 }

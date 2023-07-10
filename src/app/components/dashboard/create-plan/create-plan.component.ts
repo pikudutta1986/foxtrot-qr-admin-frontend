@@ -37,8 +37,6 @@ export class CreatePlanComponent {
       sorting_order: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
     });
 
-    // this.addDescription();
-
   }
 
   get formControl() {
@@ -56,7 +54,7 @@ export class CreatePlanComponent {
   // submit form
   submit() {
     if (this.createForm.valid) {
-
+      this.helperService.scrollToTop();
       this.helperService.showloader();
 
       let params: any = this.createForm.value;
@@ -76,12 +74,13 @@ export class CreatePlanComponent {
       this.helperService.post(url, params).subscribe(
         (res: any) => {
           if (res.status) {
-            this.msg = res.message;
+            this.helperService.snackPositionTopCenter(res.message);
             this.createForm.reset();
             this.createForm.controls.is_free.setValue(false);
             this.createForm.controls.is_custom.setValue(false);
+            this.helperService.setPlans();
           } else {
-            this.msg = res.message;
+            this.helperService.snackPositionTopCenter(res.message);
           }
 
           this.helperService.hideloader();

@@ -12,6 +12,7 @@ export class CreateUserComponent {
 
   registerForm: any = FormGroup;
   plans:any = [];
+  selectedPlan:any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,7 +39,12 @@ export class CreateUserComponent {
     this.helperService.showloader();
     this.helperService.post('auth/admin/users', this.registerForm.value).subscribe((res: any) => {
       if (res.status) {
-        
+        this.helperService.hideloader();
+        this.registerForm.reset();
+        this.registerForm.controls.plan_id.setValue(this.selectedPlan);
+        this.helperService.snackPositionTopCenter(res.message);   
+        this.helperService.allUsers = [];
+        this.helperService.getAllUsers();     
       } else {
         if (res.errors) {
          
@@ -65,8 +71,8 @@ export class CreateUserComponent {
         }
       });
       this.plans = plans;
-      let selectedPlan = this.plans[0].id;
-      this.registerForm.controls.plan_id.setValue(selectedPlan);
+      this.selectedPlan = this.plans[0].id;
+      this.registerForm.controls.plan_id.setValue(this.selectedPlan);
     } else {
       setTimeout(() => {
         this.getPlans();        

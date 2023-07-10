@@ -1,9 +1,6 @@
 <div class="container">
-    <div class="msg d-flex align-items-center justify-content-center">
-        {{msg}}
-    </div>
-
-    <form role="form" [formGroup]="createForm" method="post" class="text-start">
+   
+    <form role="form" [formGroup]="createForm" method="post" class="text-start mt-4">
         <div class="set-ac1 d-flex">
             <h2>Create Pricing</h2>
         </div>
@@ -192,7 +189,7 @@
              
         <div class="d-flex">
             <section class="example-section">
-                <mat-checkbox matInput formControlName="list_on_ui" class="example-margin">List on Ui</mat-checkbox>
+                <mat-checkbox matInput formControlName="list_on_ui" class="example-margin">List on UI</mat-checkbox>
                 <mat-checkbox matInput formControlName="is_recurring" class="example-margin">Recurring</mat-checkbox>
                 <mat-checkbox matInput formControlName="discount_enabled" class="example-margin">Discount
                     Enabled</mat-checkbox>
