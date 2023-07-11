@@ -2,5 +2,5 @@
 export const environment =
 {
   production: true,
-  apiBase: 'https://devbackend.qr-fox.com/api/'
+  apiBase: 'https://backend.qr-fox.com/api/'
 };
