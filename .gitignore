@@ -2,6 +2,9 @@
 
 # compiled output
 /dist
+/src/environments/environment.prod.ts
+./src/environments/environment.dev.ts
+/src/environments/environment.ts
 /tmp
 /out-tsc
 # Only exists if Bazel was run
@@ -45,6 +48,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-/src/environments/environment.prod.ts
-/src/environments/environment.dev.ts
-/src/environments/environment.ts
+
