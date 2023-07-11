@@ -66,6 +66,12 @@ export class LoginComponent {
         this.password.nativeElement.classList.add('form-control','is-invalid');
       }
     });
+
+    this.helperService.error.subscribe((e:any) => {
+      console.log(e.message)
+      this.hideLoader();
+      this.helperService.snackPositionTopCenter(e.message)
+    });
   }
 
   ngAfterViewInit(): void {
