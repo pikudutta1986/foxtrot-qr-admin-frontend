@@ -44,7 +44,7 @@ export class CreateUserComponent {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      plan_id: ['',[Validators.required]],
+      plan: ['',[Validators.required]],
       platform: [''],
       price: [''],
     });
@@ -87,7 +87,7 @@ export class CreateUserComponent {
       let plans = this.helperService.allPlans;
       this.plans = plans;
       this.selectedPlan = this.plans[0].id;
-      this.registerForm.controls.plan_id.setValue(this.selectedPlan);
+      this.registerForm.controls.plan.setValue(this.selectedPlan);
     } else {
       setTimeout(() => {
         this.getPlans();        
@@ -118,7 +118,7 @@ export class CreateUserComponent {
 
   onChangePlatform(e:any) {
     let pricing = this.helperService.allPricings;
-    let plan_id = this.registerForm.controls['plan_id'].value;
+    let plan_id = this.registerForm.controls['plan'].value;
     let result = pricing.filter((x:any) => {
       if(x.plan_id == plan_id && x.platform == e) {
         return x;
@@ -145,7 +145,7 @@ export class CreateUserComponent {
       if (res.status) {
         this.helperService.hideloader();
         this.registerForm.reset();
-        this.registerForm.controls.plan_id.setValue(this.selectedPlan);
+        this.registerForm.controls.plan.setValue(this.selectedPlan);
         this.enableDetails = false;
         this.enablePriceDetails = false;
         this.helperService.snackPositionTopCenter(res.message);   

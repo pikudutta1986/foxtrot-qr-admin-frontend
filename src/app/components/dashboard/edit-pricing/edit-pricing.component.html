@@ -117,19 +117,6 @@
             </div>
             <div class="col-sm-6">
                 <div class="set-ac">
-                    <span>Discounted price:</span>
-                </div>
-                <div class="set-ac2">
-                    <input matInput placeholder="$2.65" formControlName="discounted_price">
-                </div>
-                <div class="f-height">
-                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discounted_price.touched) && formControl.discounted_price.errors?.pattern">
-                        Invalid price
-                    </span>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="set-ac">
                     <span>Sorting Order:</span>
                 </div>
                 <div class="set-ac2">
@@ -144,6 +131,19 @@
                     </span>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="set-ac">
+                    <span>Discounted price:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="$2.65" formControlName="discounted_price">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discounted_price.touched) && formControl.discounted_price.errors?.pattern">
+                        Invalid price
+                    </span>
+                </div>
+            </div>           
             <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Discount Start date:</span>

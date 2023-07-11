@@ -1,4 +1,18 @@
-
+<div class="row mt-4 align-items-center">
+    <div class="col-md-3">
+        <div class=" set-ac2">
+            <input type="text" [(ngModel)]="searchInput" (keyup)="applyFilter()" placeholder="Search"/>
+        </div>        
+    </div> 
+    <div class="col-md-3">
+        <div class="set-ac2 m-0">
+            <select id="platform" (change)="applyFilter()" name="platform" [(ngModel)]="selectedPlatform">
+                <option value="">--select platform--</option>
+                <option *ngFor="let item of platforms" [value]="item.id">{{item.text}}</option>
+            </select>
+        </div>       
+    </div>
+</div>
 <div class="mat-elevation-z8 cb mt-4 mb-4">
     <table mat-table [dataSource]="srcPricings" matSort class="mat-elevation-z8">
 

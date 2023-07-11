@@ -12,6 +12,7 @@
                 </div>
                 <div class="set-ac2">
                     <mat-select formControlName="plan_id">
+                        <mat-option value="">--select plan--</mat-option>
                         <mat-option *ngFor="let plan of plans" [value]="plan.id">
                             {{plan.name}}
                         </mat-option>
@@ -29,6 +30,7 @@
                 </div>
                 <div class="set-ac2">
                     <mat-select formControlName="platform">
+                        <mat-option value="">--select platform--</mat-option>
                         <mat-option *ngFor="let platform of platforms" [value]="platform.id">
                             {{platform.text}}
                         </mat-option>
@@ -46,6 +48,7 @@
                 </div>
                 <div class="set-ac2">
                     <mat-select formControlName="payment_gateway">
+                        <mat-option value="">--select gateway--</mat-option>
                         <mat-option *ngFor="let gateway of gateways" [value]="gateway">
                             {{gateway}}
                         </mat-option>
@@ -117,19 +120,6 @@
             </div>
             <div class="col-sm-6">
                 <div class="set-ac">
-                    <span>Discounted price:</span>
-                </div>
-                <div class="set-ac2">
-                    <input matInput placeholder="$2.65" formControlName="discounted_price">
-                </div>
-                <div class="f-height">
-                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discounted_price.touched) && formControl.discounted_price.errors?.pattern">
-                        Invalid price
-                    </span>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="set-ac">
                     <span>Sorting Order:</span>
                 </div>
                 <div class="set-ac2">
@@ -144,6 +134,19 @@
                     </span>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="set-ac">
+                    <span>Discounted price:</span>
+                </div>
+                <div class="set-ac2">
+                    <input matInput placeholder="$2.65" formControlName="discounted_price">
+                </div>
+                <div class="f-height">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.discounted_price.touched) && formControl.discounted_price.errors?.pattern">
+                        Invalid price
+                    </span>
+                </div>
+            </div>           
             <div class="col-sm-6">
                 <div class="set-ac">
                     <span>Discount Start date:</span>

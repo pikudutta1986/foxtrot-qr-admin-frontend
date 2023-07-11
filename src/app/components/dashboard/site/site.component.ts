@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/service/helper.service';
 
 export class SiteComponent {
 
-  displayedColumns: string[] = ['position', 'key', 'type', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'type', 'key', 'value', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -45,7 +45,22 @@ export class SiteComponent {
     this.helperService.showloader();
     let settingsExist = this.helperService.settings;
     if (settingsExist) {
-      this.globalSettings = settingsExist;
+      let result = settingsExist;
+      result.map((x:any) => {
+        if(x.text_value) {
+          if(x.text_value.length > 100) {
+            x.displayValue = x.text_value.substring(0, 10) + "...";
+          } else {
+            x.displayValue = x.text_value;
+          }          
+        } 
+
+        if(x.array_value) {
+          x.displayValue = 'List Items';
+        }
+      });
+      console.log(result)
+      this.globalSettings = result;
       this.setData();
     } else {
       setTimeout(() => {

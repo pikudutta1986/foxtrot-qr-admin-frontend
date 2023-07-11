@@ -25,6 +25,23 @@ export class PricingComponent {
   pricings: any = '';
   srcPricings: any = [];
 
+  selectedPlatform:any = '';
+  searchInput:any = '';
+  platforms: any = [
+    {
+      id: 'web',
+      text: 'Web'
+    },
+    {
+      id: 'android',
+      text: 'Android'
+    },
+    {
+      id: 'ios',
+      text: 'iOS'
+    },
+  ];
+
   constructor(
     public helperService: HelperService,
     private formBuilder: FormBuilder,
@@ -35,7 +52,7 @@ export class PricingComponent {
   ngOnInit(): void {
     this.helperService.showloader();
     this.helperService.searchInput.subscribe((res:any) => {
-      this.applyFilter(res);
+      // this.applyFilter(res);
     });
   }
 
@@ -57,19 +74,47 @@ export class PricingComponent {
 
   }
 
-  setData() {   
+  setData() {  
     this.srcPricings = new MatTableDataSource(this.pricings)
     this.srcPricings.paginator = this.paginator;
     this.srcPricings.sort = this.sort;
     this.helperService.hideloader();
   }
 
-  applyFilter(filterValue: any) {
-    // filterValue = filterValue.value;
-    this.srcPricings.filter = filterValue.trim().toLowerCase();
-    if (this.srcPricings.paginator) {
-      this.srcPricings.paginator.firstPage();
+  applyFilter() {
+
+    let filteredData = [];
+
+    if(this.searchInput) {     
+      let result = this.pricings.filter((x: any) => JSON.stringify(x.name).toLowerCase().indexOf(this.searchInput.toLowerCase()) !== -1);
+      filteredData = result;
     }
+
+    if(this.selectedPlatform) {
+      if(filteredData.length > 0) {
+        let result = filteredData.filter((x: any) => {
+          if(x.platform == this.selectedPlatform) {
+            return x;
+          }
+        });
+        filteredData = result;
+      } else {
+        let result = this.pricings.filter((x: any) => {
+          if(x.platform == this.selectedPlatform) {
+            return x;
+          }
+        });
+        filteredData = result;
+      } 
+    }  
+
+    if(!this.searchInput && !this.selectedPlatform) {
+      filteredData = this.pricings;
+    }
+
+    this.srcPricings = new MatTableDataSource(filteredData)
+    this.srcPricings.paginator = this.paginator;
+    this.srcPricings.sort = this.sort;    
   }
 
   editPricing(element: any) {

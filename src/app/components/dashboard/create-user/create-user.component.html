@@ -42,14 +42,14 @@
                     <span>Plan:</span>
                 </div>
                 <div class="set-ac2">
-                    <mat-select formControlName="plan_id" (selectionChange)="onChangePlan($event.value)">
+                    <mat-select formControlName="plan" (selectionChange)="onChangePlan($event.value)">
                         <mat-option *ngFor="let plan of plans" [value]="plan.id" [disabled]="plan.disabled">
                             {{plan.name}}
                         </mat-option>
                     </mat-select>
                 </div>
                 <div class="f-height">
-                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.plan_id.touched) && formControl.plan_id.errors?.required">
+                    <span class="text-danger c-font-size mx-2" *ngIf="(formControl.plan.touched) && formControl.plan.errors?.required">
                         Plan is required
                     </span>
                 </div>
@@ -61,6 +61,7 @@
                 </div>
                 <div class="set-ac2">
                     <mat-select formControlName="platform" (selectionChange)="onChangePlatform($event.value)">
+                        <mat-option value="">--select platform--</mat-option>
                         <mat-option *ngFor="let item of platforms" [value]="item.id">
                             {{item.text}}
                         </mat-option>
@@ -79,6 +80,7 @@
                 </div>
                 <div class="set-ac2">
                     <mat-select formControlName="price" (selectionChange)="onChangePrice($event.value)">
+                        <mat-option value="">--select pricing--</mat-option>
                         <mat-option *ngFor="let item of prices" [value]="item.id">
                             {{item.price}}
                         </mat-option>

@@ -25,7 +25,7 @@ export class UsersComponent {
 
   matcher = new ErrorStateMatcher();
 
-  displayedColumns: string[] = ['position', 'email', 'plan', 'current_plan_expiry_day', 'action'];
+  displayedColumns: string[] = ['position', 'email', 'plans', 'current_plan_expiry_day', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -185,9 +185,10 @@ export class UsersComponent {
   }
 
   setPagination(links: any) {
+    console.log(links)
     let srcData = links.data;
     srcData.map((x:any) => {
-      x.plan = x.plan.name;
+      x.plans = x.plan.name;
     });
     this.srcData = srcData;
     this.total = links.total;
