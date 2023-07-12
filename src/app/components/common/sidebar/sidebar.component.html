@@ -18,8 +18,8 @@
                 <!-- <span class="down-arrow"><i class="fa fa-arrow-down" aria-hidden="true"></i></span> -->
             </a>
             <ul class="collapse" id="submenu2">
-                <li><a class="dropdown-item" [routerLink]="'./users/create'"> Add User </a></li>
-                <li><a class="dropdown-item" [routerLink]="'./users'"> User list </a></li>
+                <li><a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="dropdown-item" [routerLink]="'./users/create'"> Add User </a></li>
+                <li><a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="dropdown-item" [routerLink]="'./users'"> User list </a></li>
             </ul>
         </li>
         <li>
@@ -28,8 +28,8 @@
                 <span class="nav-link-text ms-2 ps-1">Plans</span>
             </a>
             <ul class="collapse" id="plan">
-                <li><a class="dropdown-item" [routerLink]="'./plans/create-plan'"> Add Plan </a></li>
-                <li><a class="dropdown-item" [routerLink]="'./plans'"> Plan list </a></li>
+                <li><a  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="dropdown-item" [routerLink]="'./plans/create-plan'"> Add Plan </a></li>
+                <li><a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="dropdown-item" [routerLink]="'./plans'"> Plan list </a></li>
             </ul>
         </li>
         <li>
@@ -38,12 +38,12 @@
                 <span class="nav-link-text ms-2 ps-1">Pricing</span>
             </a>
             <ul class="collapse" id="price">
-                <li><a class="dropdown-item" [routerLink]="'./pricing/create-pricing'"> Add Price </a></li>
-                <li><a class="dropdown-item" [routerLink]="'./pricing'"> Price list </a></li>
+                <li><a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="dropdown-item" [routerLink]="'./pricing/create-pricing'"> Add Price </a></li>
+                <li><a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="dropdown-item" [routerLink]="'./pricing'"> Price list </a></li>
             </ul>
         </li>
         <li>
-            <a routerLinkActive="active" [routerLink]="'./payments'">
+            <a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" [routerLink]="'./payments'">
                 <label><i class="fa fa-money" aria-hidden="true"></i></label>
                 <span class="nav-link-text ms-2 ps-1">Payment</span>
             </a>

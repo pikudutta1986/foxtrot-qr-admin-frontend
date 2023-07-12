@@ -77,12 +77,19 @@ export class BarChartComponent {
       var chart = new google.visualization.ColumnChart(document.getElementById(this.type));
     } else if (this.type == 'user') {
       var chart = new google.visualization.BarChart(document.getElementById(this.type));
+    } else if(this.type == 'payment') {
+      options = {
+        height: 'auto',
+        legend: 'none',
+        colors: ['#FF14B5']
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById(this.type));
     } else {
       options = {
         // title: "All Type of generated Qr Codes",
         height: 'auto',
-        legend: 'none',
-        colors: ['#FF14B5', '#ff89da']
+        // legend: 'none',
+        // colors: ['#FF14B5', '#ff89da', '#FF5733']
       };
       var chart = new google.visualization.PieChart(document.getElementById(this.type));
     }

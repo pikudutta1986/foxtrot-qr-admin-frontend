@@ -61,14 +61,18 @@ export class AnalyticsComponent {
   };
 
   platforms: any = {
-    'Android': 18,
-    'Ios': 13,
+    'Android': 22,
+    'Ios': 23,
+    'Web': 55
   };
 
-  locationChartData: any = {
-    'Johannesburg, ZA': 18,
-    'Cape Town, ZA': 13,
+  locationChartData: any;
+  planChartsrcData:any = {
+    'Starter': 25,
+    'Pro': 35,
+    'Enterprise': 45
   };
+  paymentChartsrcData:any = {};
 
   userData: any;
   plans: any;
@@ -86,7 +90,7 @@ export class AnalyticsComponent {
   }
 
   ngOnInit() {
-
+    this.getLocationData();
   }
 
   ngAfterViewInit() {
@@ -105,6 +109,45 @@ export class AnalyticsComponent {
     }
 
     this.cdrf.detectChanges();
+  }
+
+  // get percentage
+  getPercentage(num: any, total: any) {
+    return ((num / total) * 100).toFixed(2);
+  }
+
+  getLocationData() {
+    let locationData: any = 
+      {
+        users: [
+          {
+            count: 25,
+            name: 'India',
+          },
+          {
+            count: 21,
+            name: 'UK',
+          },
+          {
+            count: 19,
+            name: 'USA',
+          },
+          {
+            count: 15,
+            name: 'RSA',
+          }
+        ],
+        count: 80
+      }
+    ;
+    if (locationData.count > 0) {
+      locationData.users.map((x: any) => {
+        x.percentage = this.getPercentage(x.count, locationData.count)
+      });
+
+      this.locationChartData = locationData;
+      console.log(this.locationChartData)
+    }
   }
 
 
