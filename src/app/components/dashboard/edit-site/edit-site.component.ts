@@ -83,7 +83,6 @@ export class EditSiteComponent {
     let params: any = this.route.snapshot.params;
     this.currentSettingsId = params.id;
     this.buildForm();
-
   }
 
   // populate form
@@ -123,10 +122,8 @@ export class EditSiteComponent {
   getDetailsById() {
     if (this.globalSettings && this.globalSettings.length > 0) {
       let currentSettings: any = this.helperService.settings.find((x: any) => x.id == this.currentSettingsId);
-
       if (this.currentSettingsId == currentSettings.id) {
         this.setData(currentSettings)
-        // this.helperService.hideloader()
       }
     }
   }
@@ -143,9 +140,7 @@ export class EditSiteComponent {
       let obj = {
         value: dataType,
       };
-
       this.onChange(obj);
-
     }
 
     this.helperService.hideloader();
@@ -246,11 +241,11 @@ export class EditSiteComponent {
         (res: any) => {
           if (res.status) {
             this.msg = res.message;
-            // this.editForm.reset();
+            this.helperService.snackPositionTopCenter(this.msg);
             this.helperService.getSiteSettings();
-            // this.buildForm();
           } else {
             this.msg = res.message;
+            this.helperService.snackPositionTopCenter(this.msg);
           }
 
           this.helperService.hideloader();
@@ -268,6 +263,10 @@ export class EditSiteComponent {
 
   addDescription() {
     this.array_values.push(new FormControl(''));
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('currentSiteSettings');
   }
 
 }

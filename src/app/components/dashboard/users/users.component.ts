@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 declare var $: any;
+declare var saveAs: any;
+declare var XLSX:any;
 
 @Component({
   selector: 'app-users',
@@ -68,6 +70,7 @@ export class UsersComponent {
   from_date: any = '';
   to_date: any = '';
   keyupTimer: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private _liveAnnouncer: LiveAnnouncer,
@@ -77,11 +80,9 @@ export class UsersComponent {
     public helperService: HelperService) { }
 
   ngOnInit(): void {
-
     this.helperService.showloader();
     this.getPlans();
     this.getUsers();
-
   }
 
   ngAfterViewInit() {
@@ -185,7 +186,6 @@ export class UsersComponent {
   }
 
   setPagination(links: any) {
-    console.log(links)
     let srcData = links.data;
     srcData.map((x:any) => {
       x.plans = x.plan.name;
@@ -275,11 +275,7 @@ export class UsersComponent {
 
 
   }
-
-  export() {
-    console.log('export')
-  }
-
+  
   // get filter data
   getFilterData(p: any) {
     this.helperService.showloader();
@@ -289,12 +285,58 @@ export class UsersComponent {
       (res: any) => {
         if (res.success) {
           this.setPagination(res.users);
+          if(p.includes ('download')) {
+            console.log('true')
+            let srcResponse = JSON.stringify(res.users.data);
+            this.exportToExcel(srcResponse)
+          }          
           this.helperService.hideloader();
         }
       },
       (e: any) => {
         console.log(e);
-      });
+    });
   }
 
+  exportToExcel(val:any) {
+    let result = JSON.parse(val);
+    let i = 0;
+    result.map((x:any) => {
+      i = i+1;
+      // x.Serial = i;
+      delete x.id;
+      delete x.deleted_at;
+      delete x.plan;
+      x.plan = x.plans;
+      delete x.plans;
+      x.updated_at = new DatePipe('en-US').transform(x.updated_at, 'MMM d, y, h:mm:ss a');
+      x.created_at = new DatePipe('en-US').transform(x.created_at, 'MMM d, y, h:mm:ss a');
+      x.email_verified_at = new DatePipe('en-US').transform(x.email_verified_at, 'MMM d, y, h:mm:ss a');
+
+    });
+    var myJsonString = JSON.stringify(result);   
+    var jsonDataObject = eval(myJsonString);		
+		exportWorksheet(jsonDataObject);  
+  };
+
 }
+
+function exportWorksheet(jsonObject:any) {
+  var myFile = "report.xlsx";
+  var myWorkSheet = XLSX.utils.json_to_sheet(jsonObject);
+  var myWorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(myWorkBook, myWorkSheet, "myWorkSheet");
+  XLSX.writeFile(myWorkBook, myFile);
+}
+
+// function exportWSPlus(jsonObject:any) {
+//   var myFile = "myFilePlus.xlsx";
+//   var myWorkSheet = XLSX.utils.json_to_sheet(jsonObject);
+//   XLSX.utils.sheet_add_aoa(myWorkSheet, [["Mesage"]], { origin: 0 });
+//   var merges = myWorkSheet['!merges'] = [{ s: 'A1', e: 'D1' }];
+//   var myWorkBook = XLSX.utils.book_new();
+//   XLSX.utils.book_append_sheet(myWorkBook, myWorkSheet, "myWorkSheet2");
+//   XLSX.writeFile(myWorkBook, myFile);
+// }
+
+

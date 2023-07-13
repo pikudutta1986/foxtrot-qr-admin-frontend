@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class PricingComponent {
 
-  displayedColumns: string[] = ['position', 'name', 'price', 'payment_gateway', 'duration_in_months', 'platform', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'price', 'payment_gateway', 'duration_in_months', 'platform', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

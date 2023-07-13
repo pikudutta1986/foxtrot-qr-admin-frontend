@@ -82,11 +82,11 @@ export class AnalyticsComponent {
     private router: Router,
     private cdrf: ChangeDetectorRef,
     public helperService: HelperService) {
-    let data: any = sessionStorage.getItem('userData');
+    let data: any = localStorage.getItem('userData');
     this.userData = JSON.parse(data);
 
-    let plans: any = sessionStorage.getItem('all-plans');
-    this.plans = JSON.parse(plans);
+    // let plans: any = sessionStorage.getItem('all-plans');
+    // this.plans = JSON.parse(plans);
   }
 
   ngOnInit() {
@@ -146,7 +146,6 @@ export class AnalyticsComponent {
       });
 
       this.locationChartData = locationData;
-      console.log(this.locationChartData)
     }
   }
 

@@ -17,7 +17,7 @@ export class SidebarComponent {
     private authService: AuthService,
     private helperService: HelperService,
     private router: Router) {      
-      this.userName = sessionStorage.getItem('user_name');
+      this.userName = localStorage.getItem('user_name');
   }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class SidebarComponent {
     this.authService.logout().subscribe((res:any) => {      
       if(res.status) {
         this.helperService.hideloader();
-        sessionStorage.clear();
+        localStorage.clear();
         this.router.navigate((['/']))
       }
     },

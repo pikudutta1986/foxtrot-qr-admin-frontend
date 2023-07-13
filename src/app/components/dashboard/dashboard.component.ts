@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { HelperService } from 'src/app/service/helper.service';
 
 @Component({
@@ -13,14 +15,13 @@ export class DashboardComponent {
 
   constructor(
     private helperService: HelperService,
-    private router: Router) {
-      this.helperService.getAllUsers(); 
-      this.helperService.setPlans();
-      this.helperService.getAllPricings();
-      this.helperService.getSiteSettings();
+    private authService: AuthService,
+    private router: Router) {         
   }
 
   ngOnInit() {
+
+    this.getAllData();   
     
     // SIDEBAR TOGGLE CLICK ACTION
     this.helperService.isSidebarToggled.subscribe((x: any) => {
@@ -37,6 +38,26 @@ export class DashboardComponent {
       this.helperService.snackPositionTopCenter(e.message)
     });
 
+    this.router.events.pipe(
+      filter((event: any) => event instanceof NavigationStart),
+    ).subscribe((event: NavigationStart) => {
+      this.checkAuthentication();
+    });
+
+  }
+
+  getAllData() {
+    if(this.helperService.access_token) {
+      this.helperService.getAllUsers(); 
+      this.helperService.setPlans();
+      this.helperService.getAllPricings();
+      this.helperService.getSiteSettings();
+    } else {
+      setTimeout(() => {
+        this.getAllData();        
+      }, 800);
+    }
+    
   }
 
   ngOnChanges() {
@@ -45,14 +66,20 @@ export class DashboardComponent {
 
   // get user details
   getUserDetails() {
-
     this.helperService.get('user').subscribe((res:any) => {
       if(res) {
         this.helperService.userName.next(res.email);
-        sessionStorage.setItem ('user_id', res.id);
-        sessionStorage.setItem ('user_name', res.email);
+        localStorage.setItem ('user_id', res.id);
+        localStorage.setItem ('user_name', res.email);
       }
     });    
+  }
+
+  checkAuthentication() {
+    if(this.authService.isLoggedIn()) {
+      console.log('true')
+      // this.router.navigate(['dashboard/payments']);
+    }
   }
 
 }

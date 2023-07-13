@@ -82,7 +82,7 @@
                     <mat-select formControlName="price" (selectionChange)="onChangePrice($event.value)">
                         <mat-option value="">--select pricing--</mat-option>
                         <mat-option *ngFor="let item of prices" [value]="item.id">
-                            {{item.price}}
+                            {{item.displayText}}
                         </mat-option>
                     </mat-select>
                 </div>
