@@ -1,4 +1,4 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, Input } from '@angular/core';
 import { HelperService } from 'src/app/service/helper.service';
 declare var google: any;
 
@@ -14,16 +14,28 @@ export class BarChartComponent {
   @Input() srcData: any = '';
   @Input() type: any = '';
 
-  constructor(public helperServcie: HelperService) { }
+  constructor(public helperServcie: HelperService,public cdr: ChangeDetectorRef,) { }
 
   ngOnInit(): void {
     // google.load('visualization', '1', {packages: ['imagechart']});
-    google.charts.load('current', { packages: ['corechart'] });
-    this.getData();
+    // google.charts.load('current', { packages: ['corechart'] });
+    // google.load('visualization', '1.0', {'packages':['corechart']});
+    // this.getData();
   }
 
+  
+  ngAfterViewInit() {
+    google.charts.load('current', { packages: ['corechart'] });
+    setTimeout(() => {
+      this.getData();      
+    }, 600);
+    this.cdr.detectChanges();    
+  }
+
+
+
   ngOnChanges() {
-    if (this.srcData) {
+    if(this.srcData) {
       this.setData();
     }
 
@@ -32,7 +44,7 @@ export class BarChartComponent {
   getData() {
     this.helperServcie.showloader();
     setTimeout(() => {
-      if (this.srcData) {
+      if(this.srcData) {
         this.setData();
       } else {
         this.getData();

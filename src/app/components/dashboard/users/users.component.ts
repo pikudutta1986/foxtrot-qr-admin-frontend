@@ -86,6 +86,7 @@ export class UsersComponent {
   ngAfterViewInit() {
     this.getPlans();
     this.getUsers();
+    this.cdr.detectChanges();
   }
 
   // get all plans
