@@ -80,13 +80,24 @@ export class UsersComponent {
     public helperService: HelperService) { }
 
   ngOnInit(): void {
-    this.helperService.showloader();
+    this.helperService.showloader();   
+  }
+
+  ngAfterViewInit() {
     this.getPlans();
     this.getUsers();
   }
 
-  ngAfterViewInit() {
-
+  // get all plans
+  getPlans() {
+    if (this.helperService.allPlans && this.helperService.allPlans.length > 0) {
+      this.plans = this.helperService.allPlans;
+      let selectedPlan = this.plans[0].id;
+    } else {
+      setTimeout(() => {
+        this.getPlans();
+      }, 1000);
+    }
   }
 
   // get users
@@ -215,17 +226,6 @@ export class UsersComponent {
 
     this.helperService.hideloader();
 
-  }
- 
-  getPlans() {
-    if (this.helperService.allPlans && this.helperService.allPlans.length > 0) {
-      this.plans = this.helperService.allPlans;
-      let selectedPlan = this.plans[0].id;
-    } else {
-      setTimeout(() => {
-        this.getPlans();
-      }, 1000);
-    }
   }
 
   filter(download?: any) {

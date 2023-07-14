@@ -17,6 +17,7 @@ export class BarChartComponent {
   constructor(public helperServcie: HelperService) { }
 
   ngOnInit(): void {
+    // google.load('visualization', '1', {packages: ['imagechart']});
     google.charts.load('current', { packages: ['corechart'] });
     this.getData();
   }

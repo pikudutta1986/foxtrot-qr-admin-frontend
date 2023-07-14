@@ -50,7 +50,7 @@ export class SiteComponent {
         result.map((x: any) => {
           if (x.text_value) {
             if (x.text_value.length > 100) {
-              x.displayValue = x.text_value.substring(0, 10) + "...";
+              x.displayValue = x.text_value.substring(0, 100) + "...";
             } else {
               x.displayValue = x.text_value;
             }

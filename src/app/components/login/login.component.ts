@@ -37,11 +37,13 @@ export class LoginComponent {
 
     // Remember me set
     let remeberData: any = this.helperService.getCookie('remeberData');
-    remeberData = JSON.parse(remeberData);
-    if (remeberData && remeberData.rememberMe) {
-      this.loginForm.controls.email.setValue(remeberData.email);
-      this.loginForm.controls.password.setValue(remeberData.password);
-      this.loginForm.controls.remember.setValue(remeberData.rememberMe);
+    if(remeberData) {
+      remeberData = JSON.parse(remeberData);
+      if (remeberData && remeberData.rememberMe) {
+        this.loginForm.controls.email.setValue(remeberData.email);
+        this.loginForm.controls.password.setValue(remeberData.password);
+        this.loginForm.controls.remember.setValue(remeberData.rememberMe);
+      }
     }
 
     // 
@@ -80,11 +82,13 @@ export class LoginComponent {
 
   ngAfterViewInit(): void {
     let remeberData: any = this.helperService.getCookie('remeberData');
-    remeberData = JSON.parse(remeberData);
-    if (remeberData && remeberData.rememberMe) {
-      this.email.nativeElement.classList.add('is-valid');
-      this.password.nativeElement.classList.add('is-valid');
-    }
+    if(remeberData) {
+      remeberData = JSON.parse(remeberData);
+      if (remeberData && remeberData.rememberMe) {
+        this.email.nativeElement.classList.add('is-valid');
+        this.password.nativeElement.classList.add('is-valid');
+      }
+    }    
   }
 
 
