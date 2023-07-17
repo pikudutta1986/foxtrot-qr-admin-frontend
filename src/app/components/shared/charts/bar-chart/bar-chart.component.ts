@@ -32,13 +32,10 @@ export class BarChartComponent {
     this.cdr.detectChanges();    
   }
 
-
-
   ngOnChanges() {
     if(this.srcData) {
       this.setData();
     }
-
   }
 
   getData() {

@@ -20,6 +20,7 @@ export class HelperService {
   allPlans: any;
   allPricings: any;
   settings: any;
+  allPayments:any;
 
   error = new Subject<any>();
 
@@ -173,6 +174,21 @@ export class HelperService {
           this.settings = [];
         }
         // return res;
+      });
+  }
+
+  getAllPayments() {
+    let params = 'auth/admin/payments';
+    this.get(params).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.allPayments = res.pricings;
+        } else {
+          this.allPayments = [];
+        }
+      },
+      (e: any) => {
+        console.log(e);
       });
   }
 

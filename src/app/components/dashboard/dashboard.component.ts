@@ -52,6 +52,7 @@ export class DashboardComponent {
       this.helperService.setPlans();
       this.helperService.getAllPricings();
       this.helperService.getSiteSettings();
+      this.helperService.getAllPayments();
     } else {
       setTimeout(() => {
         this.getAllData();        
