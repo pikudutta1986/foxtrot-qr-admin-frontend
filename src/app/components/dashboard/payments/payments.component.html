@@ -40,7 +40,7 @@
         <div class="set-ac2 m-0">
             <select id="gatewayId" name="gatewayId" (change)="filter()" [(ngModel)]="gatewayId">
                 <option value="">--select gateway--</option>
-                <option *ngFor="let item of paymentGateways" [value]="item.id">{{item.name}}</option>
+                <option *ngFor="let item of paymentGateways" [value]="item">{{item}}</option>
             </select>
         </div>       
     </div>
@@ -126,7 +126,7 @@
         </ng-container>
 
         <tr class="mat-row text-center" *matNoDataRow>
-            <td class="mat-cell py-4" colspan="5">No transactions found!</td>
+            <td class="mat-cell py-4" colspan="8">No data found!</td>
         </tr>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

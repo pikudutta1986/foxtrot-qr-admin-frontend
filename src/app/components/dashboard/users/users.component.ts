@@ -283,13 +283,18 @@ export class UsersComponent {
     let params = 'auth/admin/users';
     let s = `${params}?${p}`
     this.helperService.get(s).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.setPagination(res.users);
+      async (res: any) => {
+        if (res.success) {          
           if(p.includes ('download')) {
-            console.log('true')
-            let srcResponse = JSON.stringify(res.users.data);
-            this.exportToExcel(srcResponse)
+            let url = `${this.helperService.mediaUrl}${res.users}`;
+            let cDate = new Date().toISOString().slice(0, 10);
+            const result = await fetch(url);
+            const file = await result.blob()
+            const fileUrl = URL.createObjectURL(file);
+            const filename = `Report - ${cDate}.xlsx`;
+            downloadURI(fileUrl,filename);
+          } else {
+            this.setPagination(res.users);
           }          
           this.helperService.hideloader();
         }
@@ -330,14 +335,14 @@ function exportWorksheet(jsonObject:any) {
   XLSX.writeFile(myWorkBook, myFile);
 }
 
-// function exportWSPlus(jsonObject:any) {
-//   var myFile = "myFilePlus.xlsx";
-//   var myWorkSheet = XLSX.utils.json_to_sheet(jsonObject);
-//   XLSX.utils.sheet_add_aoa(myWorkSheet, [["Mesage"]], { origin: 0 });
-//   var merges = myWorkSheet['!merges'] = [{ s: 'A1', e: 'D1' }];
-//   var myWorkBook = XLSX.utils.book_new();
-//   XLSX.utils.book_append_sheet(myWorkBook, myWorkSheet, "myWorkSheet2");
-//   XLSX.writeFile(myWorkBook, myFile);
-// }
+function downloadURI(uri:any, name?:any) {
+  var link = document.createElement("a");
+  link.setAttribute('download', name);
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
 
 

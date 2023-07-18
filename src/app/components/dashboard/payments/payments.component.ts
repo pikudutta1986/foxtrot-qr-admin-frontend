@@ -32,7 +32,7 @@ export class PaymentsComponent {
   searchInputText: any = '';
   planId: any = '';
   pricingId:any = '';
-  gatewayId:any;
+  gatewayId:any = '';
   from_date: any = '';
   to_date: any = '';
   keyupTimer: any;
@@ -50,6 +50,7 @@ export class PaymentsComponent {
     this.getPayments();
     this.getPlans();
     this.getAllPricings();
+    this.getGateway();
     this.cdr.detectChanges();   
   }
 
@@ -84,8 +85,25 @@ export class PaymentsComponent {
         this.getPayments();
       }, 1000);
     }
-  } 
+  }
   
+  // all payment gateway
+  getGateway() {
+    if(this.helperService.settings && this.helperService.settings.length > 0 ) {
+      let settings = this.helperService.settings;
+      if(settings) {
+        let result = settings.find((x:any) => x.key == 'payment_gateway');
+        if(result) {
+          this.paymentGateways = result.array_value;
+        }
+      }
+    } else {
+      setTimeout(() => {
+        this.getGateway();
+      }, 1000);
+    }
+  }
+   
   setPagination(links: any) {
     let srcData = links.data;
     srcData.map((x:any) => {
@@ -137,8 +155,85 @@ export class PaymentsComponent {
     }
   }
 
-  filter() {
+  filter(download?: any) {
+    let param = '';
 
+    if (this.searchInputText) {
+      param = `users=${this.searchInputText}`;
+    }
+
+    if (this.planId) {
+      if (param && param.length > 0) {
+        param = `${param},plan=${this.planId}`;
+      } else {
+        param = `${param}plan=${this.planId}`;
+      }
+    }
+
+    if(this.pricingId) {
+      if (param && param.length > 0) {
+        param = `${param},price=${this.pricingId}`;
+      } else {
+        param = `${param}price=${this.pricingId}`;
+      }
+    }
+
+    if (this.from_date) {
+      if (param && param.length > 0) {
+        param = `${param},from_date=${this.from_date}`;
+      } else {
+        param = `${param}from_date=${this.from_date}`;
+      }
+    }
+
+    if (this.to_date) {
+      if (param && param.length > 0) {
+        param = `${param},to_date=${this.to_date}`;
+      } else {
+        param = `${param}to_date=${this.to_date}`;
+      }
+    }
+
+    if(this.gatewayId) {
+      if (param && param.length > 0) {
+        param = `${param},payment_gateway=${this.gatewayId}`;
+      } else {
+        param = `${param}payment_gateway=${this.gatewayId}`;
+      }
+    }
+
+    // if (download) {
+    //   if (param && param.length > 0) {
+    //     param = `${param},download=1`;
+    //   } else {
+    //     param = `${param}download=1`;
+    //   }
+    // }
+    // console.log(param)
+
+    clearTimeout(this.keyupTimer);
+    this.keyupTimer = setTimeout(() => {
+      this.getFilterData(param);
+    }, 1800);
+
+
+  }
+
+  // get filter data
+  getFilterData(p: any) {
+    this.helperService.showloader();
+    let params = 'auth/admin/payments';
+    let s = `${params}?${p}`;
+    this.helperService.get(s).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.setPagination(res.pricings);                
+          this.helperService.hideloader();
+        }
+      },
+      (e: any) => {
+        console.log(e);
+    });
   }
 
 

@@ -84,9 +84,6 @@ export class AnalyticsComponent {
     public helperService: HelperService) {
     let data: any = localStorage.getItem('userData');
     this.userData = JSON.parse(data);
-
-    // let plans: any = sessionStorage.getItem('all-plans');
-    // this.plans = JSON.parse(plans);
   }
 
   ngOnInit() {
@@ -138,8 +135,7 @@ export class AnalyticsComponent {
           }
         ],
         count: 80
-      }
-    ;
+    };
     if (locationData.count > 0) {
       locationData.users.map((x: any) => {
         x.percentage = this.getPercentage(x.count, locationData.count)

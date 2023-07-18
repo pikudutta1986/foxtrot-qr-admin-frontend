@@ -15,6 +15,7 @@ export class HelperService {
   isSidebarToggled = new Subject<boolean>();
   userName = new Subject<any>();
   searchInput = new Subject<any>();
+  mediaUrl:any;
 
   allUsers: any;
   allPlans: any;
@@ -170,6 +171,12 @@ export class HelperService {
       .subscribe((res: any) => {
         if (res.success) {
           this.settings = res.settings;
+          if(this.settings) {
+            let result = this.settings.filter((x:any) => x.key == 'assets_base');
+            if(result) {
+              this.mediaUrl = result[0].text_value;
+            }
+          }
         } else {
           this.settings = [];
         }
