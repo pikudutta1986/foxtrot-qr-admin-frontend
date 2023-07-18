@@ -238,7 +238,7 @@ export class UsersComponent {
 
     if (this.planId) {
       if (param && param.length > 0) {
-        param = `${param},plan=${this.planId}`;
+        param = `${param}&plan=${this.planId}`;
       } else {
         param = `${param}plan=${this.planId}`;
       }
@@ -246,7 +246,7 @@ export class UsersComponent {
 
     if (this.from_date) {
       if (param && param.length > 0) {
-        param = `${param},from_date=${this.from_date}`;
+        param = `${param}&from_date=${this.from_date}`;
       } else {
         param = `${param}from_date=${this.from_date}`;
       }
@@ -254,7 +254,7 @@ export class UsersComponent {
 
     if (this.to_date) {
       if (param && param.length > 0) {
-        param = `${param},to_date=${this.to_date}`;
+        param = `${param}&to_date=${this.to_date}`;
       } else {
         param = `${param}to_date=${this.to_date}`;
       }
@@ -262,7 +262,7 @@ export class UsersComponent {
 
     if (download) {
       if (param && param.length > 0) {
-        param = `${param},download=1`;
+        param = `${param}&download=1`;
       } else {
         param = `${param}download=1`;
       }
