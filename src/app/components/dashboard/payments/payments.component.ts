@@ -12,51 +12,30 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class PaymentsComponent {
 
-  displayedColumns: string[] = ['position', 'amount', 'type', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'userDisplay', 'planDisplay', 'price', 'payment_gateway', 'status', 'created_at', 'expired_at'];
   
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   message = '';
   classType:any = '';
-  userPlans:any = [];
-  staticData:any = [
-    {
-      id: 1, amount: '106', type: 'yearly', created_at: '2023-02-23 09:32:52'
-    },
-    {
-      id: 2, amount: '206', type: 'unlimited', created_at: '2023-02-23 09:33:52'
-    },
-    {
-      id: 3, amount: '306', type: 'yearly', created_at: '2023-02-23 09:34:52'
-    },
-    {
-      id: 4, amount: '406', type: 'yearly', created_at: '2023-02-23 09:35:52'
-    },
-    {
-      id: 5, amount: '506', type: 'quarter', created_at: '2023-02-23 09:36:52'
-    }
-  ];
-
-  mainSrcData:any = [
-    {
-      id: 1, amount: '106', type: 'yearly', created_at: '2023-02-23 09:32:52'
-    },
-    {
-      id: 2, amount: '206', type: 'unlimited', created_at: '2023-02-23 09:33:52'
-    },
-    {
-      id: 3, amount: '306', type: 'yearly', created_at: '2023-02-23 09:34:52'
-    },
-    {
-      id: 4, amount: '406', type: 'yearly', created_at: '2023-02-23 09:35:52'
-    },
-    {
-      id: 5, amount: '506', type: 'quarter', created_at: '2023-02-23 09:36:52'
-    }
-  ];
-
+  userPayments:any = [];
+  srcData:any;
   selectedUserId:any = '';
+  total:any;
+  links:any;
+
+  plans: any = [];
+  pricings:any = [];
+  paymentGateways:any = [];
+
+  searchInputText: any = '';
+  planId: any = '';
+  pricingId:any = '';
+  gatewayId:any = '';
+  from_date: any = '';
+  to_date: any = '';
+  keyupTimer: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -64,65 +43,198 @@ export class PaymentsComponent {
     public helperService: HelperService) { }
 
   ngOnInit(): void {    
-    // this.getPlans();   
-    this.helperService.searchInput.subscribe((res:any) => {     
-        this.applyFilter(res);
-    });
+    this.helperService.showloader();
   } 
 
   ngAfterViewInit() {
-    this.staticData.map((x:any) => {
-      x.isEdit = false;
-    });    
-    this.userPlans = new MatTableDataSource(this.staticData)
-    this.userPlans.paginator = this.paginator;
-    this.userPlans.sort = this.sort;
-    this.cdr.detectChanges();
+    this.getPayments();
+    this.getPlans();
+    this.getAllPricings();
+    this.getGateway();
+    this.cdr.detectChanges();   
   }
 
+  // get all plans
   getPlans() {
-    this.userPlans = new MatTableDataSource(this.staticData)
-    this.userPlans.paginator = this.paginator;
-    this.userPlans.sort = this.sort;
-  }
-
-  applyFilter(filterValue: any) {
-    // filterValue = filterValue.value;
-    this.userPlans.filter = filterValue.trim().toLowerCase();
-    if (this.userPlans.paginator) {
-      this.userPlans.paginator.firstPage();
+    if (this.helperService.allPlans && this.helperService.allPlans.length > 0) {
+      this.plans = this.helperService.allPlans;
+    } else {
+      setTimeout(() => {
+        this.getPlans();
+      }, 1000);
     }
   }
 
-  editUser(element:any) {
-    element.isEdit = true;
-    this.selectedUserId = element.id;
-    console.log(element,'e')
+  // get all pricings
+  getAllPricings() {
+    if (this.helperService.allPricings && this.helperService.allPricings.length > 0) {
+      this.pricings = this.helperService.allPricings;
+    } else {
+      setTimeout(() => {
+        this.getAllPricings();
+      }, 1000);
+    }
   }
 
-  deleteUser(element:any) {
-    console.log(element,'e')
-    this.classType = 'danger';
-    this.message = 'Successfully deleted';
+  // ALL PAYMENTS  
+  getPayments() {
+    if(this.helperService.allPayments && this.helperService.allPayments.data.length > 0 ) {
+      this.setPagination(this.helperService.allPayments);
+    } else {
+      setTimeout(() => {
+        this.getPayments();
+      }, 1000);
+    }
   }
-
-  saveUser(element:any) {
-    element.isEdit = false;
-    this.classType = 'success';
-    this.message = 'Successfully updated';
-    console.log(element,'e')
+  
+  // all payment gateway
+  getGateway() {
+    if(this.helperService.settings && this.helperService.settings.length > 0 ) {
+      let settings = this.helperService.settings;
+      if(settings) {
+        let result = settings.find((x:any) => x.key == 'payment_gateway');
+        if(result) {
+          this.paymentGateways = result.array_value;
+        }
+      }
+    } else {
+      setTimeout(() => {
+        this.getGateway();
+      }, 1000);
+    }
   }
-
-  cancelUser(element:any) {
-    this.message = '';
-    let result = this.mainSrcData.find((x:any) => {
-      return x.id == element.id;
+   
+  setPagination(links: any) {
+    let srcData = links.data;
+    srcData.map((x:any) => {
+      x.userDisplay = x.user.email;
+      x.planDisplay = x.pricing.name;
+      x.expired_at = x.user.current_plan_expiry_day;
     });
+    this.srcData = srcData;
+    this.total = links.total;
+    this.userPayments = new MatTableDataSource(this.srcData)
+    this.userPayments.sort = this.sort;
 
-    element.name = result.name;
-    element.email = result.email;
+    let srclinks = links.links;
 
-    element.isEdit = false;
+    if (srclinks.length > 0) {
+      srclinks.map((l: any) => {
+        let text = l.label;
+        let laquo = text.includes("&laquo;");
+        if (laquo) {
+          l.label = text.replace('&laquo;', '');
+        }
+        let raquo = text.includes("&raquo;");
+        if (raquo) {
+          l.label = text.replace('&raquo;', '');
+        }
+      });
+
+      this.links = srclinks;
+    }
+
+    this.helperService.hideloader();
+
   }
+
+  gotoPage(page: any) {
+    if (page.url) {
+      this.helperService.scrollToTop();
+      setTimeout(() => {
+        this.helperService.showloader();
+        this.helperService.rawGet(page.url).subscribe((res: any) => {
+          if (res.success) {
+            this.setPagination(res.pricings);
+          } else {
+            this.srcData = [];
+          }
+          this.helperService.hideloader();
+        })
+      }, 500);
+    }
+  }
+
+  filter(download?: any) {
+    let param = '';
+
+    if (this.searchInputText) {
+      param = `users=${this.searchInputText}`;
+    }
+
+    if (this.planId) {
+      if (param && param.length > 0) {
+        param = `${param},plan=${this.planId}`;
+      } else {
+        param = `${param}plan=${this.planId}`;
+      }
+    }
+
+    if(this.pricingId) {
+      if (param && param.length > 0) {
+        param = `${param},price=${this.pricingId}`;
+      } else {
+        param = `${param}price=${this.pricingId}`;
+      }
+    }
+
+    if (this.from_date) {
+      if (param && param.length > 0) {
+        param = `${param},from_date=${this.from_date}`;
+      } else {
+        param = `${param}from_date=${this.from_date}`;
+      }
+    }
+
+    if (this.to_date) {
+      if (param && param.length > 0) {
+        param = `${param},to_date=${this.to_date}`;
+      } else {
+        param = `${param}to_date=${this.to_date}`;
+      }
+    }
+
+    if(this.gatewayId) {
+      if (param && param.length > 0) {
+        param = `${param},payment_gateway=${this.gatewayId}`;
+      } else {
+        param = `${param}payment_gateway=${this.gatewayId}`;
+      }
+    }
+
+    // if (download) {
+    //   if (param && param.length > 0) {
+    //     param = `${param},download=1`;
+    //   } else {
+    //     param = `${param}download=1`;
+    //   }
+    // }
+    // console.log(param)
+
+    clearTimeout(this.keyupTimer);
+    this.keyupTimer = setTimeout(() => {
+      this.getFilterData(param);
+    }, 1800);
+
+
+  }
+
+  // get filter data
+  getFilterData(p: any) {
+    this.helperService.showloader();
+    let params = 'auth/admin/payments';
+    let s = `${params}?${p}`;
+    this.helperService.get(s).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.setPagination(res.pricings);                
+          this.helperService.hideloader();
+        }
+      },
+      (e: any) => {
+        console.log(e);
+    });
+  }
+
 
 }

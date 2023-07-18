@@ -5,37 +5,37 @@
   <div class="col-sm-4">
     <div class="pink-box">
       <ul>
-        <li><label>Total Scans</label><span>31</span></li>
+        <li><label>Total Users</label><span>31</span></li>
       </ul>
     </div>
   </div>
   <div class="col-sm-4">
     <div class="pink-box">
       <ul>
-        <li><label>QR Remaining</label><span>149</span></li>
+        <li><label>Paid Users</label><span>149</span></li>
       </ul>
     </div>
   </div>
   <div class="col-sm-4">
     <div class="pink-box">
       <ul>
-        <li><label>Total QR Live</label><span>1</span></li>
+        <li><label>Expiring users soon</label><span>1</span></li>
       </ul>
     </div>
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-4">
+  <div class="col-sm-6">
     <div class="white-box">
       <div class="week">
         <h2>This Week’s Activity</h2>
       </div>
       <div class="row">
-        <div class="col-sm-4">
+        <!-- <div class="col-sm-4">
           <div class="scan1">Total Scans</div>
           <div class="scan2">21</div>
-        </div>
-        <div class="col-sm-8">
+        </div> -->
+        <div class="col-sm-12">
           <div class="we-view">
             <select [(ngModel)]="viewType" (change)="onChangeViewType($event)">
               <option [value]="'weekly'">Weekly View</option>
@@ -51,14 +51,14 @@
     </div>
     <div class="white-box">
       <div class="week">
-        <h2>Device Type</h2>
+        <h2>Users By Platform</h2>
       </div>
       <app-bar-chart [srcData]="platforms" [type]="'platform'" class="pie"></app-bar-chart>
       <div class="location">
         <div class="locationH">
           <ul>
-            <li>Total Scans</li>
-            <li>Locations</li>
+            <li>Total Users</li>
+            <li>Platforms</li>
           </ul>
         </div>
         <div class="locationL" *ngFor="let item of platforms | keyvalue">
@@ -70,38 +70,56 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-5">
+  <div class="col-sm-6">
     <div class="white-box">
       <div class="week">
-        <h2>Locations</h2>
+        <h2>Users By Location</h2>
       </div>
+      <div *ngIf="locationChartData">
+        <div class="col-12 d-flex align-items-center mb-2" *ngFor="let item of locationChartData.users">
+            <div class="col-sm-3">
+                <span class="location">{{item.name}}</span>
+            </div>
+            <div class="col-sm-6 px-3">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"
+                        [ngStyle]="{'width': item.percentage + '%'}" aria-valuenow="item.percentage"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <div class="col-sm-3 d-flex justify-content-between location-div">
+                <span class="location-count">{{item.count}}</span>
+                <span class="location-count">{{item.percentage}}%</span>
+            </div>
+        </div>
+    </div>     
+    </div>
+    <div class="white-box">
+      <div class="week">
+        <h2>Users By Plan</h2>
+      </div>
+      <app-bar-chart [srcData]="planChartsrcData" [type]="'planuser'"></app-bar-chart>
       <div class="location">
         <div class="locationH">
           <ul>
-            <li>Total Scans</li>
-            <li>Locations</li>
+            <li>Total Users</li>
+            <li>PLans</li>
           </ul>
         </div>
-        <div class="locationL" *ngFor="let item of locationChartData | keyvalue">
+        <div class="locationL" *ngFor="let items of planChartsrcData | keyvalue">
           <ul>
-            <li>{{item.value}}</li>
-            <li>{{item.key}}</li>
+            <li style="color:#FF14B5;">{{items.value}}</li>
+            <li style="color:#FF14B5;">{{items.key}}</li>
           </ul>
         </div>
       </div>
-
+      
     </div>
     <div class="white-box">
       <div class="week">
-        <h2>Payment Method</h2>
+        <h2>Payment</h2>
       </div>
-      <div class="master-card">
-        <p>Mastercard</p>
-        <h2>8345 **** **** 7920</h2>
-      </div>
-
-      <div class="change-method"><a href="#">Change Payment Method</a></div>
+      <app-bar-chart [srcData]="columnChartsDataYearwise" [type]="'payment'"></app-bar-chart>
     </div>
   </div>
-
 </div>

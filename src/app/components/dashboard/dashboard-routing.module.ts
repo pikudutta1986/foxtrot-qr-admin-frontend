@@ -20,7 +20,9 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
   { 
-    path: '', component: DashboardComponent, canActivate: [AuthGuard],
+    path: '', 
+    component: DashboardComponent, 
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'users', component: UsersComponent
@@ -75,6 +77,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class DashboardRoutingModule { }

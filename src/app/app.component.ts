@@ -34,7 +34,6 @@ export class AppComponent {
           body.classList.add(this.currentRoute);
         }
 
-        
       }
 
       if (event instanceof NavigationError) {

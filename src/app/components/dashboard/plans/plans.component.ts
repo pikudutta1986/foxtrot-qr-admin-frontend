@@ -13,7 +13,7 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 export class PlansComponent {
 
-  displayedColumns: string[] = ['position', 'name', 'descriptions', 'number_of_codes', 'created_at', 'action'];
+  displayedColumns: string[] = ['position', 'name', 'descriptions', 'number_of_codes', 'action'];
 
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -55,7 +55,6 @@ export class PlansComponent {
         this.getPlans();
       }, 1000);
     }
-
   }
 
   // set data

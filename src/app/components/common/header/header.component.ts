@@ -41,7 +41,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     
-    let token: any = sessionStorage.getItem('admin_token');
+    let token: any = localStorage.getItem('admin_token');
     if(token) {
       this.authenticated = true;
     } else {
@@ -54,7 +54,7 @@ export class HeaderComponent {
   }
 
   ngAfterViewInit() {
-    let user_name: any = sessionStorage.getItem('user_name');
+    let user_name: any = localStorage.getItem('user_name');
     this.adminEmail = user_name;   
     this.cdRef.detectChanges();
   }
@@ -65,6 +65,7 @@ export class HeaderComponent {
       if(res.status) {
         this.helperService.hideloader();
         sessionStorage.clear();
+        localStorage.clear();
         this.router.navigate((['/']))
       }
     },

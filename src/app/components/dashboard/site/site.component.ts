@@ -24,7 +24,7 @@ export class SiteComponent {
   message: any;
   classType: any;
 
-  errorStatus:boolean = false;
+  errorStatus: boolean = false;
 
   constructor(
     private helperService: HelperService,
@@ -43,29 +43,30 @@ export class SiteComponent {
   // get settings
   getSettings() {
     this.helperService.showloader();
-    let settingsExist = this.helperService.settings;
-    if (settingsExist) {
-      let result = settingsExist;
-      result.map((x:any) => {
-        if(x.text_value) {
-          if(x.text_value.length > 100) {
-            x.displayValue = x.text_value.substring(0, 10) + "...";
-          } else {
-            x.displayValue = x.text_value;
-          }          
-        } 
-
-        if(x.array_value) {
-          x.displayValue = 'List Items';
-        }
-      });
-      console.log(result)
-      this.globalSettings = result;
-      this.setData();
+    if(this.helperService.settings && this.helperService.settings.length > 0 ) {
+      let settingsExist = this.helperService.settings;
+      if (settingsExist) {
+        let result = settingsExist;
+        result.map((x: any) => {
+          if (x.text_value) {
+            if (x.text_value.length > 100) {
+              x.displayValue = x.text_value.substring(0, 100) + "...";
+            } else {
+              x.displayValue = x.text_value;
+            }
+          }
+  
+          if (x.array_value) {
+            x.displayValue = 'List Items';
+          }
+        });
+        this.globalSettings = result;
+        this.setData();
+      }
     } else {
       setTimeout(() => {
         this.getSettings();
-      }, 1000);
+      }, 800);
     }
   }
 
@@ -75,10 +76,7 @@ export class SiteComponent {
     this.cdr.detectChanges();
     this.settings.paginator = this.paginator;
     this.settings.sort = this.sort;
-    // setTimeout(() => {
-      this.helperService.hideloader();
-    // }, 1000);
-    
+    this.helperService.hideloader();
   }
 
   // create settings
@@ -99,20 +97,15 @@ export class SiteComponent {
     this.helperService.delete(url).subscribe(
       (res: any) => {
         if (res.status) {
-          this.helperService.getSiteSettings().then((resp:any) => {
-            if(resp.success) {
-              this.globalSettings = resp.settings;
-              this.setData();
-              this.message = res.message;
-              this.errorStatus = true;
-            }
-          });
-          // this.message = res.message;
+          this.helperService.settings = [];
+          this.helperService.getSiteSettings();
+          setTimeout(() => {
+            this.getSettings();
+          }, 1000);
+          this.helperService.snackPositionTopCenter(res.message);
         } else {
           this.helperService.hideloader();
         }
-        
-
       },
       (errors: any) => {
         console.log(errors);

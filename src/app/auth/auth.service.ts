@@ -39,15 +39,15 @@ export class AuthService
   }
 
   getAccessToken() {
-    return sessionStorage.getItem('admin_token');
+    return localStorage.getItem('admin_token');
   }
 
   getUserId() {
-    return sessionStorage.getItem ('user_id')
+    return localStorage.getItem ('user_id')
   }
 
   getUserName() {
-    return sessionStorage.getItem('user_name');
+    return localStorage.getItem('user_name');
   }
 
   // CALL THIS FUNCTION FOR FORGET PASSWORD LINK TO USER MAIL ID
@@ -66,7 +66,7 @@ export class AuthService
   isLoggedIn() 
   {
     // IF USER ID IS FOUND IN SESSION STORAGE.
-    if (sessionStorage.getItem ('admin_token'))
+    if (localStorage.getItem('admin_token'))
     {
       // RETURN TRUE
       return true;

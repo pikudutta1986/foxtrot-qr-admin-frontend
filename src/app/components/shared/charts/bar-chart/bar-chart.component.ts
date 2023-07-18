@@ -1,4 +1,4 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, Input } from '@angular/core';
 import { HelperService } from 'src/app/service/helper.service';
 declare var google: any;
 
@@ -14,24 +14,34 @@ export class BarChartComponent {
   @Input() srcData: any = '';
   @Input() type: any = '';
 
-  constructor(public helperServcie: HelperService) { }
+  constructor(public helperServcie: HelperService,public cdr: ChangeDetectorRef,) { }
 
   ngOnInit(): void {
+    // google.load('visualization', '1', {packages: ['imagechart']});
+    // google.charts.load('current', { packages: ['corechart'] });
+    // google.load('visualization', '1.0', {'packages':['corechart']});
+    // this.getData();
+  }
+
+  
+  ngAfterViewInit() {
     google.charts.load('current', { packages: ['corechart'] });
-    this.getData();
+    setTimeout(() => {
+      this.getData();      
+    }, 600);
+    this.cdr.detectChanges();    
   }
 
   ngOnChanges() {
-    if (this.srcData) {
+    if(this.srcData) {
       this.setData();
     }
-
   }
 
   getData() {
     this.helperServcie.showloader();
     setTimeout(() => {
-      if (this.srcData) {
+      if(this.srcData) {
         this.setData();
       } else {
         this.getData();
@@ -77,12 +87,19 @@ export class BarChartComponent {
       var chart = new google.visualization.ColumnChart(document.getElementById(this.type));
     } else if (this.type == 'user') {
       var chart = new google.visualization.BarChart(document.getElementById(this.type));
+    } else if(this.type == 'payment') {
+      options = {
+        height: 'auto',
+        legend: 'none',
+        colors: ['#FF14B5']
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById(this.type));
     } else {
       options = {
         // title: "All Type of generated Qr Codes",
         height: 'auto',
-        legend: 'none',
-        colors: ['#FF14B5', '#ff89da']
+        // legend: 'none',
+        // colors: ['#FF14B5', '#ff89da', '#FF5733']
       };
       var chart = new google.visualization.PieChart(document.getElementById(this.type));
     }

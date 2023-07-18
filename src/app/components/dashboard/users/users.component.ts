@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 declare var $: any;
+declare var saveAs: any;
+declare var XLSX:any;
 
 @Component({
   selector: 'app-users',
@@ -68,6 +70,7 @@ export class UsersComponent {
   from_date: any = '';
   to_date: any = '';
   keyupTimer: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private _liveAnnouncer: LiveAnnouncer,
@@ -77,15 +80,25 @@ export class UsersComponent {
     public helperService: HelperService) { }
 
   ngOnInit(): void {
-
-    this.helperService.showloader();
-    this.getPlans();
-    this.getUsers();
-
+    this.helperService.showloader();   
   }
 
   ngAfterViewInit() {
+    this.getPlans();
+    this.getUsers();
+    this.cdr.detectChanges();
+  }
 
+  // get all plans
+  getPlans() {
+    if (this.helperService.allPlans && this.helperService.allPlans.length > 0) {
+      this.plans = this.helperService.allPlans;
+      let selectedPlan = this.plans[0].id;
+    } else {
+      setTimeout(() => {
+        this.getPlans();
+      }, 1000);
+    }
   }
 
   // get users
@@ -185,7 +198,6 @@ export class UsersComponent {
   }
 
   setPagination(links: any) {
-    console.log(links)
     let srcData = links.data;
     srcData.map((x:any) => {
       x.plans = x.plan.name;
@@ -215,17 +227,6 @@ export class UsersComponent {
 
     this.helperService.hideloader();
 
-  }
- 
-  getPlans() {
-    if (this.helperService.allPlans && this.helperService.allPlans.length > 0) {
-      this.plans = this.helperService.allPlans;
-      let selectedPlan = this.plans[0].id;
-    } else {
-      setTimeout(() => {
-        this.getPlans();
-      }, 1000);
-    }
   }
 
   filter(download?: any) {
@@ -275,26 +276,73 @@ export class UsersComponent {
 
 
   }
-
-  export() {
-    console.log('export')
-  }
-
+  
   // get filter data
   getFilterData(p: any) {
     this.helperService.showloader();
     let params = 'auth/admin/users';
     let s = `${params}?${p}`
     this.helperService.get(s).subscribe(
-      (res: any) => {
-        if (res.success) {
-          this.setPagination(res.users);
+      async (res: any) => {
+        if (res.success) {          
+          if(p.includes ('download')) {
+            let url = `${this.helperService.mediaUrl}${res.users}`;
+            let cDate = new Date().toISOString().slice(0, 10);
+            const result = await fetch(url);
+            const file = await result.blob()
+            const fileUrl = URL.createObjectURL(file);
+            const filename = `Report - ${cDate}.xlsx`;
+            downloadURI(fileUrl,filename);
+          } else {
+            this.setPagination(res.users);
+          }          
           this.helperService.hideloader();
         }
       },
       (e: any) => {
         console.log(e);
-      });
+    });
   }
 
+  exportToExcel(val:any) {
+    let result = JSON.parse(val);
+    let i = 0;
+    result.map((x:any) => {
+      i = i+1;
+      // x.Serial = i;
+      delete x.id;
+      delete x.deleted_at;
+      delete x.plan;
+      x.plan = x.plans;
+      delete x.plans;
+      x.updated_at = new DatePipe('en-US').transform(x.updated_at, 'MMM d, y, h:mm:ss a');
+      x.created_at = new DatePipe('en-US').transform(x.created_at, 'MMM d, y, h:mm:ss a');
+      x.email_verified_at = new DatePipe('en-US').transform(x.email_verified_at, 'MMM d, y, h:mm:ss a');
+
+    });
+    var myJsonString = JSON.stringify(result);   
+    var jsonDataObject = eval(myJsonString);		
+		exportWorksheet(jsonDataObject);  
+  };
+
 }
+
+function exportWorksheet(jsonObject:any) {
+  var myFile = "report.xlsx";
+  var myWorkSheet = XLSX.utils.json_to_sheet(jsonObject);
+  var myWorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(myWorkBook, myWorkSheet, "myWorkSheet");
+  XLSX.writeFile(myWorkBook, myFile);
+}
+
+function downloadURI(uri:any, name?:any) {
+  var link = document.createElement("a");
+  link.setAttribute('download', name);
+  link.href = uri;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+
+

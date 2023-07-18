@@ -171,6 +171,7 @@ export class CreateSiteComponent {
             this.msg = res.message;
           }
 
+          this.helperService.snackPositionTopCenter(this.msg);
           this.helperService.hideloader();
         },
         (err: any) => {

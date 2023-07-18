@@ -126,6 +126,10 @@ export class CreateUserComponent {
     });
 
     if(result && result.length > 0) {
+      result.map((x:any) => {
+        x.displayText = ` $${x.price}/${x.time_interval}`
+      });
+      console.log(result)
       this.prices = result;
       this.enablePriceDetails = true;
       this.platformError = false;
@@ -152,8 +156,8 @@ export class CreateUserComponent {
         this.helperService.allUsers = [];
         this.helperService.getAllUsers();     
       } else {
-        if (res.errors) {
-         
+        if (res.message) {
+          this.helperService.snackPositionTopCenter(res.message.email[0]);         
         }
         this.helperService.hideloader();
       }

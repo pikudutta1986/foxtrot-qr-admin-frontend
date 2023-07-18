@@ -22,7 +22,11 @@ export class LoginComponent {
     public formBuilder: FormBuilder,
     private authService: AuthService,
     private helperService: HelperService,
-    private router: Router) { }
+    private router: Router) {
+      if(localStorage.getItem('admin_token')) {
+        this.router.navigate(['/dashboard/analytics']);
+      }
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -32,12 +36,14 @@ export class LoginComponent {
     });
 
     // Remember me set
-    let remeberData: any = localStorage.getItem('remeberData');
-    remeberData = JSON.parse(remeberData);
-    if (remeberData && remeberData.rememberMe) {
-      this.loginForm.controls.email.setValue(remeberData.email);
-      this.loginForm.controls.password.setValue(remeberData.password);
-      this.loginForm.controls.remember.setValue(remeberData.rememberMe);
+    let remeberData: any = this.helperService.getCookie('remeberData');
+    if(remeberData) {
+      remeberData = JSON.parse(remeberData);
+      if (remeberData && remeberData.rememberMe) {
+        this.loginForm.controls.email.setValue(remeberData.email);
+        this.loginForm.controls.password.setValue(remeberData.password);
+        this.loginForm.controls.remember.setValue(remeberData.rememberMe);
+      }
     }
 
     // 
@@ -75,12 +81,14 @@ export class LoginComponent {
   }
 
   ngAfterViewInit(): void {
-    let remeberData: any = localStorage.getItem('remeberData');
-    remeberData = JSON.parse(remeberData);
-    if (remeberData && remeberData.rememberMe) {
-      this.email.nativeElement.classList.add('is-valid');
-      this.password.nativeElement.classList.add('is-valid');
-    }
+    let remeberData: any = this.helperService.getCookie('remeberData');
+    if(remeberData) {
+      remeberData = JSON.parse(remeberData);
+      if (remeberData && remeberData.rememberMe) {
+        this.email.nativeElement.classList.add('is-valid');
+        this.password.nativeElement.classList.add('is-valid');
+      }
+    }    
   }
 
 
@@ -97,9 +105,9 @@ export class LoginComponent {
           'password': this.loginForm.controls.password.value,
           'rememberMe': this.loginForm.controls.remember.value
         }
-        localStorage.setItem('remeberData', JSON.stringify(remeberData));
+        this.helperService.setCookie('remeberData', JSON.stringify(remeberData), 30);
       } else {
-        localStorage.removeItem('remeberData');
+        this.helperService.deleteCookie('remeberData');
       }
 
       let data = this.loginForm.value;
@@ -110,9 +118,9 @@ export class LoginComponent {
         (res: any) => {
           if (res.status) {
             this.hideLoader();
-            // sessionStorage.setItem ('user_id', res.user_id);
-            sessionStorage.setItem('user_name', email);
-            sessionStorage.setItem('admin_token', res.token);
+            this.helperService.access_token = res.token;
+            localStorage.setItem('user_name', email);
+            localStorage.setItem('admin_token', res.token);
             this.authService.isLogged.next(true);
             this.router.navigate(['/dashboard/analytics']);
             this.loginForm.reset();
