@@ -173,7 +173,7 @@ export class HelperService {
           this.settings = res.settings;
           if(this.settings) {
             let result = this.settings.filter((x:any) => x.key == 'assets_base');
-            if(result) {
+            if(result.length > 0) {
               this.mediaUrl = result[0].text_value;
             }
           }
