@@ -164,7 +164,7 @@ export class PaymentsComponent {
 
     if (this.planId) {
       if (param && param.length > 0) {
-        param = `${param},plan=${this.planId}`;
+        param = `${param}&plan=${this.planId}`;
       } else {
         param = `${param}plan=${this.planId}`;
       }
@@ -172,7 +172,7 @@ export class PaymentsComponent {
 
     if(this.pricingId) {
       if (param && param.length > 0) {
-        param = `${param},price=${this.pricingId}`;
+        param = `${param}&price=${this.pricingId}`;
       } else {
         param = `${param}price=${this.pricingId}`;
       }
@@ -180,7 +180,7 @@ export class PaymentsComponent {
 
     if (this.from_date) {
       if (param && param.length > 0) {
-        param = `${param},from_date=${this.from_date}`;
+        param = `${param}&from_date=${this.from_date}`;
       } else {
         param = `${param}from_date=${this.from_date}`;
       }
@@ -188,7 +188,7 @@ export class PaymentsComponent {
 
     if (this.to_date) {
       if (param && param.length > 0) {
-        param = `${param},to_date=${this.to_date}`;
+        param = `${param}&to_date=${this.to_date}`;
       } else {
         param = `${param}to_date=${this.to_date}`;
       }
@@ -196,7 +196,7 @@ export class PaymentsComponent {
 
     if(this.gatewayId) {
       if (param && param.length > 0) {
-        param = `${param},payment_gateway=${this.gatewayId}`;
+        param = `${param}&payment_gateway=${this.gatewayId}`;
       } else {
         param = `${param}payment_gateway=${this.gatewayId}`;
       }
