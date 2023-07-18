@@ -17,7 +17,6 @@ export class AppComponent {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         // Show progress spinner or progress bar
-        console.log('Route change detected');
       }
 
       if (event instanceof NavigationEnd) {

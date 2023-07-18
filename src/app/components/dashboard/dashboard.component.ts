@@ -78,7 +78,6 @@ export class DashboardComponent {
 
   checkAuthentication() {
     if(this.authService.isLoggedIn()) {
-      console.log('true')
       // this.router.navigate(['dashboard/payments']);
     }
   }
