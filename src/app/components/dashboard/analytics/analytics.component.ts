@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HelperService } from 'src/app/service/helper.service';
@@ -13,70 +14,23 @@ export class AnalyticsComponent {
   paymentType: any = 'payment';
   qrType: any = 'qr';
 
-  payments: any = {
-    Website: 14,
-    Email: 3,
-    Location: 7,
-    Socialmedia: 5,
-    Whatsapp: 40,
-    Wifi: 11,
-    VirtualCard: 7,
-    Event: 13,
-  };
-
-  qrs: any = {
-    Website: 14,
-    Email: 3,
-    Location: 7,
-    Socialmedia: 5,
-    Whatsapp: 40,
-    Wifi: 11,
-    VirtualCard: 7,
-    Event: 13,
-  };
-
   viewType: any = '';
-  columnChartsData: any;
+  planViewType: any = '';
+  userViewType: any = '';
 
-  columnChartsDataWeekWise: any = {
-    Sun: 6,
-    Mon: 2,
-    Tue: 8,
-    Wed: 9,
-    Thu: 21,
-    Fri: 15,
-    Sat: 10,
-  }
-
-  columnChartsDataYearwise: any = {
-    2017: 6,
-    2018: 26,
-    2019: 16,
-  };
-
-  columnChartsDataMonthwise: any = {
-    Jan: 6,
-    Feb: 26,
-    Mar: 16,
-  };
-
-  platforms: any = {
-    'Android': 22,
-    'Ios': 23,
-    'Web': 55
-  };
-
-  locationChartData: any;
-  planChartsrcData:any = {
-    'Starter': 25,
-    'Pro': 35,
-    'Enterprise': 45
-  };
-  paymentChartsrcData:any = {};
+  paymentChartsrcData: any = {};
 
   userData: any;
   plans: any;
-  userPlan: any = [];
+  planType:any;
+
+  srcAnalyticsData: any = '';
+  paymentSrcData: any;
+  paymentViewData: any;
+  planSrcData: any;
+  planViewData: any;
+  userSrcData: any;
+  userViewData: any;
 
   constructor(
     private router: Router,
@@ -87,63 +41,167 @@ export class AnalyticsComponent {
   }
 
   ngOnInit() {
-    this.getLocationData();
   }
 
   ngAfterViewInit() {
     this.viewType = 'weekly';
-    this.columnChartsData = this.columnChartsDataWeekWise;
+    this.planViewType = 'weekly';
+    this.userViewType = 'weekly';
+    this.getAnalyticsData();
+    // this.columnChartsData = this.columnChartsDataWeekWise;
     this.cdrf.detectChanges();
   }
 
-  onChangeViewType(e: any) {
-    if (this.viewType == 'monthly') {
-      this.columnChartsData = this.columnChartsDataMonthwise;
-    } else if (this.viewType == 'yearly') {
-      this.columnChartsData = this.columnChartsDataYearwise;
-    } else {
-      this.columnChartsData = this.columnChartsDataWeekWise;
+  getAnalyticsData() {
+    this.helperService.get('auth/admin/dashboard').subscribe((res: any) => {
+      if (res.status) {
+        if (res.data) {
+          this.srcAnalyticsData = res.data;
+          this.setDataToChart();
+        }
+      }
+    })
+  }
+
+  setDataToChart() {
+    if (this.srcAnalyticsData) {
+      
+      let paymentsData = this.srcAnalyticsData.payments;
+      let paymentViewData = paymentsData.weekly;
+      this.setToPayment(paymentViewData);     
+
+      let plansrcData = this.srcAnalyticsData.plan;
+      this.setToPlan(plansrcData,'weekly');            
+
+      let usersData = this.srcAnalyticsData.users;
+      let userViewData = usersData.weekly;
+      this.setToUser(userViewData);
+      
+    }
+  }
+
+  onChangeViewType(e: any, ctype: any) {
+    
+    if (ctype == 'payment') {
+      
+      let paymentsData:any = this.srcAnalyticsData.payments;
+      let paymentViewData:any = '';
+      
+      if (this.viewType == 'monthly') {
+        paymentViewData = paymentsData.monthly;
+      } else if (this.viewType == 'yearly') {
+        paymentViewData = paymentsData.yearly;        
+      } else {
+        paymentViewData = paymentsData.weekly;       
+      }
+
+      this.setToPayment(paymentViewData);
+    }
+
+    if (ctype == 'user') {
+      let usersData = this.srcAnalyticsData.users;
+      let userViewData:any = '';
+      if (this.userViewType == 'monthly') {
+        userViewData = usersData.monthly; 
+      } else if (this.userViewType == 'yearly') {
+        userViewData = usersData.yearly;        
+      } else {        
+        userViewData = usersData.weekly;        
+      }
+      this.setToUser(userViewData);
     }
 
     this.cdrf.detectChanges();
   }
 
-  // get percentage
-  getPercentage(num: any, total: any) {
-    return ((num / total) * 100).toFixed(2);
+  onChangePlanViewType(e:any) {
+    this.plans = [];
+    this.planViewData = [];
+    let plansrcData = this.srcAnalyticsData.plan;
+    this.setToPlan(plansrcData,this.planViewType);
+  } 
+
+  setToPayment(paymentViewData:any) {
+    let paymentObj: any = {};
+    paymentViewData.map((e: any) => {
+      var datePipe = new DatePipe('en-US');
+      let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
+      let value = e.y;
+      paymentObj[key] = value;
+    });
+    this.paymentViewData = paymentObj;
   }
 
-  getLocationData() {
-    let locationData: any = 
-      {
-        users: [
-          {
-            count: 25,
-            name: 'India',
-          },
-          {
-            count: 21,
-            name: 'UK',
-          },
-          {
-            count: 19,
-            name: 'USA',
-          },
-          {
-            count: 15,
-            name: 'RSA',
-          }
-        ],
-        count: 80
-    };
-    if (locationData.count > 0) {
-      locationData.users.map((x: any) => {
-        x.percentage = this.getPercentage(x.count, locationData.count)
+  setToUser(userViewData:any) {
+    let userObj: any = {};
+    userViewData.map((e: any) => {
+      var datePipe = new DatePipe('en-US');
+      let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
+      let value = e.y;
+      userObj[key] = value;
+    });
+    this.userViewData = userObj;
+  }
+
+  setToPlan(plansrcData:any,vtype:any) {
+    let keys = Object.keys(plansrcData);
+    this.plans = keys;
+    let leng = this.plans.length;
+
+    let weeklyData:any = [];
+
+    var arr = [];
+    arr[0] = "Year";      
+
+    for(var i=0; i<leng; i++) {
+      let planType = this.plans[i];
+      arr[i+1] = planType;
+      let planweeklyData = plansrcData[planType][vtype];
+      planweeklyData.map((v:any) => {         
+        weeklyData.push(v)
+      });      
+    }
+
+    weeklyData.sort((a: any, b: any) => (a.x > b.x) ? 1 : -1);
+
+    let wd = JSON.stringify(weeklyData);
+    let cwd = JSON.parse(wd);
+
+    var weeklyOutput:any = [];
+    
+    cwd.forEach(function(item:any) {
+      var existing = weeklyOutput.filter(function(v:any, i:any) {
+        return v.x == item.x;
       });
+      if (existing.length) {
+        var existingIndex = weeklyOutput.indexOf(existing[0]);
+        weeklyOutput[existingIndex].y = weeklyOutput[existingIndex].y.concat(item.y);
+      } else {          
+        item.y = [item.y];
+        weeklyOutput.push(item);}
+    });
+    
+    let ss:any = [];      
+    ss.push(arr);
+    let requiredLength = leng + 1; 
+    
+    weeklyOutput.forEach((element:any) => {  
+      let InputData: any = [];  
+      var datePipe = new DatePipe('en-US');
+      InputData.push(datePipe.transform(element.x, 'dd/MM/yyyy'));
+      element.y.forEach((z:any) => {
+        InputData.push(z); 
+      });
+      ss.push(InputData);       
+    });
 
-      this.locationChartData = locationData;
-    }
+    ss.map((chk:any) => {
+      if(chk.length < requiredLength) {
+        chk.push(0);
+      }
+    });
+
+    this.planViewData = ss;
   }
-
-
+ 
 }

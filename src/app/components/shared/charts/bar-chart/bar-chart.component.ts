@@ -14,26 +14,23 @@ export class BarChartComponent {
   @Input() srcData: any = '';
   @Input() type: any = '';
 
-  constructor(public helperServcie: HelperService,public cdr: ChangeDetectorRef,) { }
+  constructor(public helperServcie: HelperService, public cdr: ChangeDetectorRef,) { }
 
   ngOnInit(): void {
-    // google.load('visualization', '1', {packages: ['imagechart']});
-    // google.charts.load('current', { packages: ['corechart'] });
-    // google.load('visualization', '1.0', {'packages':['corechart']});
-    // this.getData();
+    
   }
 
-  
+
   ngAfterViewInit() {
-    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.load('current', { packages: ['corechart','bar'] });
     setTimeout(() => {
-      this.getData();      
+      this.getData();
     }, 600);
-    this.cdr.detectChanges();    
+    this.cdr.detectChanges();
   }
 
   ngOnChanges() {
-    if(this.srcData) {
+    if (this.srcData) {
       this.setData();
     }
   }
@@ -41,7 +38,7 @@ export class BarChartComponent {
   getData() {
     this.helperServcie.showloader();
     setTimeout(() => {
-      if(this.srcData) {
+      if (this.srcData) {
         this.setData();
       } else {
         this.getData();
@@ -50,56 +47,78 @@ export class BarChartComponent {
   }
 
   setData() {
-    let InputData: any = [];
-    let header = ["Element", "", { role: "style" }];
-    InputData.push(header);
+    let InputData: any = [];   
 
-    for (const [key, value] of Object.entries(this.srcData)) {
-      let arr = [key, value, '']
-      InputData.push(arr);
-    }
-
-    setTimeout(() => {
-      google.charts.setOnLoadCallback(this.drawChart(InputData));
-    }, 1000);
+    if(this.type != 'plandashboard') {
+      if(this.type == 'payment') {
+        let header = ["Element", "", { role: "style" }, { role: 'annotation' }];
+        InputData.push(header);
+      } else {
+        let header = ["Element", "", { role: "style" }];
+        InputData.push(header);
+      }
+      
+      for (const [key, value] of Object.entries(this.srcData)) {
+        let label = `$${value}`;
+        if(this.type == 'payment') {
+          let arr = [key, value, '', label]
+          InputData.push(arr);
+        } else {
+          let arr = [key, value, '']
+          InputData.push(arr);
+        }
+        
+      }
+      setTimeout(() => {
+        google.charts.setOnLoadCallback(this.drawChart(InputData));
+      }, 1000);
+    } else {      
+      var data = google.visualization.arrayToDataTable(this.srcData);
+      var view = new google.visualization.DataView(data);
+      var options = {
+        legend: 'none',
+      };      
+      var chart = new google.charts.Bar(document.getElementById(this.type));
+      // chart.draw(data, google.charts.Bar.convertOptions(view, options));
+      chart.draw(view, options);
+    }   
+   
   }
 
   drawChart(val: any) {
     var data = google.visualization.arrayToDataTable(val);
     var view = new google.visualization.DataView(data);
-    view.setColumns([0, 1,
-      {
-        calc: "stringify",
-        sourceColumn: 1,
-        type: "string",
-        role: "annotation"
-      },
-      2]);
+
+    if(this.type == 'userdashboard') {
+      view.setColumns([0, 1,
+        {
+          calc: "stringify",
+          sourceColumn: 1,
+          type: "string",
+          role: "annotation"
+        },2
+      ]);
+    }   
 
     let options: any = '';
 
-    if (this.type == 'qr') {
+    if (this.type == 'payment') {      
       options = {
         height: 'auto',
         legend: 'none',
         colors: ['#FF14B5']
       };
-      var chart = new google.visualization.ColumnChart(document.getElementById(this.type));
-    } else if (this.type == 'user') {
-      var chart = new google.visualization.BarChart(document.getElementById(this.type));
-    } else if(this.type == 'payment') {
+      var chart = new google.visualization.ColumnChart(document.getElementById(this.type));  
+    } else if(this.type == 'userdashboard') {
       options = {
         height: 'auto',
         legend: 'none',
-        colors: ['#FF14B5']
+        colors: ['green']
       };
-      var chart = new google.visualization.ColumnChart(document.getElementById(this.type));
+      var chart = new google.visualization.ColumnChart(document.getElementById(this.type)); 
     } else {
       options = {
-        // title: "All Type of generated Qr Codes",
         height: 'auto',
-        // legend: 'none',
-        // colors: ['#FF14B5', '#ff89da', '#FF5733']
       };
       var chart = new google.visualization.PieChart(document.getElementById(this.type));
     }
