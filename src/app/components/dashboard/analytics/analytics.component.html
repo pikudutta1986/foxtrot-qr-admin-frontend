@@ -1,125 +1,67 @@
 <div class="nameA">
   <h2>Hi {{userData?.first_name}},</h2>
 </div>
+
 <div class="row">
-  <div class="col-sm-4">
-    <div class="pink-box">
-      <ul>
-        <li><label>Total Users</label><span>31</span></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="pink-box">
-      <ul>
-        <li><label>Paid Users</label><span>149</span></li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="pink-box">
-      <ul>
-        <li><label>Expiring users soon</label><span>1</span></li>
-      </ul>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-12">
     <div class="white-box">
       <div class="week">
-        <h2>This Week’s Activity</h2>
+        <h2>Payment Activity</h2>
       </div>
       <div class="row">
-        <!-- <div class="col-sm-4">
-          <div class="scan1">Total Scans</div>
-          <div class="scan2">21</div>
-        </div> -->
         <div class="col-sm-12">
           <div class="we-view">
-            <select [(ngModel)]="viewType" (change)="onChangeViewType($event)">
+            <select [(ngModel)]="viewType" (change)="onChangeViewType($event,'payment')">
+              <option [value]="'weekly'">Weekly View</option>
+              <option [value]="'monthly'">Monthly View</option>
+              <option [value]="'yearly'">Yearly View</option>
+            </select>
+          </div>
+          <div class="">
+            <app-bar-chart [srcData]="paymentViewData" [type]="'payment'"></app-bar-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="white-box">
+      <div class="week">
+        <h2>Plan Activity</h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="we-view">
+            <select [(ngModel)]="planViewType" (change)="onChangePlanViewType($event)">
               <option [value]="'weekly'">Weekly View</option>
               <option [value]="'monthly'">Monthly View</option>
               <option [value]="'yearly'">Yearly View</option>
             </select>
           </div>
           <div class="weekly-view">
-            <app-bar-chart [srcData]="columnChartsData" [type]="'qr'"></app-bar-chart>
+            <app-bar-chart [srcData]="planViewData" [type]="'plandashboard'"></app-bar-chart>
           </div>
         </div>
       </div>
     </div>
-    <div class="white-box">
-      <div class="week">
-        <h2>Users By Platform</h2>
-      </div>
-      <app-bar-chart [srcData]="platforms" [type]="'platform'" class="pie"></app-bar-chart>
-      <div class="location">
-        <div class="locationH">
-          <ul>
-            <li>Total Users</li>
-            <li>Platforms</li>
-          </ul>
-        </div>
-        <div class="locationL" *ngFor="let item of platforms | keyvalue">
-          <ul>
-            <li style="color:#FF14B5;">{{item.value}}</li>
-            <li style="color:#FF14B5;">{{item.key}}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-12">
     <div class="white-box">
       <div class="week">
-        <h2>Users By Location</h2>
+        <h2>User Activity</h2>
       </div>
-      <div *ngIf="locationChartData">
-        <div class="col-12 d-flex align-items-center mb-2" *ngFor="let item of locationChartData.users">
-            <div class="col-sm-3">
-                <span class="location">{{item.name}}</span>
-            </div>
-            <div class="col-sm-6 px-3">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar"
-                        [ngStyle]="{'width': item.percentage + '%'}" aria-valuenow="item.percentage"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <div class="col-sm-3 d-flex justify-content-between location-div">
-                <span class="location-count">{{item.count}}</span>
-                <span class="location-count">{{item.percentage}}%</span>
-            </div>
+      <div class="row">
+        <div class="we-view">
+          <select [(ngModel)]="userViewType" (change)="onChangeViewType($event,'user')">
+            <option [value]="'weekly'">Weekly View</option>
+            <option [value]="'monthly'">Monthly View</option>
+            <option [value]="'yearly'">Yearly View</option>
+          </select>
         </div>
-    </div>     
-    </div>
-    <div class="white-box">
-      <div class="week">
-        <h2>Users By Plan</h2>
-      </div>
-      <app-bar-chart [srcData]="planChartsrcData" [type]="'planuser'"></app-bar-chart>
-      <div class="location">
-        <div class="locationH">
-          <ul>
-            <li>Total Users</li>
-            <li>PLans</li>
-          </ul>
-        </div>
-        <div class="locationL" *ngFor="let items of planChartsrcData | keyvalue">
-          <ul>
-            <li style="color:#FF14B5;">{{items.value}}</li>
-            <li style="color:#FF14B5;">{{items.key}}</li>
-          </ul>
+        <div class="">
+          <app-bar-chart [srcData]="userViewData" [type]="'userdashboard'"></app-bar-chart>
         </div>
       </div>
-      
-    </div>
-    <div class="white-box">
-      <div class="week">
-        <h2>Payment</h2>
-      </div>
-      <app-bar-chart [srcData]="columnChartsDataYearwise" [type]="'payment'"></app-bar-chart>
     </div>
   </div>
 </div>
