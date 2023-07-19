@@ -32,6 +32,10 @@ export class AnalyticsComponent {
   userSrcData: any;
   userViewData: any;
 
+  userChartValid:any = '';
+  planChartValid:any = '';
+  paymentChartValid:any = '';
+
   constructor(
     private router: Router,
     private cdrf: ChangeDetectorRef,
@@ -41,6 +45,7 @@ export class AnalyticsComponent {
   }
 
   ngOnInit() {
+    
   }
 
   ngAfterViewInit() {
@@ -48,10 +53,10 @@ export class AnalyticsComponent {
     this.planViewType = 'weekly';
     this.userViewType = 'weekly';
     this.getAnalyticsData();
-    // this.columnChartsData = this.columnChartsDataWeekWise;
     this.cdrf.detectChanges();
   }
 
+  // get analytics data
   getAnalyticsData() {
     this.helperService.get('auth/admin/dashboard').subscribe((res: any) => {
       if (res.status) {
@@ -63,6 +68,7 @@ export class AnalyticsComponent {
     })
   }
 
+  // set data
   setDataToChart() {
     if (this.srcAnalyticsData) {
       
@@ -80,6 +86,7 @@ export class AnalyticsComponent {
     }
   }
 
+  // user/payment details change
   onChangeViewType(e: any, ctype: any) {
     
     if (ctype == 'payment') {
@@ -114,6 +121,7 @@ export class AnalyticsComponent {
     this.cdrf.detectChanges();
   }
 
+  // plan details channge
   onChangePlanViewType(e:any) {
     this.plans = [];
     this.planViewData = [];
@@ -121,29 +129,43 @@ export class AnalyticsComponent {
     this.setToPlan(plansrcData,this.planViewType);
   } 
 
+  // payment chart
   setToPayment(paymentViewData:any) {
-    let paymentObj: any = {};
-    paymentViewData.map((e: any) => {
-      var datePipe = new DatePipe('en-US');
-      let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
-      let value = e.y;
-      paymentObj[key] = value;
-    });
-    this.paymentViewData = paymentObj;
+    let paymentObj:any = {};
+    if(paymentViewData.length > 0) {      
+      paymentViewData.map((e: any) => {
+        var datePipe = new DatePipe('en-US');
+        let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
+        let value = e.y;
+        paymentObj[key] = value;
+      });
+      this.paymentChartValid = true;
+      this.paymentViewData = paymentObj;
+    } else {
+      this.paymentChartValid = false;
+    }
   }
 
+  // user chart
   setToUser(userViewData:any) {
     let userObj: any = {};
-    userViewData.map((e: any) => {
-      var datePipe = new DatePipe('en-US');
-      let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
-      let value = e.y;
-      userObj[key] = value;
-    });
-    this.userViewData = userObj;
+    if(userViewData && userViewData.length > 0) {
+      userViewData.map((e: any) => {
+        var datePipe = new DatePipe('en-US');
+        let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
+        let value = e.y;
+        userObj[key] = value;
+      });
+      this.userChartValid = true;
+      this.userViewData = userObj;
+    } else {
+      this.userChartValid = false;
+    }    
   }
 
+  // plan chart
   setToPlan(plansrcData:any,vtype:any) {
+    
     let keys = Object.keys(plansrcData);
     this.plans = keys;
     let leng = this.plans.length;
@@ -153,15 +175,29 @@ export class AnalyticsComponent {
     var arr = [];
     arr[0] = "Year";      
 
+    let status:any = [];
+
     for(var i=0; i<leng; i++) {
       let planType = this.plans[i];
       arr[i+1] = planType;
       let planweeklyData = plansrcData[planType][vtype];
+      if(planweeklyData.length > 0) {
+        status.push(true);
+      }
       planweeklyData.map((v:any) => {         
         weeklyData.push(v)
       });      
     }
 
+    // setTimeout(() => {
+    //   let checker = status.includes(true);
+    //   if(checker) {
+    //     this.planChartValid = true;
+    //   } else {
+    //     this.planChartValid = false;
+    //   }
+    // }, 1000);
+    
     weeklyData.sort((a: any, b: any) => (a.x > b.x) ? 1 : -1);
 
     let wd = JSON.stringify(weeklyData);
@@ -200,8 +236,9 @@ export class AnalyticsComponent {
         chk.push(0);
       }
     });
-
-    this.planViewData = ss;
+    
+    this.planViewData = ss;    
+    
   }
  
 }

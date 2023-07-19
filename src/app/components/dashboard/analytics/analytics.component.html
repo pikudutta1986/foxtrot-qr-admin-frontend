@@ -18,7 +18,10 @@
             </select>
           </div>
           <div class="">
-            <app-bar-chart [srcData]="paymentViewData" [type]="'payment'"></app-bar-chart>
+            <app-bar-chart *ngIf="paymentChartValid" [srcData]="paymentViewData" [type]="'payment'"></app-bar-chart>
+            <div *ngIf="!paymentChartValid" class="text-center my-3">
+              No records found !!
+            </div>
           </div>
         </div>
       </div>
@@ -40,6 +43,9 @@
           </div>
           <div class="weekly-view">
             <app-bar-chart [srcData]="planViewData" [type]="'plandashboard'"></app-bar-chart>
+            <!-- <div *ngIf="!planChartValid" class="text-center my-3">
+              No records found !!
+            </div> -->
           </div>
         </div>
       </div>
@@ -59,7 +65,10 @@
           </select>
         </div>
         <div class="">
-          <app-bar-chart [srcData]="userViewData" [type]="'userdashboard'"></app-bar-chart>
+          <app-bar-chart *ngIf="userChartValid" [srcData]="userViewData" [type]="'userdashboard'"></app-bar-chart>
+          <div *ngIf="!userChartValid" class="text-center my-3">
+            No records found !!
+          </div>
         </div>
       </div>
     </div>
