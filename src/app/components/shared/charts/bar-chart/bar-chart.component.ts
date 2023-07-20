@@ -8,25 +8,25 @@ declare var google: any;
   styleUrls: ['./bar-chart.component.scss']
 })
 
-// @Injectable()
+
 export class BarChartComponent {
 
   @Input() srcData: any = '';
   @Input() type: any = '';
 
-  constructor(public helperServcie: HelperService, public cdr: ChangeDetectorRef,) { }
+  constructor(public helperServcie: HelperService, public cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    
+    google.charts.load('current', { packages: ['corechart','bar'] });      
   }
 
 
   ngAfterViewInit() {
-    google.charts.load('current', { packages: ['corechart','bar'] });
-    setTimeout(() => {
-      this.getData();
-    }, 600);
-    this.cdr.detectChanges();
+    // google.charts.load('current', { packages: ['corechart','bar'] });
+    // setTimeout(() => {
+    //   this.getData();
+    // }, 600);
+    // this.cdr.detectChanges();
   }
 
   ngOnChanges() {
@@ -35,6 +35,7 @@ export class BarChartComponent {
     }
   }
 
+  // get Data
   getData() {
     this.helperServcie.showloader();
     setTimeout(() => {
@@ -46,6 +47,7 @@ export class BarChartComponent {
     }, 1000);
   }
 
+  // set Data
   setData() {
     let InputData: any = [];   
 
@@ -73,18 +75,14 @@ export class BarChartComponent {
         google.charts.setOnLoadCallback(this.drawChart(InputData));
       }, 1000);
     } else {      
-      var data = google.visualization.arrayToDataTable(this.srcData);
-      var view = new google.visualization.DataView(data);
-      var options = {
-        legend: 'none',
-      };      
-      var chart = new google.charts.Bar(document.getElementById(this.type));
-      // chart.draw(data, google.charts.Bar.convertOptions(view, options));
-      chart.draw(view, options);
+      setTimeout(() => {
+        google.charts.setOnLoadCallback(this.drawChart(this.srcData));
+      }, 1000);     
     }   
    
   }
 
+  // draw chart
   drawChart(val: any) {
     var data = google.visualization.arrayToDataTable(val);
     var view = new google.visualization.DataView(data);
@@ -109,23 +107,24 @@ export class BarChartComponent {
         colors: ['#FF14B5']
       };
       var chart = new google.visualization.ColumnChart(document.getElementById(this.type));  
-    } else if(this.type == 'userdashboard') {
+    } 
+    
+    if(this.type == 'userdashboard') {
       options = {
         height: 'auto',
         legend: 'none',
         colors: ['green']
       };
       var chart = new google.visualization.ColumnChart(document.getElementById(this.type)); 
-    } else {
-      options = {
-        height: 'auto',
-      };
-      var chart = new google.visualization.PieChart(document.getElementById(this.type));
-    }
+    } 
 
+    if(this.type == 'plandashboard') {    
+      var chart = new google.charts.Bar(document.getElementById(this.type));
+    }
+   
     chart.draw(view, options);
 
-    this.helperServcie.hideloader();
+    // this.helperServcie.hideloader();
 
   }
 
