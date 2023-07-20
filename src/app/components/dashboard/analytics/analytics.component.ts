@@ -10,31 +10,27 @@ import { HelperService } from 'src/app/service/helper.service';
 })
 
 export class AnalyticsComponent {
-
-  paymentType: any = 'payment';
-  qrType: any = 'qr';
-
+  
   viewType: any = '';
   planViewType: any = '';
   userViewType: any = '';
-
-  paymentChartsrcData: any = {};
 
   userData: any;
   plans: any;
   planType:any;
 
   srcAnalyticsData: any = '';
-  paymentSrcData: any;
   paymentViewData: any;
-  planSrcData: any;
   planViewData: any;
-  userSrcData: any;
   userViewData: any;
 
   userChartValid:any = '';
   planChartValid:any = '';
   paymentChartValid:any = '';
+
+  userChartInvalidMsg:any = '';
+  planChartInvalidMsg:any = '';
+  paymentChartInvalidMsg:any = '';
 
   constructor(
     private router: Router,
@@ -58,8 +54,10 @@ export class AnalyticsComponent {
 
   // get analytics data
   getAnalyticsData() {
+    this.helperService.showloader();
     this.helperService.get('auth/admin/dashboard').subscribe((res: any) => {
       if (res.status) {
+        this.helperService.hideloader();
         if (res.data) {
           this.srcAnalyticsData = res.data;
           this.setDataToChart();
@@ -122,9 +120,7 @@ export class AnalyticsComponent {
   }
 
   // plan details channge
-  onChangePlanViewType(e:any) {
-    this.plans = [];
-    this.planViewData = [];
+  onChangePlanViewType(e:any) {    
     let plansrcData = this.srcAnalyticsData.plan;
     this.setToPlan(plansrcData,this.planViewType);
   } 
@@ -139,9 +135,11 @@ export class AnalyticsComponent {
         let value = e.y;
         paymentObj[key] = value;
       });
+      this.paymentChartInvalidMsg = '';
       this.paymentChartValid = true;
       this.paymentViewData = paymentObj;
     } else {
+      this.paymentChartInvalidMsg = 'No records found !!';
       this.paymentChartValid = false;
     }
   }
@@ -156,9 +154,11 @@ export class AnalyticsComponent {
         let value = e.y;
         userObj[key] = value;
       });
+      this.userChartInvalidMsg = '';
       this.userChartValid = true;
       this.userViewData = userObj;
     } else {
+      this.userChartInvalidMsg = 'No records found !!';
       this.userChartValid = false;
     }    
   }
@@ -173,71 +173,70 @@ export class AnalyticsComponent {
     let weeklyData:any = [];
 
     var arr = [];
-    arr[0] = "Year";      
-
-    let status:any = [];
+    arr[0] = "Year";  
 
     for(var i=0; i<leng; i++) {
       let planType = this.plans[i];
       arr[i+1] = planType;
       let planweeklyData = plansrcData[planType][vtype];
-      if(planweeklyData.length > 0) {
-        status.push(true);
-      }
+      
       planweeklyData.map((v:any) => {         
         weeklyData.push(v)
-      });      
-    }
+      }); 
+      
+      if(i == leng -1) { 
+        if(weeklyData.length > 0) {
+          weeklyData.sort((a: any, b: any) => (a.x > b.x) ? 1 : -1);
 
-    // setTimeout(() => {
-    //   let checker = status.includes(true);
-    //   if(checker) {
-    //     this.planChartValid = true;
-    //   } else {
-    //     this.planChartValid = false;
-    //   }
-    // }, 1000);
-    
-    weeklyData.sort((a: any, b: any) => (a.x > b.x) ? 1 : -1);
-
-    let wd = JSON.stringify(weeklyData);
-    let cwd = JSON.parse(wd);
-
-    var weeklyOutput:any = [];
-    
-    cwd.forEach(function(item:any) {
-      var existing = weeklyOutput.filter(function(v:any, i:any) {
-        return v.x == item.x;
-      });
-      if (existing.length) {
-        var existingIndex = weeklyOutput.indexOf(existing[0]);
-        weeklyOutput[existingIndex].y = weeklyOutput[existingIndex].y.concat(item.y);
-      } else {          
-        item.y = [item.y];
-        weeklyOutput.push(item);}
-    });
-    
-    let ss:any = [];      
-    ss.push(arr);
-    let requiredLength = leng + 1; 
-    
-    weeklyOutput.forEach((element:any) => {  
-      let InputData: any = [];  
-      var datePipe = new DatePipe('en-US');
-      InputData.push(datePipe.transform(element.x, 'dd/MM/yyyy'));
-      element.y.forEach((z:any) => {
-        InputData.push(z); 
-      });
-      ss.push(InputData);       
-    });
-
-    ss.map((chk:any) => {
-      if(chk.length < requiredLength) {
-        chk.push(0);
+          let wd = JSON.stringify(weeklyData);
+          let cwd = JSON.parse(wd);
+  
+          var weeklyOutput:any = [];
+          
+          cwd.forEach(function(item:any) {
+            var existing = weeklyOutput.filter(function(v:any, i:any) {
+              return v.x == item.x;
+            });
+            if (existing.length) {
+              var existingIndex = weeklyOutput.indexOf(existing[0]);
+              weeklyOutput[existingIndex].y = weeklyOutput[existingIndex].y.concat(item.y);
+            } else {          
+              item.y = [item.y];
+              weeklyOutput.push(item);}
+          });
+          
+          let ss:any = [];      
+          ss.push(arr);
+          let requiredLength = leng + 1; 
+          
+          weeklyOutput.forEach((element:any) => {  
+            let InputData: any = [];  
+            var datePipe = new DatePipe('en-US');
+            InputData.push(datePipe.transform(element.x, 'dd/MM/yyyy'));
+            element.y.forEach((z:any) => {
+              InputData.push(z); 
+            });
+            ss.push(InputData);       
+          });
+  
+          ss.map((chk:any) => {
+            if(chk.length < requiredLength) {
+              chk.push(0);
+            }
+          });
+          this.planChartInvalidMsg = '';
+          this.planChartValid = true;
+  
+          setTimeout(() => {
+            this.planViewData = ss; 
+          }, 500);
+        } else {
+          this.planChartInvalidMsg = 'No records found !!';
+          this.planChartValid = false;
+        }         
       }
-    });
-    
-    this.planViewData = ss;    
+      
+    }    
     
   }
  
