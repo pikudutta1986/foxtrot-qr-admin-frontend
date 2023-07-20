@@ -65,6 +65,13 @@ export class PricingComponent {
   getPricings() {   
     if(this.helperService.allPricings && this.helperService.allPricings.length > 0 ) {
       this.pricings = this.helperService.allPricings;
+      if(this.pricings && this.pricings.length > 0) {
+        let i = 0;
+        this.pricings.map((x:any) => {
+          i++;
+          x.sno = i;
+        });
+      }
       this.setData();
     } else {
       setTimeout(() => {

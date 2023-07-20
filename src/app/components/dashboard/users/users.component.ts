@@ -199,9 +199,16 @@ export class UsersComponent {
 
   setPagination(links: any) {
     let srcData = links.data;
+    let i = 0;
+    if(links.current_page > 1) {
+      i = (links.current_page - 1) * links.per_page;
+    }
     srcData.map((x:any) => {
+      i++;
+      x.sno = i;
       x.plans = x.plan.name;
     });
+    
     this.srcData = srcData;
     this.total = links.total;
     this.userFiles = new MatTableDataSource(this.srcData)
