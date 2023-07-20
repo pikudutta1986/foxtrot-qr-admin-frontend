@@ -128,7 +128,8 @@ export class AnalyticsComponent {
   // payment chart
   setToPayment(paymentViewData:any) {
     let paymentObj:any = {};
-    if(paymentViewData.length > 0) {      
+    if(paymentViewData.length > 0) {     
+      paymentViewData.sort((a: any, b: any) => (a.x > b.x) ? 1 : -1); 
       paymentViewData.map((e: any) => {
         var datePipe = new DatePipe('en-US');
         let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
@@ -148,6 +149,7 @@ export class AnalyticsComponent {
   setToUser(userViewData:any) {
     let userObj: any = {};
     if(userViewData && userViewData.length > 0) {
+      userViewData.sort((a: any, b: any) => (a.x > b.x) ? 1 : -1);
       userViewData.map((e: any) => {
         var datePipe = new DatePipe('en-US');
         let key:any = datePipe.transform(e.x, 'dd/MM/yyyy');
