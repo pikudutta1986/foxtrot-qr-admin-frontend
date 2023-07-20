@@ -46,8 +46,11 @@ export class SiteComponent {
     if(this.helperService.settings && this.helperService.settings.length > 0 ) {
       let settingsExist = this.helperService.settings;
       if (settingsExist) {
-        let result = settingsExist;
+        let result = settingsExist;        
+        let i = 0;
         result.map((x: any) => {
+          i++;
+          x.sno = i;
           if (x.text_value) {
             if (x.text_value.length > 100) {
               x.displayValue = x.text_value.substring(0, 100) + "...";

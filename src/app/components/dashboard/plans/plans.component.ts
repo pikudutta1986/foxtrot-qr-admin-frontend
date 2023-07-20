@@ -49,6 +49,13 @@ export class PlansComponent {
   getPlans() {
     if(this.helperService.allPlans && this.helperService.allPlans.length > 0 ) {
       this.plans = this.helperService.allPlans;
+      if(this.plans && this.plans.length > 0) {
+        let i = 0;
+        this.plans.map((x:any) => {
+          i++;
+          x.sno = i;
+        });
+      }
       this.setData();
     } else {
       setTimeout(() => {
