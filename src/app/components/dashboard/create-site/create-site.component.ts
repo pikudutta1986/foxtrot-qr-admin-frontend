@@ -108,20 +108,19 @@ export class CreateSiteComponent {
     formGroupFields['type'] = new FormControl(e.value, [Validators.required]);
     formGroupFields['key'] = new FormControl(this.keyValue,[Validators.required]);
     
-
     if(e.value == 'integer') {
-      formGroupFields[dynamic_key] = new FormControl("",[Validators.pattern("^[0-9]*$")]);
+      formGroupFields[dynamic_key] = new FormControl("",[Validators.pattern("^[0-9]*$"),Validators.required]);
     } else if(e.value == 'boolean') {      
       formGroupFields[dynamic_key] = new FormControl(false,[Validators.required]);
     } else if(e.value == 'float') {
-      formGroupFields[dynamic_key] = new FormControl('',[Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]);
+      formGroupFields[dynamic_key] = new FormControl('',[Validators.pattern("[+-]?([0-9]*[.])?[0-9]+"),Validators.required]);
     } else if(e.value == 'array') {
       formGroupFields[dynamic_key] = this.formBuilder.array([]);
       setTimeout(() => {
         this.addDescription();
       }, 1000);
     } else {
-      formGroupFields[dynamic_key] = new FormControl("");
+      formGroupFields[dynamic_key] = new FormControl("",[Validators.required]);
     }
 
     this.createForm = new FormGroup(formGroupFields);
@@ -187,7 +186,13 @@ export class CreateSiteComponent {
   }
 
   addDescription() {
-    this.array_values.push(new FormControl(''));
+    this.array_values.push(new FormControl('',[Validators.required]));
+  }
+
+  removeDescription(index: number) {
+    if(this.array_values.length > 1) {
+      this.array_values.removeAt(index);
+    }
   }
 
 
