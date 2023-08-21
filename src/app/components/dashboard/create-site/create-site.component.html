@@ -21,6 +21,9 @@
                     <button type="button" class="btn btn-sm btn-success mb-3 btn-block" (click)="addDescription()">Add
                         Descriptions</button>
                     <div class="set-ac2" *ngFor="let item of array_values.controls; let i = index">
+                        <div (click)="removeDescription(i)" *ngIf="array_values.length > 1" class="my-1">
+                            <i class="fa fa-close" style="font-size:24px"></i>
+                        </div>
                         <textarea class="w-100" matInput placeholder="Descriptions" [formControlName]="i"></textarea>
                         <span class="text-danger c-font-size mx-2" *ngIf="(item.touched) && item.invalid">
                             Description is required
@@ -47,14 +50,40 @@
                 </span>
 
                 <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'text_value' && (formControl.text_value.touched) && formControl.text_value.errors?.required">
+                    {{field.value}} is required
+                </span>
+
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'integer_value' && (formControl.integer_value.touched) && formControl.integer_value.errors?.required">
+                    {{field.value}} is required
+                </span>
+
+                <span class="text-danger c-font-size mx-2"
                     *ngIf="field.id == 'integer_value' && (formControl.integer_value.touched) && formControl.integer_value.errors?.pattern">
                     Invalid integer value
                 </span>
+                
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'float_value' && (formControl.float_value.touched) && formControl.float_value.errors?.required">
+                    {{field.value}} is required
+                </span>                
 
                 <span class="text-danger c-font-size mx-2"
                     *ngIf="field.id == 'float_value' && (formControl.float_value.touched) && formControl.float_value.errors?.pattern">
                     Invalid float value
                 </span>
+
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'date_value' && (formControl.date_value.touched) && formControl.date_value.errors?.required">
+                    Date is required
+                </span>
+
+                <span class="text-danger c-font-size mx-2"
+                    *ngIf="field.id == 'timestamp_value' && (formControl.timestamp_value.touched) && formControl.timestamp_value.errors?.required">
+                    Time is required
+                </span>
+
             </div>
         </div>
 

@@ -51,6 +51,12 @@ export class CreatePlanComponent {
     this.descriptions.push(this.formBuilder.control(null, Validators.required));
   } 
 
+  removeDescription(index: number) {
+    if(this.descriptions.length > 1) {
+      this.descriptions.removeAt(index);
+    }
+  }
+
   // submit form
   submit() {
     if (this.createForm.valid) {

@@ -116,6 +116,9 @@
            
             <button type="button" class="btn btn-sm btn-success mb-3 btn-block" (click)="addDescription()">Add Descriptions</button>
             <div class="set-ac2" *ngFor="let item of descriptions.controls; let i = index">
+                <div (click)="removeDescription(i)" *ngIf="descriptions.controls.length > 1" class="my-1">
+                    <i class="fa fa-close" style="font-size:24px"></i>
+                </div>
                 <textarea class="w-100" matInput placeholder="Descriptions" [formControlName]="i"
                     ></textarea>
                 <span class="text-danger c-font-size mx-2" *ngIf="(item.touched) && item.invalid">

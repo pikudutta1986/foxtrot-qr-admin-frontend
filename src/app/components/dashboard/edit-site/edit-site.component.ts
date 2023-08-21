@@ -179,17 +179,17 @@ export class EditSiteComponent {
     }
 
     if (e.value == 'integer') {
-      formGroupFields[dynamic_key] = new FormControl(integer_value, [Validators.pattern("^[0-9]*$")]);
+      formGroupFields[dynamic_key] = new FormControl(integer_value, [Validators.pattern("^[0-9]*$"),Validators.required]);
     } else if (e.value == 'boolean') {
-      formGroupFields[dynamic_key] = new FormControl(boolean_value);
+      formGroupFields[dynamic_key] = new FormControl(boolean_value,[Validators.required]);
     } else if (e.value == 'float') {
-      formGroupFields[dynamic_key] = new FormControl(float_value, [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]);
+      formGroupFields[dynamic_key] = new FormControl(float_value, [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+"),Validators.required]);
     } else if (e.value == 'text') {
-      formGroupFields[dynamic_key] = new FormControl(text_value);
+      formGroupFields[dynamic_key] = new FormControl(text_value,[Validators.required]);
     } else if (e.value == 'date') {
-      formGroupFields[dynamic_key] = new FormControl(date_value);
+      formGroupFields[dynamic_key] = new FormControl(date_value,[Validators.required]);
     } else if (e.value == 'timestamp') {
-      formGroupFields[dynamic_key] = new FormControl(timestamp_value);
+      formGroupFields[dynamic_key] = new FormControl(timestamp_value,[Validators.required]);
     } else {
       formGroupFields[dynamic_key] = this.formBuilder.array([]);
       setTimeout(() => {
@@ -262,7 +262,13 @@ export class EditSiteComponent {
   }
 
   addDescription() {
-    this.array_values.push(new FormControl(''));
+    this.array_values.push(new FormControl('',[Validators.required]));
+  }
+
+  removeDescription(index: number) {
+    if(this.array_values.length > 1) {
+      this.array_values.removeAt(index);
+    }
   }
 
   ngOnDestroy(): void {

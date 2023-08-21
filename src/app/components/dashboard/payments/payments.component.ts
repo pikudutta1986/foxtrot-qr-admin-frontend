@@ -22,7 +22,7 @@ export class PaymentsComponent {
   userPayments:any = [];
   srcData:any;
   selectedUserId:any = '';
-  total:any;
+  total:number = 0;
   links:any;
 
   plans: any = [];
@@ -43,7 +43,7 @@ export class PaymentsComponent {
     public helperService: HelperService) { }
 
   ngOnInit(): void {    
-    this.helperService.showloader();
+    // this.helperService.showloader();
   } 
 
   ngAfterViewInit() {
